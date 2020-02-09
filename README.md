@@ -6,6 +6,15 @@ A Labelling system
 
 - Python 3.7.5
   - with numpy installed (pip install numpy)
+  
+## Usage
+
+1. Run the Labeller
+`python labeller.py`
+
+2. Do Labelling
+3. Quit and output labelling
+4. Generate the `dataset.npz`
 
 ## Input
 
@@ -78,12 +87,3 @@ print(CLASSES, program_number, batch_size)
 t = Training(traces, lengths, labels, traces, lengths, labels)
 t.train_evaluate()
 ```
-
-## Usage
-
-1. Run the Labeller
-`python labeller.py`
-
-2. Do Labelling
-3. Quit and output labelling
-4. Generate the `dataset.npz`
