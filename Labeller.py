@@ -4,11 +4,12 @@ from os.path import isfile, join
 import numpy as np
 
 def init():
-    try:
-        os.makedirs(dirDone)
-    except FileExistsError:
-        # directory already exists
-        pass
+    for path in [dirDone, dirOut]: 
+        try:
+            os.makedirs(path)
+        except FileExistsError:
+            # directory already exists
+            pass
 
 def printHints():
     print("('1': Fixed value, '2': Stepper, '3': Gatherer, '': noise, 'q': save & quit)")
