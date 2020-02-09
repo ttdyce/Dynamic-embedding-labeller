@@ -1,0 +1,6 @@
+.vscode/
+out-cpp/
+out-dataset/
+raw/
+/*.ps1
+/*.txt
