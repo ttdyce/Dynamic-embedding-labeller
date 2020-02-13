@@ -11,7 +11,12 @@ def init():
             # directory already exists
             pass
 
-def printHints():
+def printHints(f, content):
+    print('')
+    print("File name--- ", f, sep="\n")
+    print("------")
+    print(content)
+    print("------")
     print("('1': Fixed value, '2': Stepper, '3': Gatherer, '': noise, 'q': save & quit)")
 
 def traceToDataset(trace):
@@ -41,12 +46,7 @@ for f in files:
     with open(path, "r") as txtFile: 
         content = txtFile.read()
     
-    print('')
-    print("File name--- ", f, sep="\n")
-    print("------")
-    print(content)
-    print("------")
-    printHints()
+    printHints(f, content)
     print("label: ", end='')
     y = input()
     if(y=='q'):
