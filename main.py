@@ -1,7 +1,9 @@
 import os
 from os.path import isfile, join
+import numpy as np
 
 # config
+debug = True
 dir = "out-datasetText/"
 dirDone = dir + "labeled/"
 dirOut = "out-dataset/"
@@ -18,18 +20,18 @@ def init():
             # directory already exists
             pass
 
-def autoLabel(traceText):
+def autoLabel(traceArr):
     """Label traces with no value changes (Fix-value)"""
-    pass
-
-def getVariableTraceTextFile():
-    """Load *.txt in datasetText folder (out-datasetText/)"""
-    pass
+    label(traceArr, '1')
 
 def saveToFile(traces, labels):
     """Save traces and labels to a folder (out-dataset/dataset.npz)"""
     print("Saving...")
     
+    np.savez(dirOut + 'dataset.npz'
+            , traces=traces
+            , lengths=[len(i) for i in traces]
+            , labels=labels)
     print("File saved to ", dirOut, "dataset.npz", sep='')
     pass
 
@@ -58,25 +60,36 @@ def readTraceArr(traceTextFile):
     return tracesDone
     
 
-def printTraceText(fileName, traceText, labelCount):
+def printTraceText(fileName, traceArr, labelCount):
     """Clean the screen, and print the trace text"""
     _ = os.system('cls')
     print("---", "label count: ", labelCount, "---")
     print('')
     print("File name--- ", fileName, "------", sep="\n")
-    print(traceText)
-    print("------")
+    print("(value -1: unassigned)")
+    print(' -> '.join(traceArr), "------", sep="\n")
     print("('1': Fixed value, '2': Stepper, '3': Gatherer, '': noise, 'q': save & quit)")
 
-def label(traceText, userInput): 
+def label(traceArr, userInput): 
     """Process the text, return x: variable trace (in an array), and y: label id"""
+    #replace '-1' to '999' for input format
+    if (traceArr[0] == '-1'):
+        traceArr[0] = 999
+    else:
+        traceArr.insert(0, 999)
     
-    pass
+    #replace '' to '0' for input format
+    if (userInput == ''):
+        userInput = '0'
+    
+    x, y = [int(i) for i in traceArr], int(userInput)
+    traces.append(x)
+    labels.append(y)
 
 def main():
     """Pack the program into main() so that I can use 'return' to quit"""
     
-    validLabels = ['', '1', '2', '3']
+    validLabels = ['', '1', '2', '3', 'q']
     badLabelError = 'Unvalid label! Please try again'
     traceTextFileNames = [f for f in os.listdir(dir) if isfile(join(dir, f))]
     labelCount = 0
@@ -87,37 +100,40 @@ def main():
             traceTextArr = readTraceArr(txtFile)
         
         #Label all traces in a file
-        for traceText in traceTextArr: 
-            if (traceText.__len__() == 1): 
-                autoLabel(traceText)
+        for traceArr in traceTextArr: 
+            if (traceArr.__len__() == 2): 
+                autoLabel(traceArr)
                 continue
             
+            # basic UI
             labelCount += 1
-            printTraceText(traceTextFileName, traceText, labelCount)
+            printTraceText(traceTextFileName, traceArr, labelCount)
             
             # handling input
             userInput = input()
-            #1 save and quit
+            #1 wrong input
+            while(userInput not in validLabels): 
+                printTraceText(traceTextFileName, traceArr, labelCount)
+                print(badLabelError)
+                userInput = input()
+            #2 cmd 'q', save and quit
             if(userInput.lower() == 'q'):
                 saveToFile(traces, labels)
                 return
-            #2 wrong input
-            while(userInput not in validLabels): 
-                printTraceText(traceTextFileName, traceText, labelCount)
-                print(badLabelError)
-                userInput = input()
             #done handling input
                 
             #userInput: label id
-            # x, y = label(traceText, userInput)
-            # traces.append(x)
-            # labels.append(y)
+            label(traceArr, userInput)
         
         #Finished a file, move it out
-        # os.rename(textFilePath, join(dirDone, traceTextFileName))
+        os.rename(textFilePath, join(dirDone, traceTextFileName))
         
 
 if __name__ == '__main__':
     init()
     main()
+    
+    if(debug == True): 
+        print("traces:", traces)
+        print("labels:", labels)
     
