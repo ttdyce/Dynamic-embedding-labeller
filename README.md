@@ -10,7 +10,7 @@ A Labelling system
 ## Usage
 
 1. Run the Labeller
-`python labeller.py`
+`python main.py`
 
 2. Do Labelling
 3. Quit and output labelling
