@@ -4,6 +4,8 @@ import numpy as np
 
 # config
 debug = True
+isContinue = False
+preLabelCount = 0
 dir = "out-datasetText/"
 dirDone = dir + "labeled/"
 dirOut = "out-dataset/"
@@ -11,14 +13,24 @@ traces = []
 labels = []
 
 def init():
-    """Initiate folders"""
-    
+    """Initiate folders & config"""
     for path in [dirDone, dirOut]: 
         try:
             os.makedirs(path)
         except FileExistsError:
             # directory already exists
             pass
+    
+    #config
+    if isfile(join(dirOut, "dataset.npz")): 
+        #dataset exist
+        with np.load(dirOut + 'dataset.npz', allow_pickle=True) as dataset: 
+            preLabelCount = dataset['labels'].__len__()
+            
+        print("Found previous dataset.npz", "(", preLabelCount, ")", " in", dirOut)
+        print("Do you want to continue the last labelling? ('': Yes; 'n': No, restart labelling)")
+        if(input() == ''):
+            isContinue = True
 
 def autoLabel(traceArr):
     """Label traces with no value changes (Fix-value)"""
@@ -26,11 +38,20 @@ def autoLabel(traceArr):
 
 def saveToFile(traces, labels):
     """Save traces and labels to a folder (out-dataset/dataset.npz)"""
+    lengths = [len(i) for i in traces]
     print("Saving...")
-    
+    if(isContinue):
+        with np.load(dirOut + 'dataset.npz', allow_pickle=True) as dataset: 
+            tracesOld = dataset['traces'];
+            lengthsOld = dataset['lengths'];
+            labelsOld = dataset['labels'];
+        traces = tracesOld.extend(traces)
+        lengths = lengthsOld.extend(lengths)
+        labels = labelsOld.extend(labels)
+        
     np.savez(dirOut + 'dataset.npz'
             , traces=traces
-            , lengths=[len(i) for i in traces]
+            , lengths=lengths
             , labels=labels)
     print("File saved to ", dirOut, "dataset.npz", sep='')
     pass
@@ -92,7 +113,7 @@ def main():
     validLabels = ['', '1', '2', '3', 'q']
     badLabelError = 'Unvalid label! Please try again'
     traceTextFileNames = [f for f in os.listdir(dir) if isfile(join(dir, f))]
-    labelCount = 0
+    labelCount = preLabelCount
     
     for traceTextFileName in traceTextFileNames: 
         textFilePath = join(dir, traceTextFileName)
