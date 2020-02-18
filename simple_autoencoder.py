@@ -15,6 +15,8 @@ class Autoencoder:
         self.W2 = tf.Variable(tf.random_normal(shape=(d, D)))
         self.b2 = tf.Variable(np.zeros(D).astype(np.float32))
 
+        variables_dict = {'W1': self.W1, 'W2': self.W2, 'b1': self.b1, 'b2': self.b2}
+
         # Output
         self.Z = tf.nn.relu(tf.matmul(self.X, self.W1) + self.b1)
         logits = tf.matmul(self.Z, self.W2) + self.b2
@@ -34,6 +36,8 @@ class Autoencoder:
         )
 
         self.init_op = tf.global_variables_initializer()
+        self.saver = tf.train.Saver(variables_dict, max_to_keep=1)
+        
         self.sess = tf.get_default_session()
         if self.sess == None:
             self.sess = tf.Session()
@@ -60,6 +64,12 @@ class Autoencoder:
 
     def decode(self, Z):
         return self.sess.run(self.X_hat, feed_dict={self.Z: Z})
+    
+    def save(self):
+        self.saver.save(self.sess, "simple-demo-encoder.ckpt")
+
+    def restore(self):
+        self.saver.restore(self.sess, "simple-demo-encoder.ckpt")
 
     def terminate(self):
         self.sess.close()
@@ -96,6 +106,8 @@ encoder.fit(traces, epochs=10)
 enc = encoder.encode(traces)
 dec = encoder.decode(enc)
 
+encoder.save()
+# encoder.restore()
 encoder.terminate()
 print(enc[0])
 print(dec[0])

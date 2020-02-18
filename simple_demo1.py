@@ -32,9 +32,13 @@ with np.load("dataset.npz", allow_pickle=True) as dataset:
 tracesRaw = numpy_fillna(tracesRaw)
 lengthMax = np.array(lengths).max()
 
+
 # encoding/embedding
 encoder = Autoencoder(lengthMax, encodeLength)
-encoder.fit(tracesRaw, epochs=10)
+# load autoencoder
+encoder.restore()
+# encoder.fit(tracesRaw, epochs=10)
+
 tracesEnc = encoder.encode(tracesRaw)
 tracesDec = encoder.decode(tracesEnc)
 

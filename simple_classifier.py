@@ -1,8 +1,9 @@
 from tensorflow import keras
 import tensorflow as tf
 import numpy as np
+from sklearn.model_selection import train_test_split
 
-modelOutName = 'simple-demo-model.h5'
+modelOutName = 'simple-demo-classifier.h5'
 
 class Classifier: 
     def __init__(self, inputLength): 
@@ -10,8 +11,8 @@ class Classifier:
         # define model
         model = keras.Sequential(
             [
-                keras.layers.Dense(128, input_shape=(inputLength,) ),
-                keras.layers.Dense(128, activation="relu"),
+                keras.layers.Dense(8, input_shape=(inputLength,) ),
+                keras.layers.Dense(8, activation="relu"),
                 keras.layers.Dense(4),
             ]
         )
@@ -25,14 +26,15 @@ class Classifier:
     def fit(self, x,y): 
         'fit & save & try predict'
         model = self.model
-        model.fit(x, y, epochs=100)
+        x_train,x_test,y_train,y_test=train_test_split(x, y,test_size=0.2)
+        model.fit(x_train, y_train, epochs=100)
 
-        test_loss, test_acc = model.evaluate(x, y.astype(float), verbose=2)
+        test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
 
         print("\nTest accuracy:", test_acc)
 
         probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
-        predictions = probability_model.predict(x)
+        predictions = probability_model.predict(x_test)
 
         model.save(modelOutName)
         # Recreate the exact same model, including its weights and the optimizer
