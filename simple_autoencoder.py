@@ -8,12 +8,12 @@ class Autoencoder:
         self.X = tf.placeholder(tf.float32, shape=(None, D))
 
         # Input to hidden (D -> d)
-        self.W1 = tf.Variable(tf.random_normal(shape=(D, d)))
-        self.b1 = tf.Variable(np.zeros(d).astype(np.float32))
+        self.W1 = tf.Variable(tf.random_normal(shape=(D, d)), name='W1')
+        self.b1 = tf.Variable(np.zeros(d).astype(np.float32), name='b1')
 
         # Hidden -> output (d -> D)
-        self.W2 = tf.Variable(tf.random_normal(shape=(d, D)))
-        self.b2 = tf.Variable(np.zeros(D).astype(np.float32))
+        self.W2 = tf.Variable(tf.random_normal(shape=(d, D)), name='W2')
+        self.b2 = tf.Variable(np.zeros(D).astype(np.float32), name='b2')
 
         variables_dict = {'W1': self.W1, 'W2': self.W2, 'b1': self.b1, 'b2': self.b2}
 
