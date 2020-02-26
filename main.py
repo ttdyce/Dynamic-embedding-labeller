@@ -1,6 +1,7 @@
 import os
 from os.path import isfile, join
 import numpy as np
+import random
 
 # config
 debug = True
@@ -22,6 +23,8 @@ def init():
             pass
     
     #config
+    global isContinue, preLabelCount
+    
     if isfile(join(dirOut, "dataset.npz")): 
         #dataset exist
         with np.load(dirOut + 'dataset.npz', allow_pickle=True) as dataset: 
@@ -29,31 +32,45 @@ def init():
             
         print("Found previous dataset.npz", "(", preLabelCount, ")", " in", dirOut)
         print("Do you want to continue the last labelling? ('': Yes; 'n': No, restart labelling)")
-        if(input() == ''):
+        inputText = input()
+        if(inputText == ''):
             isContinue = True
+        print("Received", inputText, "continue =", isContinue)
 
 def autoLabel(traceArr):
     """Label traces with no value changes (Fix-value)"""
     label(traceArr, '1')
 
-def saveToFile(traces, labels):
+def saveToFile():
     """Save traces and labels to a folder (out-dataset/dataset.npz)"""
+    global isContinue, preLabelCount, traces, labels
+    
     lengths = [len(i) for i in traces]
     print("Saving...")
     if(isContinue):
         with np.load(dirOut + 'dataset.npz', allow_pickle=True) as dataset: 
-            tracesOld = dataset['traces'];
-            lengthsOld = dataset['lengths'];
-            labelsOld = dataset['labels'];
-        traces = tracesOld.extend(traces)
-        lengths = lengthsOld.extend(lengths)
-        labels = labelsOld.extend(labels)
+            tracesOld = dataset['traces'].tolist()
+            lengthsOld = dataset['lengths'].tolist()
+            labelsOld = dataset['labels'].tolist()
+        
+        tracesOld.extend(traces)
+        lengthsOld.extend(lengths)
+        labelsOld.extend(labels)
+        traces = tracesOld
+        lengths = lengthsOld
+        labels = labelsOld
+        
+        
         
     np.savez(dirOut + 'dataset.npz'
             , traces=traces
             , lengths=lengths
             , labels=labels)
+    
     print("File saved to ", dirOut, "dataset.npz", sep='')
+    print("Old dataset length:", preLabelCount)
+    print("New dataset length:", lengths.__len__())
+    
     pass
 
 def readTraceArr(traceTextFile):
@@ -109,10 +126,12 @@ def label(traceArr, userInput):
 
 def main():
     """Pack the program into main() so that I can use 'return' to quit"""
+    global preLabelCount
     
     validLabels = ['', '1', '2', '3', 'q']
     badLabelError = 'Unvalid label! Please try again'
     traceTextFileNames = [f for f in os.listdir(dir) if isfile(join(dir, f))]
+    random.shuffle(traceTextFileNames)
     labelCount = preLabelCount
     
     for traceTextFileName in traceTextFileNames: 
@@ -139,7 +158,7 @@ def main():
                 userInput = input()
             #2 cmd 'q', save and quit
             if(userInput.lower() == 'q'):
-                saveToFile(traces, labels)
+                saveToFile()
                 return
             #done handling input
                 
@@ -157,4 +176,7 @@ if __name__ == '__main__':
     if(debug == True): 
         print("traces:", traces)
         print("labels:", labels)
+        print("")
+        print("Old dataset length:", preLabelCount)
+        print("New dataset length:", traces.__len__())
     
