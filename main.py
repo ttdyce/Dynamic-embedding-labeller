@@ -168,10 +168,48 @@ def main():
         #Finished a file, move it out
         os.rename(textFilePath, join(dirDone, traceTextFileName))
         
+def main2():
+    """Pack the program into main() so that I can use 'return' to quit"""
+    global preLabelCount
+    
+    validLabels = ['0', '1', '2', '3']
+    traceTextFileNames = [f for f in os.listdir(dir) if isfile(join(dir, f))]
+    labelCount = preLabelCount
+    
+    for traceTextFileName in traceTextFileNames: 
+        textFilePath = join(dir, traceTextFileName)
+        baseName = traceTextFileName.replace('.txt', '').replace('log-', '')
+        traceText = baseName.split('-')
+        # [0]: program name (*.exe), [1]: roles of variable, [2]: variable address
+        if(len(traceText) != 3): 
+            return
+        
+        exeName = traceText[0]
+        rolesOfVariableId = traceText[1]
+        variableAddress = traceText[2]
+        print(rolesOfVariableId)
+        
+        with open(textFilePath, "r") as txtFile: 
+            traceTextArr = readTraceArr(txtFile)
+        
+        #Label all traces in a file
+        for traceArr in traceTextArr: 
+            if (traceArr.__len__() == 2): 
+                # autoLabel(traceArr)
+                continue
+            
+            label(traceArr, rolesOfVariableId)
+            
+        
+        #Finished a file, move it out
+        # os.rename(textFilePath, join(dirDone, traceTextFileName))
+        
+    # saveToFile()
+    
 
 if __name__ == '__main__':
     init()
-    main()
+    main2()
     
     if(debug == True): 
         print("traces:", traces)

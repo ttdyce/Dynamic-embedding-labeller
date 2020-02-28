@@ -42,10 +42,19 @@ class Classifier:
         # Show the model architecture
         the_model.summary()
 
-        print("Predition result:", 
+        print("Predition:", 
+              "Result 1", 
               predictions[0],
               np.argmax(predictions[0]), 
-              y[0], 
+              y_test[0], 
+              "Result 2", 
+              predictions[1],
+              np.argmax(predictions[1]), 
+              y_test[1], 
+              "Result 3", 
+              predictions[2],
+              np.argmax(predictions[2]), 
+              y_test[2], 
               sep='\n')
 
 
