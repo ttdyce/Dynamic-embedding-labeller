@@ -182,18 +182,19 @@ def main2():
         traceText = baseName.split('-')
         # [0]: program name (*.exe), [1]: roles of variable, [2]: variable address
         if(len(traceText) != 3): 
-            return
+            continue
         
         exeName = traceText[0]
         rolesOfVariableId = traceText[1]
         variableAddress = traceText[2]
-        print(rolesOfVariableId)
+        print(exeName, rolesOfVariableId, variableAddress)
         
         with open(textFilePath, "r") as txtFile: 
             traceTextArr = readTraceArr(txtFile)
         
         #Label all traces in a file
         for traceArr in traceTextArr: 
+            print(traceArr.__len__())
             if (traceArr.__len__() == 2): 
                 # autoLabel(traceArr)
                 continue
@@ -204,7 +205,7 @@ def main2():
         #Finished a file, move it out
         # os.rename(textFilePath, join(dirDone, traceTextFileName))
         
-    # saveToFile()
+    saveToFile()
     
 
 if __name__ == '__main__':
