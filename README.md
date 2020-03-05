@@ -7,84 +7,78 @@ A Labelling system
 - Python 3.7.5
   - with numpy installed (pip install numpy)
   
-## Usage
+## Labelling steps
 
-1. Run the Labeller
+1. Do Labelling in the source code, under folder `selected-data/`
+
+2. Run the Labeller
 `python main.py`
 
-2. Do Labelling
-3. Quit and output labelling
-4. Generate the `dataset.npz`
+3. `dataset.npz` is generated, under folder `out-dataset/`
 
-## Input
+## Labelling
+
+Here is the label id reference
 
 ```json
-'1': Fixed value, '2': Stepper, '3': Gatherer, '': noise, 'q': save & quit
+'1': Fixed value, '2': Stepper, '3': Gatherer
 ```
 
-1. Type the label id according to the 'variable trace text' showing on the screen
-2. (Repeat step 1 untill you want to stop)
-3. Type `q` when you are finished labelling
+To label a variable, replace the initial value to a construtor `Intercept<int>(int initial_value, int label id)` like the follow example.
 
-## Output
-
-```python
-# import numpy as np
-
-dirOut = "out-dataset/"
-# do save & exits
-np.savez(dirOut + 'dataset.npz'
-        , traces=datasets
-        , lengths=[len(i) for i in datasets]
-        , labels=labels)
+```c++
+for(int stepper = 0; stepper < 10; stepper++){
+  //some operation
+}
 ```
 
-A file `out-dataset/dataset.npz` will be created after typing `q`. 
+```c++
+for(Intercept<int> stepper(0, 2); stepper < 10; stepper++){
+  //some operation
+}
+```
 
-## Using the output
+Where `Intercept<int> stepper(0, 2)` is equal to `Intercept<int> stepper = Intercept<int>(0, 2)`
 
-Take `Training.py` as a demo
+Some example can be found in [demo-Intercept.cpp](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/demo-Intercept.cpp), run this program is easier to understand the class
 
-**Important note**
+## Explore the dataset
 
-**Copy the `out-dataset/dataset.npz` to the same folder with `Training.py`**
+A file `out-dataset/dataset.npz` will be created after labelling.
+
+You can use the `explore-dataset.py` to see the result briefy.
+
+`python explore-dataset.py`
+
+## Use the dataset
+
+See [simple_autoencoder.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_autoencoder.py), [simple_classifier.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_classifier.py), [simple_demo1.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_demo1.py)
+
+A function called `def numpy_fillna(data)` is needed to use the `dataset.npz` file, like this:
 
 ```python
-# class Training: ...
 
 def numpy_fillna(data):
     # Get lengths of each row of data
     lens = np.array([len(i) for i in data])
 
     # Mask of valid places in each row
-    mask = np.arange(lens.max()) < lens[:,None]
+    mask = np.arange(lens.max()) < lens[:, None]
 
     # Setup output array and put elements from data into masked positions
     out = np.zeros(mask.shape, dtype=data.dtype)
     out[mask] = np.concatenate(data)
     return out
 
+
 traces = []
 lengths = []
 labels = []
 
-with np.load('dataset.npz', allow_pickle=True) as dataset: 
-    traces = dataset['traces'];
-    lengths = dataset['lengths'];
-    labels = dataset['labels'];
+with np.load("dataset.npz", allow_pickle=True) as dataset:
+    traces = dataset["traces"]
+    lengths = dataset["lengths"]
+    labels = dataset["labels"]
 
 traces = numpy_fillna(traces)
-
-CLASSES = 4
-program_number = labels.__len__()
-batch_size = labels.__len__()
-
-print(traces)
-print(lengths)
-print(labels)
-
-print(CLASSES, program_number, batch_size)
-
-t = Training(traces, lengths, labels, traces, lengths, labels)
-t.train_evaluate()
 ```
