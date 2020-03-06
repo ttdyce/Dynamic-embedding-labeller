@@ -54,31 +54,12 @@ You can use the `explore-dataset.py` to see the result briefy.
 
 See [simple_autoencoder.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_autoencoder.py), [simple_classifier.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_classifier.py), [simple_demo1.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_demo1.py)
 
-A function called `def numpy_fillna(data)` is needed to use the `dataset.npz` file, like this:
+A class called `DatasetLoader` is recommended to access the `dataset.npz` file easily, like this:
 
 ```python
+# assuming DatasetLoader.py is under the same folder, see simple_demo1.py
+from DatasetLoader import DatasetLoader as loader
 
-def numpy_fillna(data):
-    # Get lengths of each row of data
-    lens = np.array([len(i) for i in data])
+x, y, lengths, lengthMax = loader().loadDefault()
 
-    # Mask of valid places in each row
-    mask = np.arange(lens.max()) < lens[:, None]
-
-    # Setup output array and put elements from data into masked positions
-    out = np.zeros(mask.shape, dtype=data.dtype)
-    out[mask] = np.concatenate(data)
-    return out
-
-
-traces = []
-lengths = []
-labels = []
-
-with np.load("dataset.npz", allow_pickle=True) as dataset:
-    traces = dataset["traces"]
-    lengths = dataset["lengths"]
-    labels = dataset["labels"]
-
-traces = numpy_fillna(traces)
 ```
