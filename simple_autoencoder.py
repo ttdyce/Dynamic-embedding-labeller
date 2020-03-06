@@ -1,5 +1,6 @@
 import tensorflow as tf
 import numpy as np
+from DatasetLoader import DatasetLoader as loader
 
 
 class Autoencoder:
@@ -75,31 +76,7 @@ class Autoencoder:
         self.sess.close()
         del self.sess
 
-
-def numpy_fillna(data):
-    # Get lengths of each row of data
-    lens = np.array([len(i) for i in data])
-
-    # Mask of valid places in each row
-    mask = np.arange(lens.max()) < lens[:, None]
-
-    # Setup output array and put elements from data into masked positions
-    out = np.zeros(mask.shape, dtype=data.dtype)
-    out[mask] = np.concatenate(data)
-    return out
-
-
-traces = []
-lengths = []
-labels = []
-
-with np.load("dataset.npz", allow_pickle=True) as dataset:
-    traces = dataset["traces"]
-    lengths = dataset["lengths"]
-    labels = dataset["labels"]
-
-traces = numpy_fillna(traces)
-lengthMax = np.array(lengths).max()
+traces, labels, lengths, lengthMax = loader().loadDefault()
 
 encoder = Autoencoder(lengthMax, 8)
 encoder.fit(traces, epochs=10)

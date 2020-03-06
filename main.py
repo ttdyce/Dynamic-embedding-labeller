@@ -39,7 +39,7 @@ def init():
 
 def autoLabel(traceArr):
     """Label traces with no value changes (Fix-value)"""
-    label(traceArr, '1')
+    label(traceArr, 1)
 
 def saveToFile():
     """Save traces and labels to a folder (out-dataset/dataset.npz)"""
@@ -194,9 +194,8 @@ def main2():
         
         #Label all traces in a file
         for traceArr in traceTextArr: 
-            print(traceArr.__len__())
-            if (traceArr.__len__() == 2): 
-                # autoLabel(traceArr)
+            print(traceArr.__len__(), 'roles =', rolesOfVariableId)
+            if (traceArr.__len__() == 2 and rolesOfVariableId != '1'): 
                 continue
             
             label(traceArr, rolesOfVariableId)

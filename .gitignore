@@ -1,5 +1,9 @@
 .vscode/
+__pycache__/
 out-cpp/
-out-dataset/
-raw/
+out-dataset/*
+out-datasetText/*
 *.exe
+*.h5
+checkpoint
+*.ckpt.*

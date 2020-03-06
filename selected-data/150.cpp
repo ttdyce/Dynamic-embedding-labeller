@@ -5,7 +5,6 @@
 #include <string.h>
 using namespace std;
 
-
 /**
 * @author ??
 * @date 2010-12-1
@@ -13,33 +12,32 @@ using namespace std;
 * ??????:???? 
 */
 Intercept<int> sum;
-void calculate(int, int);
-
+void calculate(int, Intercept<int>);
 
 int main()
 {
-	Intercept<int> n;
+	Intercept<int> n(-1, 1);
 	cin >> n;
-	for (Intercept<int> i = 0; i < n;i++)
+	for (Intercept<int> i(0, 2); i < n; i++)
 	{
-		Intercept<int> m;
-		sum  = 1;
+		int m;
+		sum = Intercept<int>(1,3);
 		cin >> m;
-		calculate(m, 2);
+		calculate(m, Intercept<int>(2));
 		cout << sum << endl;
 	}
 	return 0;
 }
-void calculate(Intercept<int> m,Intercept<int> begin)
+void calculate(int m, Intercept<int> begin)
 {
 	Intercept<int> i;
 	Intercept<int> n = sqrt((double)m);
-	for ( i = begin; i <= n; i++ )
+	for (i = Intercept<int>(begin, 2); i <= n; i++)
 	{
-		if ( m % i == 0)
+		if (m % i == 0)
 		{
 			sum++;
-			calculate(m / i,i);
+			calculate(m / i, Intercept<int>(i, 1));
 		}
 	}
 }
