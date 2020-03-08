@@ -5,11 +5,11 @@
 #include <string.h>
 using namespace std;
 
-void fenjie(int, int, int);
+void fenjie(Intercept<int>, Intercept<int>, Intercept<int>);
 Intercept<int> g_num, g_count;
 int main()
 {
-	Intercept<int> n, i;
+	Intercept<int> n, i(-1, 2);
 	cin >> n;
 	for(i = 1; i <= n; i++ )
 	{
@@ -22,6 +22,8 @@ int main()
 }
 void fenjie(Intercept<int> a, Intercept<int> num, Intercept<int> sum)
 {
+	a = Intercept<int>(a, 2);
+	sum = Intercept<int>(sum, 3);
 	while( a <= g_num )
 	{
 		sum *= a;

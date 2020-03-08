@@ -5,13 +5,13 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum=0;                          //?????????????
+Intercept<int> sum(0, 3);                          //?????????????
 void ways(Intercept<int> a,Intercept<int> last);            
 int main()
 {
 	Intercept<int> n,num[100],i;                    
 	cin>>n;
-	for(i=0;i<n;i++)
+	for(i=Intercept<int>(0, 2);i<n;i++)
 	{
 		cin>>num[i];
 	}
@@ -25,7 +25,7 @@ int main()
 }
 void ways(Intercept<int> a,Intercept<int> last)    
 {
-	Intercept<int> i,j;
+	Intercept<int> i(0, 2),j;
 	for(i=last;i<=a;i++)
 	{
 		if(a<i)                     //????????????????????????

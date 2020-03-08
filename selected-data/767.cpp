@@ -5,17 +5,17 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> divide(Intercept<int> n,Intercept<int> j)
+Intercept<int> divide(int n, Intercept<int> j)
 {
-	Intercept<int> sum=1,i,s,p,k;
-	s=sqrt(n);
-	for(i=j;i<=s;i++)
+	Intercept<int> sum = Intercept<int>(1, 3), i, s, p, k;
+	s = sqrt(n);
+	for (i = Intercept<int>(j, 2); i <= s; i++)
 	{
-		if (n%i==0)
+		if (n % i == 0)
 		{
-			p=n/i;
-            k=i;
-			sum=sum+divide(p,i);
+			p = n / i;
+			k = i;
+			sum = sum + divide(p, i);
 		}
 	}
 	return sum;
@@ -23,18 +23,13 @@ Intercept<int> divide(Intercept<int> n,Intercept<int> j)
 int main()
 {
 	Intercept<int> n;
-	cin>>n;
-	Intercept<int> k,m,p;
-	for(k=0;k<n;k++)
+	cin >> n;
+	Intercept<int> k, m, p;
+	for (k = Intercept<int>(0, 2); k < n; k++)
 	{
-		cin>>m;
-		p=divide(m,2);
-		cout<<p<<endl;
+		cin >> m;
+		p = divide(m, 2);
+		cout << p << endl;
 	}
 	return 0;
 }
-
-
-
-
-		

@@ -5,41 +5,37 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum=0;
+Intercept<int> sum(0, 3);
 
-void f(Intercept<int> x, Intercept<int> i)
+void f(int x, Intercept<int> i)
 {
-	double m=sqrt(x);
-	if(i<m)
+	double m = sqrt(x);
+	if (i < m)
 	{
-	if(x%i==0)
-	{
-		sum++;
-		f(x/i,i);
+		if (x % i == 0)
+		{
+			sum++;
+			f(x / i, i);
+		}
+		f(x, i + 1);
 	}
-	f(x,i+1);
-	}
 
-	if(fabs(i-m)<0.00000001)
+	if (fabs(i - m) < 0.00000001)
 		sum++;
-
-
-
 }
-
 
 int main()
 {
-	Intercept<int> x,i,n;
-	scanf("%d",&n);
+	Intercept<int> x, i, n;
+	scanf("%d", &n);
 
-	for(i=0;i<n;i++)
-	{scanf("%d",&x);
-	sum=0;
-	f(x,2);
+	for (i = Intercept<int>(0, 2); i < n; i++)
+	{
+		scanf("%d", &x);
+		sum = 0;
+		f(x, 2);
 
-	printf("%d\n",sum+1);
+		printf("%d\n", sum + 1);
 	}
 	return 0;
-
 }
