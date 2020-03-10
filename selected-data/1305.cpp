@@ -5,30 +5,30 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum=0;
-void divide(Intercept<int> n,Intercept<int> a)
+Intercept<int> sum(0, 3);
+void divide(Intercept<int> n, Intercept<int> a)
 {
-	for(Intercept<int> i=a;i<=n;i++)
+	for (Intercept<int> i(a, 2); i <= n; i++)
 	{
-		if((n%i==0))
+		if ((n % i == 0))
 		{
-			if(n/i==1)
+			if (n / i == 1)
 				sum++;
 			else
-				divide(n/i,i);
+				divide(n / i, i);
 		}
 	}
 }
 int main()
 {
-	Intercept<int> N=0,n=0,i=0;
-	cin>>N;
-	for(i=0;i<N;i++)
+	Intercept<int> N = 0, n = 0, i(0, 2);
+	cin >> N;
+	for (i = 0; i < N; i++)
 	{
-		cin>>n;
-		divide(n,2);
-		cout<<sum<<endl;
-		sum=0;
+		cin >> n;
+		divide(n, 2);
+		cout << sum << endl;
+		sum = 0;
 	}
 	return 0;
 }

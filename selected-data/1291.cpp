@@ -14,29 +14,33 @@ using namespace std;
  * ??1 < a1 <= a2 <= a3 <= ... <= an?????????????????a = a???????
  */
 
-Intercept<int> sum = 1;//??????Sum
-Intercept<int> Fact(Intercept<int> x, Intercept<int> y);
+Intercept<int> sum(1, 3); //??????Sum
+Intercept<int> Fact(int x, Intercept<int> y);
 
-int main() {
+int main()
+{
 	Intercept<int> n, a;
 	cin >> n;
-	for (Intercept<int> i = 0; i < n; i++) {
+	for (Intercept<int> i(0, 2); i < n; i++)
+	{
 		cin >> a;
-		sum = 1;//????sum
-		Fact(a, 2);//????
+		sum = 1;	//????sum
+		Fact(a, 2); //????
 		cout << sum << endl;
 	}
 	return 0;
 }
-Intercept<int> Fact(Intercept<int> x, Intercept<int> y) {
+Intercept<int> Fact(int x, Intercept<int> y)
+{
 	if (x == 1)
-		return 0;//???1???0
-	else {
-		for (; y <= sqrt(x); y++)//????????
-			if (x % y == 0) {
+		return 0; //???1???0
+	else
+	{
+		for (; y <= sqrt(x); y++) //????????
+			if (x % y == 0)
+			{
 				sum = sum + Fact(x / y, y); //????????Fact(??y)
 			}
 		return 1;
 	}
-
 }

@@ -5,36 +5,39 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum=0,g,f;
-Intercept<int> divide (Intercept<int> chushu,Intercept<int> a)
+Intercept<int> sum = Intercept<int>(0, 3), g, f;
+Intercept<int> divide(Intercept<int> chushu, Intercept<int> a)
 {
     Intercept<int> i;
-    for (i=chushu;i<=a;i++)
+    for (i = Intercept<int>(chushu, 2); i <= a; i++)
     {
-        if (a%i==0)
+        if (a % i == 0)
         {
-            f=a/i;
-            if (f>1)
-            {g=i;divide (g,f);}
+            f = a / i;
+            if (f > 1)
+            {
+                g = i;
+                divide(g, f);
+            }
             else
             {
                 sum++;
             }
-         }
-
-}   return sum;
+        }
+    }
+    return sum;
 }
 int main()
 {
-    Intercept<int> n=0;
-    cin>>n;
-    Intercept<int> p=0;
-    for (p=0;p<n;p++)
+    Intercept<int> n = 0;
+    cin >> n;
+    Intercept<int> p = 0;
+    for (p = Intercept<int>(0, 2); p < n; p++)
     {
-       Intercept<int> b=0,c=2;
-       cin>>b;
-    sum=0;
-    cout<<divide (c,b)<<endl;
+        Intercept<int> b = 0, c = 2;
+        cin >> b;
+        sum = 0;
+        cout << divide(c, b) << endl;
     }
 
     return 0;

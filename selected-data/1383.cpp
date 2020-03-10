@@ -5,12 +5,11 @@
 #include <string.h>
 using namespace std;
 
-
 void factor(Intercept<int> a, Intercept<int> k);
-Intercept<int> sum = 0;
+Intercept<int> sum(0, 3);
 int main()
 {
-	Intercept<int> n, a, i = 0;
+	Intercept<int> n, a, i(0, 2);
 	cin >> n;
 	for (i = 1; i <= n; i++)
 	{
@@ -26,7 +25,7 @@ void factor(Intercept<int> a, Intercept<int> k)
 {
 	Intercept<int> b, j;
 	b = (int)sqrt((double)a);
-	for (j = k; j <= b; j++)
+	for (j = Intercept<int>(k, 2); j <= b; j++)
 	{
 		if (a % j == 0)
 		{
@@ -36,6 +35,3 @@ void factor(Intercept<int> a, Intercept<int> k)
 	}
 	j = k;
 }
-
-
-

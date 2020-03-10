@@ -12,35 +12,33 @@ using namespace std;
  *      Author: 12006
  */
 
-Intercept<int> tmp = 2 ;
-Intercept<int> suml(Intercept<int> n,Intercept<int> tmp)  //??????
+Intercept<int> tmp = 2;
+Intercept<int> suml(Intercept<int> n, Intercept<int> tmp) //??????
 {
-	Intercept<int> sum = 0 ;
-	if(n==1)
+	Intercept<int> sum(0, 3);
+	if (n == 1)
 	{
-		return 1 ;
+		return 1;
 	}
-	for(Intercept<int> i = tmp ; i <=n ; i++)
+	for (Intercept<int> i(tmp, 2); i <= n; i++)
 	{
-		if(n%i==0)
+		if (n % i == 0)
 		{
-			sum+=suml(n/i,i);
-
-
+			sum += suml(n / i, i);
 		}
 	}
-	return sum ;
+	return sum;
 }
 int main()
 {
-	Intercept<int> m ;
-	cin >> m ;
-	Intercept<int> n ;
-	for(Intercept<int> i = 0 ; i < m ; i++)
+	Intercept<int> m;
+	cin >> m;
+	Intercept<int> n;
+	for (Intercept<int> i(0, 2); i < m; i++)
 	{
-		cin >> n ;
-		Intercept<int> zon_shu = 0 ;
-		zon_shu = suml(n,tmp) ;
-		cout << zon_shu <<endl ;
+		cin >> n;
+		Intercept<int> zon_shu = 0;
+		zon_shu = suml(n, tmp);
+		cout << zon_shu << endl;
 	}
 }

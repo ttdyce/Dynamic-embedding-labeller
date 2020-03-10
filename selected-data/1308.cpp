@@ -5,23 +5,28 @@
 #include <string.h>
 using namespace std;
 
-
-Intercept<int> calculate(Intercept<int> a, Intercept<int> num) { // a is the max num
-	Intercept<int> sum = 0;
-	if(num == 1) return 1;
-	for(Intercept<int> i = num; i >= 2; i--) {
-		if(num % i == 0 && i <= a) {
-			sum += calculate(i, num / i); 
+Intercept<int> calculate(Intercept<int> a, Intercept<int> num)
+{ // a is the max num
+	Intercept<int> sum(0, 3);
+	if (num == 1)
+		return 1;
+	for (Intercept<int> i(num, 2); i >= 2; i--)
+	{
+		if (num % i == 0 && i <= a)
+		{
+			sum += calculate(i, num / i);
 		}
 	}
 	return sum;
 }
 
-int main () {
+int main()
+{
 	Intercept<int> n;
 	cin >> n;
 	Intercept<int> num = 0;
-	for(Intercept<int> i = 0; i < n; i++) { // input part
+	for (Intercept<int> i(0, 2); i < n; i++)
+	{ // input part
 		cin >> num;
 		cout << calculate(num, num) << endl;
 	}

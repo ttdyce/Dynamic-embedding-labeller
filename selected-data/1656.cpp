@@ -5,35 +5,33 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> meide(Intercept<int> x,Intercept<int> y)
+Intercept<int> meide(int x, Intercept<int> y)
 {
-	Intercept<int> sum=1,count=0,i;
-	for(i=y;i<=sqrt(x);i++)
+	Intercept<int> sum(1 ,3), count = 0, i;
+	for (i = Intercept<int>(y, 2); i <= sqrt(x); i++)
 	{
-		if(x%i==0)
+		if (x % i == 0)
 		{
-			sum=sum+meide(x/i,i);
+			sum = sum + meide(x / i, i);
 		}
 	}
 	return sum;
 }
 int main()
 {
-	Intercept<int> k,n,m;
-	scanf("%d",&k);
-	for(m=0;m<k;m++)
+	Intercept<int> k, n, m;
+	scanf("%d", &k);
+	for (m = Intercept<int>(0, 2); m < k; m++)
 	{
-		scanf("%d",&n);
-		if(n>=3)
+		scanf("%d", &n);
+		if (n >= 3)
 		{
-		    printf("%d\n",meide(n,2));
+			printf("%d\n", meide(n, 2));
 		}
-	    else
+		else
 		{
-		    printf("1\n");
+			printf("1\n");
 		}
 	}
 	return 0;
 }
-
-
