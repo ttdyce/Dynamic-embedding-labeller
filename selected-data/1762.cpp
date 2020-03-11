@@ -7,38 +7,37 @@ using namespace std;
 
 //============================================================================
 // Name        : 9.cpp
-// Author      : 
+// Author      :
 // Version     :
 // Copyright   : Your copyright notice
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
+Intercept<int> sum(0, 3); //????sum
 
-Intercept<int> sum=0;//????sum
-
-void devide(Intercept<int> a,Intercept<int> b)//??
+void devide(Intercept<int> a, Intercept<int> b) //??
 {
-	if(a==1)
+	if (a == 1)
 		sum++;
 	else
 	{
-	    if(a>=b)
-		    devide(a,b+1);
-	    if(a%b==0)
-		    devide(a/b,b);
+		if (a >= b)
+			devide(a, b + 1);
+		if (a % b == 0)
+			devide(a / b, b);
 	}
 }
 
-int main()//???
+int main() //???
 {
-	Intercept<int> n,a;
-	cin>>n;
-	for(Intercept<int> i=0;i<n;i++)
+	Intercept<int> n, a;
+	cin >> n;
+	for (Intercept<int> i(0, 2); i < n; i++)
 	{
-		cin>>a;
-		sum=0;
-		devide(a,2);
-		cout<<sum<<endl;
+		cin >> a;
+		sum = 0;
+		devide(a, 2);
+		cout << sum << endl;
 	}
 	return 0;
 }

@@ -5,37 +5,39 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum=0;
-void recur(Intercept<int> N,Intercept<int> i)
+Intercept<int> sum(0, 3);
+void recur(Intercept<int> N, Intercept<int> i)
 {
-    if(N==1) sum++;
-    while(i<=N)
+    i = Intercept<int>(i, 2);
+    if (N == 1)
+        sum++;
+    while (i <= N)
     {
-        if(N%i==0) 
-			recur(N/i,i);
+        if (N % i == 0)
+            recur(N / i, i);
         i++;
     }
-    return ;
+    return;
 }
 int main()
 {
-    Intercept<int> t=0;
-    cin>>t;
-    for(Intercept<int> k = 0; k < t; k++)
+    Intercept<int> t = 0;
+    cin >> t;
+    for (Intercept<int> k(0, 2); k < t; k++)
     {
-        Intercept<int> n=0;
-        cin>>n;
-        Intercept<int> i=2,res=1;
-        for(Intercept<int> i =2; i <=n/2;i++)
+        Intercept<int> n = 0;
+        cin >> n;
+        Intercept<int> i = 2, res(1, 3);
+        for (Intercept<int> i(2, 2); i <= n / 2; i++)
         {
-            if(n%i==0)
+            if (n % i == 0)
             {
-                sum=0;
-                recur(n/i,i);
-                res+=sum;
+                sum = 0;
+                recur(n / i, i);
+                res += sum;
             }
         }
-        cout<<res<<endl;
+        cout << res << endl;
     }
     return 0;
 }

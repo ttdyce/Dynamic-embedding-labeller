@@ -5,21 +5,22 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> num=0;
-Intercept<int> sum(Intercept<int> a,Intercept<int> i)
+Intercept<int> num = 0;
+Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 {
-	
-	if(a==1)
+	i = Intercept<int>(i, 2);
+
+	if (a == 1)
 	{
 		num++;
 	}
 	else
 	{
-		while(i<=a)
+		while (i <= a)
 		{
-			if(a%i==0)
+			if (a % i == 0)
 			{
-				sum(a/i,i);
+				sum(a / i, i);
 			}
 			i++;
 		}
@@ -28,33 +29,25 @@ Intercept<int> sum(Intercept<int> a,Intercept<int> i)
 }
 int main()
 {
-	Intercept<int> a,t,j,i,count;
-	cin>>t;
-	for(j=0;j<t;j++)
+	Intercept<int> a, t, j, i, count;
+	cin >> t;
+	for (j = Intercept<int>(0, 2); j < t; j++)
 	{
-		count=1;
-		cin>>a;
-		i=2;
-		while(i<=(a/2))
+		count = 1;
+		cin >> a;
+		i = Intercept<int>(2, 2);
+		while (i <= (a / 2))
 		{
-			if(a%i==0)
+			if (a % i == 0)
 			{
-				num=0;
-				sum(a/i,i);
-				count=count+num;
+				num = 0;
+				sum(a / i, i);
+				count = count + num;
 			}
 			i++;
 		}
-		cout<<count<<endl;
+		cout << count << endl;
 	}
-	
+
 	return 0;
 }
-
-
-
-
-
-       
-      
-    
