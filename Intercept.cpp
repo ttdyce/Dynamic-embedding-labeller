@@ -107,7 +107,7 @@ public:
 
 	void logVariableTraceText(Intercept<int> a, Intercept<int> b)
 	{
-		if(label == 0)
+		if (label == 0)
 			return;
 		std::stringstream addr;
 		addr << &t_;
@@ -118,6 +118,47 @@ public:
 	}
 };
 
+// class InterceptState
+// {
+// 	int SIZE;
+// 	Intercept<int> state[];
+
+// public:
+// 	InterceptState(Intercept<int> intercepts[], int length)
+// 	{
+// 		SIZE = length;
+// 		state[length];
+// 		for (int i = 0; i < length; i++)
+// 		{
+// 			state[i] = intercepts[i];
+// 		}
+// 	}
+
+// 	int &operator[](int i)
+// 	{
+// 		if (i > SIZE)
+// 		{
+// 			cout << "Index out of bounds" << endl;
+// 			// return first element. Should be unreachable.
+// 			return state[0];
+// 		}
+
+// 		printState(state);
+
+// 		return state[i];
+// 	}
+
+// private:
+// };
+
+void printState(Intercept<int> state[], int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		state[i] = state[i] + 1 - 1;
+	}
+}
+
 // void scanf(const char *__format, ...)
 // {
 // 	int __retval;
@@ -125,6 +166,5 @@ public:
 // 	__builtin_va_start(__local_argv, __format);
 // 	__retval = __mingw_vfscanf(stdin, __format, __local_argv);
 // 	__builtin_va_end(__local_argv);
-
 
 // }
