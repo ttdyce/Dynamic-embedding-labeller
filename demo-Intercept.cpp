@@ -16,7 +16,7 @@ int main()
     scanf("%d", &in);
 
     intercepts[0] = in;
-    printState(intercepts, 2);
+    printState(0, intercepts, 2);
 
     // for (state[0]; state[0] > 0; state[0]--)
     // {

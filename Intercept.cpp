@@ -151,11 +151,12 @@ public:
 // private:
 // };
 
-void printState(Intercept<int> state[], int size)
+void printState(int exception, Intercept<int> state[], int size)
 {
 	for (int i = 0; i < size; i++)
 	{
-		state[i] = state[i] + 1 - 1;
+		if (i != exception)
+			state[i] = state[i] + 1 - 1;
 	}
 }
 
