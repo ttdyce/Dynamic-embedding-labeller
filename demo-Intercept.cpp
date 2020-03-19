@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
-#include "Intercept.cpp"
+#include "StateIntercept.cpp"
 #include <string.h>
 using namespace std;
 
@@ -10,18 +10,21 @@ int main()
 
     /* state trace labelling demo */
     Intercept<int> intercepts[2] = {Intercept<int>(1, 2), Intercept<int>(0, 3)};
-    // InterceptState state(intercepts, 2);
+    StateIntercept state(intercepts, 2);
     int in;
 
-    scanf("%d", &in);
+    in = 10;
+    scanf("%d", &state[0]);
 
-    intercepts[0] = in;
-    printState(0, intercepts, 2);
 
-    // for (state[0]; state[0] > 0; state[0]--)
-    // {
-    //     // state[1] += state[0] * 2;
-    // }
+    // state[0] = 20;
+    // state[0] = 30;
+    // state.logCurrentState();
+
+    for (state[0]; state[0] > 0; state[0]--)
+    {
+        state[1] += state[0] * 2;
+    }
 
     /* variable trace labelling demo */
     // Intercept<int> stepper(1, 2);

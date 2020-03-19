@@ -18,7 +18,7 @@ public:
 	{
 		label = 0;
 
-		// // logVariableTraceText(-1, temp);
+		// logVariableTraceText(-1, temp);
 		// std::stringstream addr;
 		// addr << &t_;
 		// ofstream logFile("out-datasetText/log-" + getCurrentFileName() + "-" + to_string(label) + "-" + addr.str() + ".txt", std::ios_base::app);
@@ -37,7 +37,7 @@ public:
 	T operator=(const T &t)
 	{
 		logVariableTraceText(t_, t);
-		// std::cerr << "change " << t_ << " to " << t << '\n';
+		//std::cerr << "change " << t_ << " to " << t << '\n';
 		t_ = t;
 		return *this;
 	}
@@ -117,55 +117,3 @@ public:
 		// std::cerr << "change " << a << " to " << b << '\n';
 	}
 };
-
-// class InterceptState
-// {
-// 	int SIZE;
-// 	Intercept<int> state[];
-
-// public:
-// 	InterceptState(Intercept<int> intercepts[], int length)
-// 	{
-// 		SIZE = length;
-// 		state[length];
-// 		for (int i = 0; i < length; i++)
-// 		{
-// 			state[i] = intercepts[i];
-// 		}
-// 	}
-
-// 	int &operator[](int i)
-// 	{
-// 		if (i > SIZE)
-// 		{
-// 			cout << "Index out of bounds" << endl;
-// 			// return first element. Should be unreachable.
-// 			return state[0];
-// 		}
-
-// 		printState(state);
-
-// 		return state[i];
-// 	}
-
-// private:
-// };
-
-void printState(int exception, Intercept<int> state[], int size)
-{
-	for (int i = 0; i < size; i++)
-	{
-		if (i != exception)
-			state[i] = state[i] + 1 - 1;
-	}
-}
-
-// void scanf(const char *__format, ...)
-// {
-// 	int __retval;
-// 	__builtin_va_list __local_argv;
-// 	__builtin_va_start(__local_argv, __format);
-// 	__retval = __mingw_vfscanf(stdin, __format, __local_argv);
-// 	__builtin_va_end(__local_argv);
-
-// }
