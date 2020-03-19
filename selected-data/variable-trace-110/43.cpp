@@ -15,6 +15,7 @@ int main()
 	while(n-->0)
 	{
 		scanf("%d",&b);
+		b = b + 1 - 1;
 		printf("%d\n",ways(b,2));
 	}
 }			
