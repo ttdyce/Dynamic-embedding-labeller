@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
-#include "../Intercept.cpp"
+#include "../StateIntercept.cpp"
 #include <string.h>
 using namespace std;
 
@@ -11,33 +11,35 @@ using namespace std;
 * @description
 * ??????:???? 
 */
-Intercept<int> sum;
+// Intercept<int> sum;
 void calculate(int, Intercept<int>);
+Intercept<int> intercepts[4] = {Intercept<int>(-1, 1), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(-1, 2)};
+StateIntercept state(intercepts, 4);
 
 int main()
 {
-	Intercept<int> n(-1, 1);
-	cin >> n;
-	for (Intercept<int> i(0, 2); i < n; i++)
+	// Intercept<int> n(-1, 1);
+	cin >> state[0];
+	for (state[1]; state[1] < state[0]; state[1]++)
 	{
 		int m;
-		sum = Intercept<int>(1,3);
+		state[2] = Intercept<int>(1, 3);
 		cin >> m;
 		calculate(m, Intercept<int>(2));
-		cout << sum << endl;
+		cout << state[2] << endl;
 	}
 	return 0;
 }
 void calculate(int m, Intercept<int> begin)
 {
-	Intercept<int> i;
+	// Intercept<int> i;
 	Intercept<int> n = sqrt((double)m);
-	for (i = Intercept<int>(begin, 2); i <= n; i++)
+	for (state[3] = Intercept<int>(begin, 2); state[3] <= n; state[3]++)
 	{
-		if (m % i == 0)
+		if (m % state[3] == 0)
 		{
-			sum++;
-			calculate(m / i, Intercept<int>(i, 1));
+			state[2]++;
+			calculate(m / state[3], Intercept<int>(state[3], 1));
 		}
 	}
 }

@@ -1,16 +1,18 @@
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
-#include "../Intercept.cpp"
+#include "../StateIntercept.cpp"
 #include <string.h>
 using namespace std;
 
 int main()
 {
 	Intercept<int> ways(Intercept<int> a, Intercept<int> min);
-	Intercept<int> n(-1, 2), b;
-	scanf("%d", &n);
-	while (n-- > 0)
+	Intercept<int> b;
+	Intercept<int> intercepts[1] = {Intercept<int>(-1, 2)};
+	StateIntercept state(intercepts, 1);
+	scanf("%d", &state[0]);
+	while (state[0]-- > 0)
 	{
 		scanf("%d", &b);
 		printf("%d\n", ways(b, 2));
@@ -20,11 +22,13 @@ Intercept<int> ways(Intercept<int> a, Intercept<int> min)
 {
 	if (a < min)
 		return 0;
-	Intercept<int> sum(0, 3), i(-1, 2);
-	for (i = min; i <= sqrt(a * 1.0); i++)
+	Intercept<int> intercepts[2] = {Intercept<int>(0, 3), Intercept<int>(-1, 2)};
+	StateIntercept state(intercepts, 2);
+
+	for (state[1] = min; state[1] <= sqrt(a * 1.0); state[1]++)
 	{
-		if (a % i == 0)
-			sum = sum + ways(a / i, i);
+		if (a % state[1] == 0)
+			state[0] = state[0] + ways(a / state[1], state[1]);
 	}
-	return sum + 1;
+	return state[0] + 1;
 }

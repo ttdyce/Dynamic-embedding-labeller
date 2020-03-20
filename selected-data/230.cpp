@@ -1,48 +1,54 @@
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
-#include "../Intercept.cpp"
+#include "../StateIntercept.cpp"
 #include <string.h>
 using namespace std;
 
-//???? 
-Intercept<int> divide(Intercept<int> n,Intercept<int> i);   //????   n???????i????????? 
+//????
+Intercept<int> divide(Intercept<int> n, Intercept<int> i); //????   n???????i?????????
 int main()
 {
-    Intercept<int> n=0;  //????? 
-    Intercept<int> t=0;  //???? 
-    Intercept<int> sum(0, 3);  //??????? 
-    cin>>t;  
-    for(Intercept<int> i(0, 2);i<t;i++)
+    Intercept<int> n = 0;     //?????
+    Intercept<int> t = 0;     //????
+    // Intercept<int> sum(0, 3); //???????
+
+    Intercept<int> intercepts[3] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(2, 2)};
+    StateIntercept state(intercepts, 3);
+
+    cin >> t;
+    for (state[1]; state[1] < t; state[1]++)
     {
-        sum=0;
-        cin>>n;
-        for(Intercept<int> j=2;j<=n/2;j++)   //???????????1*n??? 
+        state[0] = 0;
+        cin >> n;
+        for (state[2]; state[2] <= n / 2; state[2]++) //???????????1*n???
         {
-            sum=sum+divide(n,j);
+            state[0] = state[0] + divide(n, state[2]);
         }
-        cout<<sum+1<<endl;
+        cout << state[0] + 1 << endl;
     }
     return 0;
 }
-Intercept<int> divide(Intercept<int> n,Intercept<int> i)   //???????????????1??? 
+Intercept<int> divide(Intercept<int> n, Intercept<int> i) //???????????????1???
 {
-    Intercept<int> num(0, 3);
-    if(n%i==0)
+    // Intercept<int> num(0, 3);
+    Intercept<int> intercepts[2] = {Intercept<int>(0, 3), Intercept<int>(2, 2)};
+    StateIntercept state(intercepts, 2);
+    if (n % i == 0)
     {
-        if(n==i)      //?????????????????1 
+        if (n == i) //?????????????????1
         {
             return 1;
         }
-        for(Intercept<int> j=2;j<=i;j++)
+        for (state[1]; state[1] <= i; state[1]++)
         {
-             num=num+divide(n/i,j);   //?? 
+            state[0] = state[0] + divide(n / i, state[1]); //??
         }
-           return num;
+        return state[0];
     }
-        
+
     else
     {
         return 0;
-    }               
+    }
 }
