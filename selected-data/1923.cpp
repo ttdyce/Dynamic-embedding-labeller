@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
-#include "../Intercept.cpp"
+#include "../StateIntercept.cpp"
 #include <string.h>
 using namespace std;
 
