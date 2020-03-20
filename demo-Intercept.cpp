@@ -23,7 +23,7 @@ int main()
 
     for (state[0]; state[0] > 0; state[0]--)
     {
-        state[1] += state[0] * 2;
+        state[1] += state[0];
     }
 
     /* variable trace labelling demo */

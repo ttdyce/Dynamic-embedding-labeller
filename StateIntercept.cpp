@@ -47,7 +47,7 @@ public:
 		initStateTraceText();
 	}
 
-	int &operator[](int i)
+	Intercept<int> &operator[](int i)
 	{
 		if (i > SIZE)
 		{
@@ -61,7 +61,8 @@ public:
 		return state[i];
 	}
 
-	void logCurrentState(){
+	void logCurrentState()
+	{
 		logCurrentState(state, SIZE);
 	}
 
@@ -93,8 +94,13 @@ public:
 
 	void initStateTraceText()
 	{
+
 		std::stringstream addr;
 		addr << &state;
+
+		ifstream f("out-datasetText/logState-" + getCurrentFileName() + "-" + addr.str() + ".json");
+		if (f.good())
+			return;//file exist, continue logging
 
 		string statesLabelArray = "";
 		statesLabelArray += "[";
@@ -109,8 +115,8 @@ public:
 		statesLabelArray += "]";
 
 		ofstream logFile("out-datasetText/logState-" + getCurrentFileName() + "-" + addr.str() + ".json");
-		logFile << "{\"labels\": " << statesLabelArray << ", \"stateTraces\": [" << " ]}";
-
+		logFile << "{\"labels\": " << statesLabelArray << ", \"stateTraces\": ["
+				<< " ]}";
 	}
 
 	//replace the " ]}" with a new element
@@ -121,7 +127,7 @@ public:
 
 		ifstream in("out-datasetText/logState-" + getCurrentFileName() + "-" + addr.str() + ".json");
 		// ofstream out("out-datasetText/logStateTemp-" + getCurrentFileName() + "-" + addr.str() + ".json");
-		ofstream out; 
+		ofstream out;
 		out.open("out-datasetText/logState-" + getCurrentFileName() + "-" + addr.str() + ".json", std::ios_base::app);
 		string wordToReplace(" ]}");
 		string wordToReplaceWith(stateText + " ]}");
@@ -149,20 +155,17 @@ public:
 		size_t pos = line.find(wordToReplace);
 		if (pos != string::npos)
 		{
-			std::cerr << "Reading line: " << line << "\n";
-			if (string::npos != line.find("[ ]}"))// first element
+			// std::cerr << "Reading line: " << line << "\n";
+			if (string::npos != line.find("[ ]}"))					// first element
 				wordToReplaceWith.erase(wordToReplaceWith.begin()); //remove the ","
-			
+
 			line.replace(pos, len, wordToReplaceWith);
 
-
-
-			std::cerr << "Line replaced: " << line << "\n";
-			std::cerr << "\n";
+			// std::cerr << "Line replaced: " << line << "\n";
+			// std::cerr << "\n";
 		}
 
 		out = ofstream("out-datasetText/logState-" + getCurrentFileName() + "-" + addr.str() + ".json");
 		out << line;
-
 	}
 };
