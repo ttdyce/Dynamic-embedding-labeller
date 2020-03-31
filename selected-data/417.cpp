@@ -6,32 +6,37 @@
 using namespace std;
 
 Intercept<int> sum = Intercept<int>(0, 3); //???????
+Intercept<int> intercepts[3] = {Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(1, 2)};
+StateIntercept state(intercepts, 3);
+
 void fj(int n, Intercept<int> m)
 {
-	Intercept<int> i;			   //?????
-	for (i = Intercept<int>(m, 2); i <= sqrt(n); i++) //???????
+	state[0] = m;
+
+	// Intercept<int> i;			   //?????
+	for (state[0]; state[0] <= sqrt(n); state[0]++) //???????
 	{
-		if (n % i == 0)
+		if (n % state[0] == 0)
 		{
-			sum++;
-			fj(n / i, i); //???????
+			state[1]++;
+			fj(n / state[0], state[0]); //???????
 		}
 	}
 }
 int main()
 {
-	Intercept<int> j, N;   //??????????????
+	Intercept<int> N;	  //j,    //??????????????
 	Intercept<int> a[100]; //?????
 	cin >> N;
-	for (j = Intercept<int>(1, 2); j <= N; j++)
+	for (state[2]; state[2] <= N; state[2]++)
 	{
-		cin >> a[j]; //?????
+		cin >> a[state[2]]; //?????
 	}
-	for (j = 1; j <= N; j++)
+	for (state[2] = 1; state[2] <= N; state[2]++)
 	{
-		sum = 0;
-		fj(a[j], 2); //?????
-		cout << sum + 1 << endl;
+		state[1] = 0;
+		fj(a[state[2]], 2); //?????
+		cout << state[1] + 1 << endl;
 	}
 	return 0;
 }

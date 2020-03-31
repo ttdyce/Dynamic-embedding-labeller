@@ -9,34 +9,40 @@ Intercept<int> f(Intercept<int> a, Intercept<int> b);
 
 int main()
 {
-	Intercept<int> n, c[100], i, a, sum(-1, 3);
+	Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> n, c[100], a; //, sum(-1, 3), i
 	scanf("%d", &n);
-	for (i = Intercept<int>(1, 2); i <= n; i++)
+	for (state[1] = Intercept<int>(1, 2); state[1] <= n; state[1]++)
 	{
-		scanf("%d", &c[i]);
+		scanf("%d", &c[state[1]]);
 	}
 
-	for (i = 1; i <= n; i++)
+	for (state[1] = 1; state[1] <= n; state[1]++)
 	{
-		a = c[i];
-		sum = f(a, 2);
-		printf("%d\n", sum);
+		a = c[state[1]];
+		state[0] = f(a, 2);
+		printf("%d\n", state[0]);
 	}
 	return 0;
 }
 
 Intercept<int> f(Intercept<int> a, Intercept<int> b)
 {
-	Intercept<int> sum(1, 3);
-	Intercept<int> i;
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> sum(1, 3);
+	// Intercept<int> i;
 	if (a < b)
 		return 0;
-	for (i = Intercept<int>(b, 2); i < a; i++)
+	for (state[1] = Intercept<int>(b, 2); state[1] < a; state[1]++)
 	{
-		if (a % i != 0)
+		if (a % state[1] != 0)
 			continue;
 		else
-			sum = sum + f(a / i, i);
+			state[0] = state[0] + f(a / state[1], state[1]);
 	}
-	return sum;
+	return state[0];
 }

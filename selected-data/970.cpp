@@ -12,31 +12,35 @@ using namespace std;
  *      Author: WJ
  */
 
-Intercept<int> sum = Intercept<int>(1, 3);					   //?????1?????
+// Intercept<int> sum = Intercept<int>(1, 3);					   //?????1?????
+
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(-1, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 void f(Intercept<int> b, Intercept<int> a) //??????????????
 {
-	for (Intercept<int> i = Intercept<int>(b, 2); i <= a; i++)
+	for (Intercept<int> state[1] = Intercept<int>(b, 2); state[1] <= a; state[1]++)
 	{ //????????
-		if ((a % i == 0) && (i <= a / i))
+		if ((a % state[1] == 0) && (state[1] <= a / state[1]))
 		{
-			sum = sum + 1; //???1
-			f(i, a / i);   //???????????
+			state[0] = state[0] + 1; //???1
+			f(state[1], a / state[1]);   //???????????
 		}
-		if (i > a / i)
+		if (state[1] > a / state[1])
 			break;
 	}
 }
 int main()
 {
-	Intercept<int> a, n = Intercept<int>(-1, 2);
-	cin >> n;
-	while (n > 0)
+	Intercept<int> a, state[2] = Intercept<int>(-1, 2);
+	cin >> state[2];
+	while (state[2] > 0)
 	{ //??????
 		cin >> a;
-		sum = 1;
+		state[0] = 1;
 		f(2, a);			 //????
-		cout << sum << endl; //????
-		n--;
+		cout << state[0] << endl; //????
+		state[2]--;
 	}
 	return 0;
 }

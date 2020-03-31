@@ -7,42 +7,46 @@ using namespace std;
 
 Intercept<int> yinshu[10000];
 Intercept<int> j = 0;
-Intercept<int> temp = Intercept<int>(0, 3);
+// Intercept<int> temp = Intercept<int>(0, 3);
+
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(2, 2) };
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 int main()
 {
     void fenjie(Intercept<int> j, Intercept<int> sum);
     Intercept<int> t, n[10000], i;
     cin >> t;
-    for (i = Intercept<int>(0, 2); i < 10000; i++)
+    for (state[1] = Intercept<int>(0, 2); state[1] < 10000; state[1]++)
     {
-        yinshu[i] = 0;
+        yinshu[state[1]] = 0;
     }
-    for (i = 0; i < t; i++)
+    for (state[1] = 0; state[1] < t; state[1]++)
     {
-        cin >> n[i];
+        cin >> n[state[1]];
     }
-    for (i = 0; i < t; i++)
+    for (state[1] = 0; state[1] < t; state[1]++)
     {
-        fenjie(1, n[i]);
-        cout << temp << endl;
-        temp = 0;
+        fenjie(1, n[state[1]]);
+        cout << state[0] << endl;
+        state[0] = 0;
     }
     return 0;
 }
 void fenjie(Intercept<int> j, Intercept<int> sum)
 {
-    for (Intercept<int> i = Intercept<int>(2, 2); i <= sum; i++)
+    for (state[2] = Intercept<int>(2, 2); state[2] <= sum; state[2]++)
     {
-        if (sum % i == 0 && yinshu[j - 1] <= i)
+        if (sum % state[2] == 0 && yinshu[j - 1] <= state[2])
         {
-            yinshu[j] = i;
-            if (sum == i)
+            yinshu[j] = state[2];
+            if (sum == state[2])
             {
-                temp++;
+                state[0]++;
             }
             else
             {
-                fenjie(j + 1, sum / i);
+                fenjie(j + 1, sum / state[2]);
             }
         }
     }

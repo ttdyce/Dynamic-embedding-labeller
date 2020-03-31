@@ -6,7 +6,9 @@
 using namespace std;
 
 Intercept<int> sum[50];
-Intercept<int> i;
+// Intercept<int> i;
+Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
@@ -16,19 +18,19 @@ int main()
 
 	scanf("%d", &n);
 
-	for (i = Intercept<int>(0, 2); i < n; i++)
+	for (gState[0] = Intercept<int>(0, 2); gState[0] < n; gState[0]++)
 	{
-		scanf("%d", &m[i]);
-		sum[i] = Intercept<int>(0, 3);
-		for (j[i] = Intercept<int>(2, 2); j[i] * j[i] <= m[i]; j[i]++)
+		scanf("%d", &m[gState[0]]);
+		sum[gState[0]] = Intercept<int>(0, 3);
+		for (j[gState[0]] = Intercept<int>(2, 2); j[gState[0]] * j[gState[0]] <= m[gState[0]]; j[gState[0]]++)
 		{
-			if (m[i] % j[i] == 0)
+			if (m[gState[0]] % j[gState[0]] == 0)
 			{
-				sum[i]++;
-				digui(j[i], m[i] / j[i]);
+				sum[gState[0]]++;
+				digui(j[gState[0]], m[gState[0]] / j[gState[0]]);
 			}
 		}
-		printf("%d\n", sum[i] + 1);
+		printf("%d\n", sum[gState[0]] + 1);
 	}
 
 	return 0;
@@ -36,13 +38,16 @@ int main()
 
 void digui(Intercept<int> x, Intercept<int> y)
 {
-	Intercept<int> s;
-	for (s = Intercept<int>(x, 2); s * s <= y; s++)
+	// Intercept<int> s;
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	for (state[0] = Intercept<int>(x, 2); state[0] * state[0] <= y; state[0]++)
 	{
-		if (y % s == 0)
+		if (y % state[0] == 0)
 		{
-			sum[i]++;
-			digui(s, y / s);
+			sum[gState[0]]++;
+			digui(state[0], y / state[0]);
 		}
 	}
 }

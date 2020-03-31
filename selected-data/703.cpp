@@ -7,36 +7,42 @@ using namespace std;
 
 Intercept<int> f(Intercept<int> x, int y) //???????????????y?????????x????????
 {
-	Intercept<int> i, num(0, 3);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 3), Intercept<int>(x, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> i;
 	Intercept<int> a[100];
-	Intercept<int> sum = 0;
-	for (i = Intercept<int>(x, 2); i <= sqrt(y); i++)
+	// Intercept<int> sum = 0, num(0, 3);
+	for (state[2]; state[2] <= sqrt(y); state[2]++)
 	{
-		if (y % i == 0)
+		if (y % state[2] == 0)
 		{
-			num++;
-			a[num] = 1 + f(i, y / i);
+			state[0]++;
+			a[state[0]] = 1 + f(state[2], y / state[2]);
 		}
 	} //??????
-	for (i = 1; i <= num; i++)
+	for (state[2] = 1; state[2] <= state[0]; state[2]++)
 	{
-		sum = sum + a[i];
+		state[1] = state[1] + a[state[2]];
 	}
-	return sum;
+	return state[1];
 }
 
 int main()
 {
-	Intercept<int> n, x, i, b[100];
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> n, x, b[100]; //i
 	cin >> n; //?????????
-	for (i = Intercept<int>(1, 2); i <= n; i++)
+	for (state[0]; state[0] <= n; state[0]++)
 	{
 		cin >> x;
-		b[i] = x;
+		b[state[0]] = x;
 	}
-	for (i = 1; i <= n; i++)
+	for (state[0] = 1; state[0] <= n; state[0]++)
 	{
-		cout << f(2, b[i]) + 1 << endl;
+		cout << f(2, b[state[0]]) + 1 << endl;
 	} //???????
 
 	return 0;

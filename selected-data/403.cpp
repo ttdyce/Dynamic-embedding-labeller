@@ -8,24 +8,32 @@ using namespace std;
 Intercept<int> divmet(Intercept<int> n, Intercept<int> i);
 int main()
 {
+    int length = 3;
+    Intercept<int> intercepts[length] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(2, 2)};
+    StateIntercept state(intercepts, length);
+
     Intercept<int> n = 0; //?????
     Intercept<int> t = 0; //????
-    Intercept<int> sum(0, 3);   //???????
+    // Intercept<int> sum(0, 3);   //???????
     cin >> t;
-    for (Intercept<int> i(0,2); i < t; i++)
+    for (state[1]; state[1] < t; state[1]++)
     {
-        sum = 0;
+        state[0] = 0;
         cin >> n;
-        for (Intercept<int> j = (2, 2); j <= n; j++)
+        for (state[2]; state[2] <= n; state[2]++)
         {
-            sum = sum + divmet(n, j);
+            state[0] = state[0] + divmet(n, state[2]);
         }
-        cout << sum << endl;
+        cout << state[0] << endl;
     }
     return 0;
 }
 Intercept<int> divmet(Intercept<int> n, Intercept<int> i)
 {
+    int length = 1;
+    Intercept<int> intercepts[length] = {Intercept<int>(2, 2)};
+    StateIntercept state(intercepts, length);
+
     Intercept<int> num = 0;
     if (n % i == 0)
     {
@@ -33,9 +41,9 @@ Intercept<int> divmet(Intercept<int> n, Intercept<int> i)
         {
             return 1;
         }
-        for (Intercept<int> j(2, 2); j <= i; j++)
+        for (state[0]; state[0] <= i; state[0]++)
         {
-            num = num + divmet(n / i, j); //??
+            num = num + divmet(n / i, state[0]); //??
         }
         return num;
     }

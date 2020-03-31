@@ -8,40 +8,46 @@ using namespace std;
 Intercept<int> chu(Intercept<int> i, Intercept<int> n);
 int main()
 {
-	Intercept<int> n, i, j;
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> n, j; //i, 
 	int m;
 	Intercept<int> sum[100];
 	scanf("%d", &n);
-	for (i = Intercept<int>(0, 2); i <= (n - 1); i++)
+	for (state[0] = Intercept<int>(0, 2); state[0] <= (n - 1); state[0]++)
 	{
 		scanf("%d", &m);
-		sum[i] = Intercept<int>(0, 3);
+		sum[state[0]] = Intercept<int>(0, 3);
 		for (j = Intercept<int>(2, 2); j <= sqrt(m); j++)
 		{
 			if (m % j == 0)
 			{
-				sum[i] += chu(j, m / j);
+				sum[state[0]] += chu(j, m / j);
 			}
 		}
 	}
-	for (i = 0; i <= (n - 1); i++)
+	for (state[0] = 0; state[0] <= (n - 1); state[0]++)
 	{
-		printf("%d\n", sum[i] + 1);
+		printf("%d\n", sum[state[0]] + 1);
 	}
 }
 Intercept<int> chu(Intercept<int> i, Intercept<int> n)
 {
-	Intercept<int> j, t;
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(i, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> j; //, t
 	int m;
-	t = Intercept<int>(1, 3);
+	// t = Intercept<int>(1, 3);
 	m = n;
-	for (j = Intercept<int>(i, 2); j <= sqrt(m); j++)
+	for (state[1] = Intercept<int>(i, 2); state[1] <= sqrt(m); state[1]++)
 	{
-		if (m % j == 0)
+		if (m % state[1] == 0)
 		{
 
-			t += chu(j, (m / j));
+			state[0] += chu(state[1], (m / state[1]));
 		}
 	}
-	return t;
+	return state[0];
 }

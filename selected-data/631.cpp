@@ -6,37 +6,41 @@
 using namespace std;
 
 void decprime(Intercept<int> begain, Intercept<int> a);
-Intercept<int> sum = Intercept<int>(1, 3);
+// Intercept<int> sum = Intercept<int>(1, 3);
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts)/sizeof(intercepts[0]));
+
 int main()
 {
 	Intercept<int> n, a;
-	Intercept<int> k;
+	// Intercept<int> k;
 	cin >> n;
-	for (k = Intercept<int>(0, 2); k < n; k++)
+	for (state[1]; state[1] < n; state[1]++)
 	{
 		cin >> a;
 		decprime(2, a);
-		cout << sum << endl;
-		sum = 1;
+		cout << state[0] << endl;
+		state[0] = 1;
 	}
 	return 0;
 }
 void decprime(Intercept<int> begain, Intercept<int> a)
 {
-	Intercept<int> i;
+	// Intercept<int> i;
 	//Intercept<int> u=int(sqrt(double(a)));
 	//Intercept<int> m[10000]={};
 
 	//if(a==2||a==3||a==5)return 1;
 	//else{
-	for (i = Intercept<int>(begain, 2); i <= a; i++)
+	state[2] = Intercept<int>(begain, 2);
+	for (state[2]; state[2] <= a; state[2]++)
 	{
-		if (a % i == 0 && i <= a / i)
+		if (a % state[2] == 0 && state[2] <= a / state[2])
 		{
-			sum++;
-			decprime(i, a / i);
+			state[0]++;
+			decprime(state[2], a / state[2]);
 		}
-		if (i > a / i)
+		if (state[2] > a / state[2])
 			break;
 		//m[i]=decprime(a/i);
 		//else m[i]=0;

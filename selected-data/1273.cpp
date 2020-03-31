@@ -5,33 +5,36 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum(-1, 3);
+// Intercept<int> sum(-1, 3);
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 void zhongshu(Intercept<int> qian, Intercept<int> a);
 int main()
 {
-   Intercept<int> n, i, j, a[100];
+   Intercept<int> n,j, a[100]; // i, 
    cin >> n;
-   for (i = Intercept<int>(0, 2); i < n; i++)
-      cin >> a[i];
-   for (i = 0; i < n; i++)
+   for (state[1] = Intercept<int>(0, 2); state[1] < n; state[1]++)
+      cin >> a[state[1]];
+   for (state[1] = 0; state[1] < n; state[1]++)
    {
-      sum = 0;
-      zhongshu(2, a[i]);
-      cout << sum << endl;
+      state[0] = 0;
+      zhongshu(2, a[state[1]]);
+      cout << state[0] << endl;
    }
    return 0;
 }
 void zhongshu(Intercept<int> qian, Intercept<int> a)
 {
-   Intercept<int> i, j, c;
+   Intercept<int> j, c; //i, 
    if (a == 1)
    {
-      sum = sum + 1;
+      state[0] = state[0] + 1;
       return;
    }
-   for (i = Intercept<int>(qian, 2); i <= a; i++)
+   for (state[2] = Intercept<int>(qian, 2); state[2] <= a; state[2]++)
    {
-      if (a % i == 0)
-         zhongshu(i, a / i);
+      if (a % state[2] == 0)
+         zhongshu(state[2], a / state[2]);
    }
 }

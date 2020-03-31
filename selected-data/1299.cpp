@@ -5,26 +5,29 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum(0, 3), used[32770] = {0}; //????sum???????????used?i???i????????
+Intercept<int> used[32770] = {0}; //????sum???????????used?i???i???????? sum(0, 3),
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 void f(Intercept<int> n)					 //??f??n????????
 {
-	for (Intercept<int> i(2, 2); i <= n; i++)
+	for (state[1] = Intercept<int> (2, 2); state[1] <= n; state[1]++)
 	{
-		if (n % i == 0 && used[i] == 0)
+		if (n % state[1] == 0 && used[state[1]] == 0)
 		{
-			if (i != 2)
+			if (state[1] != 2)
 			{
-				for (Intercept<int> j(2, 2); j <= i - 1; j++)
+				for (Intercept<int> j(2, 2); j <= state[1] - 1; j++)
 					used[j] = 1;
 			}
-			if (n / i == 1) //??????????
+			if (n / state[1] == 1) //??????????
 			{
-				sum++;
+				state[0]++;
 				break;
 			}
 			else
 			{
-				f(n / i);
+				f(n / state[1]);
 			}
 			memset(used, 0, sizeof(used)); //?used???????
 		}
@@ -34,16 +37,16 @@ int main()
 {
 	Intercept<int> m, a[100];
 	cin >> m;
-	for (Intercept<int> i(1, 2); i <= m; i++)
+	for (state[2] = Intercept<int>(1, 2); state[2] <= m; state[2]++)
 	{
-		cin >> a[i];
-		if (a[i] == 1)
+		cin >> a[state[2]];
+		if (a[state[2]] == 1)
 			cout << 1 << endl;
 		else
 		{
-			f(a[i]);
-			cout << sum << endl;
-			sum = 0; //??
+			f(a[state[2]]);
+			cout << state[0] << endl;
+			state[0] = 0; //??
 			memset(used, 0, sizeof(used));
 		}
 	}

@@ -14,19 +14,22 @@ using namespace std;
  * ??1 < a1 <= a2 <= a3 <= ... <= an?????????????????a = a???????
  */
 
-Intercept<int> sum(1, 3); //??????Sum
+// Intercept<int> sum(1, 3); //??????Sum
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 Intercept<int> Fact(int x, Intercept<int> y);
 
 int main()
 {
 	Intercept<int> n, a;
 	cin >> n;
-	for (Intercept<int> i(0, 2); i < n; i++)
+	for (state[1] = Intercept<int>(0, 2); state[1] < n; state[1]++)
 	{
 		cin >> a;
-		sum = 1;	//????sum
+		state[0] = 1;	//????state[0]
 		Fact(a, 2); //????
-		cout << sum << endl;
+		cout << state[0] << endl;
 	}
 	return 0;
 }
@@ -36,10 +39,11 @@ Intercept<int> Fact(int x, Intercept<int> y)
 		return 0; //???1???0
 	else
 	{
-		for (; y <= sqrt(x); y++) //????????
-			if (x % y == 0)
+		state[2] = y;
+		for (; state[2] <= sqrt(x); state[2]++) //????????
+			if (x % state[2] == 0)
 			{
-				sum = sum + Fact(x / y, y); //????????Fact(??y)
+				state[0] = state[0] + Fact(x / state[2], state[2]); //????????Fact(??y)
 			}
 		return 1;
 	}

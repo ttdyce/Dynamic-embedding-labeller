@@ -11,22 +11,29 @@ using namespace std;
  */
 Intercept<int> ans(int a, Intercept<int> i)
 {							//??????
-	Intercept<int> sum(0, 3); //??
-	for (Intercept<int> j(i, 2); j <= sqrt(a); j++)
+
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> sum(0, 3); //??
+	for (state[1] = Intercept<int> (i, 2); state[1] <= sqrt(a); state[1]++)
 	{ //?i???a??
-		if (a % j != 0)
+		if (a % state[1] != 0)
 			continue; //??????
-		sum++;		  //??????1
-		if (a >= j * j)
-			sum += ans(a / j, j); //????????????????????
+		state[0]++;		  //??????1
+		if (a >= state[1] * state[1])
+			state[0] += ans(a / state[1], state[1]); //????????????????????
 	}
-	return sum;
+	return state[0];
 }
 int main()
 {
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	Intercept<int> n, a; //???????
 	cin >> n;
-	for (Intercept<int> i(0, 2); i < n; i++)
+	for (state[0] = Intercept<int> (0, 2); state[0] < n; state[0]++)
 	{
 		cin >> a;
 		cout << ans(a, 2) + 1 << endl;

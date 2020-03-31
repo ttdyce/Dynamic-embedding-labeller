@@ -5,45 +5,48 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum(1, 3);
+// Intercept<int> sum(1, 3);
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 2) };
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 Intercept<int> kk(Intercept<int> a, Intercept<int> b)
 {
-	Intercept<int> i;
-	for (i = Intercept<int>(b, 2); i >= 2; i--)
-		if (a % i == 0)
-			return a / i;
+	// Intercept<int> i;
+	for (state[1] = Intercept<int>(b, 2); state[1] >= 2; state[1]--)
+		if (a % state[1] == 0)
+			return a / state[1];
 	return 0;
 }
 Intercept<int> seperate(Intercept<int> a, Intercept<int> b)
 {
 	Intercept<int> i;
-	for (i = Intercept<int>(b, 2); i >= 2; i--)
+	for (state[2] = Intercept<int>(b, 2); state[2] >= 2; state[2]--)
 	{
-		if (a % i == 0 && (a / i) <= i)
+		if (a % state[2] == 0 && (a / state[2]) <= state[2])
 		{
-			sum++;
-			if ((a / i) == 2)
+			state[0]++;
+			if ((a / state[2]) == 2)
 				continue;
 			else
-				seperate(a / i, a / i - 1);
+				seperate(a / state[2], a / state[2] - 1);
 		}
-		else if ((a % i == 0) && ((kk(a / i, i)) != 0))
+		else if ((a % state[2] == 0) && ((kk(a / state[2], state[2])) != 0))
 		{
-			seperate(a / i, i);
+			seperate(a / state[2], state[2]);
 		}
 	}
-	return sum;
+	return state[0];
 }
 int main()
 {
-	Intercept<int> n, i, m;
+	Intercept<int> n,  m; // i,
 	cin >> n;
 
-	for (i = Intercept<int>(1, 2); i <= n; i++)
+	for (state[3]; state[3] <= n; state[3]++)
 	{
 		cin >> m;
 		cout << seperate(m, m - 1) << endl;
-		sum = 1;
+		state[0] = 1;
 	}
 	return 0;
 }

@@ -5,7 +5,9 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum(0, 3);
+// Intercept<int> sum(0, 3);
+Intercept<int> intercepts[2] = {Intercept<int>(0, 3), Intercept<int> (0, 2)};
+StateIntercept state(intercepts, 2);
 
 void f(int x, Intercept<int> i)
 {
@@ -14,14 +16,14 @@ void f(int x, Intercept<int> i)
 	{
 		if (x % i == 0)
 		{
-			sum++;
+			state[0]++;
 			f(x / i, i);
 		}
 		f(x, i + 1);
 	}
 
 	if (fabs(i - m) < 0.00000001)
-		sum++;
+		state[0]++;
 }
 
 int main()
@@ -29,13 +31,13 @@ int main()
 	Intercept<int> x, i, n;
 	scanf("%d", &n);
 
-	for (i = Intercept<int>(0, 2); i < n; i++)
+	for (state[1]; state[1] < n; state[1]++)
 	{
 		scanf("%d", &x);
-		sum = 0;
+		state[0] = 0;
 		f(x, 2);
 
-		printf("%d\n", sum + 1);
+		printf("%d\n", state[0] + 1);
 	}
 	return 0;
 }

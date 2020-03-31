@@ -5,30 +5,33 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum(0, 3);
+// Intercept<int> sum(0, 3);
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 void divide(Intercept<int> n, Intercept<int> a)
 {
-	for (Intercept<int> i(a, 2); i <= n; i++)
+	for (state[1] = Intercept<int>(a, 2); state[1] <= n; state[1]++)
 	{
-		if ((n % i == 0))
+		if ((n % state[1] == 0))
 		{
-			if (n / i == 1)
-				sum++;
+			if (n / state[1] == 1)
+				state[0]++;
 			else
-				divide(n / i, i);
+				divide(n / state[1], state[1]);
 		}
 	}
 }
 int main()
 {
-	Intercept<int> N = 0, n = 0, i(0, 2);
+	Intercept<int> N = 0, n = 0;// , i(0, 2)
 	cin >> N;
-	for (i = 0; i < N; i++)
+	for (state[2] = 0; state[2] < N; state[2]++)
 	{
 		cin >> n;
 		divide(n, 2);
-		cout << sum << endl;
-		sum = 0;
+		cout << state[0] << endl;
+		state[0] = 0;
 	}
 	return 0;
 }

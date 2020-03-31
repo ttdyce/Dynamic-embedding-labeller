@@ -9,9 +9,13 @@ void fenjie(Intercept<int>, Intercept<int>, Intercept<int>);
 Intercept<int> g_num, g_count;
 int main()
 {
-	Intercept<int> n, i(-1, 2);
+    int length = 1;
+    Intercept<int> intercepts[length] = {Intercept<int>(-1, 2)};
+    StateIntercept state(intercepts, length);
+
+	Intercept<int> n; //, i(-1, 2);
 	cin >> n;
-	for(i = 1; i <= n; i++ )
+	for(state[0] = 1; state[0] <= n; state[0]++ )
 	{
 		g_count = 0;
 		cin >> g_num;
@@ -22,18 +26,22 @@ int main()
 }
 void fenjie(Intercept<int> a, Intercept<int> num, Intercept<int> sum)
 {
-	a = Intercept<int>(a, 2);
-	sum = Intercept<int>(sum, 3);
-	while( a <= g_num )
+    int length = 2;
+    Intercept<int> intercepts[length] = {Intercept<int>(a, 2), Intercept<int>(sum, 3)};
+    StateIntercept state(intercepts, length);
+
+	// a = Intercept<int>(a, 2);
+	// sum = Intercept<int>(sum, 3);
+	while( state[0] <= g_num )
 	{
-		sum *= a;
-		if( sum == g_num )
+		state[1] *= state[0];
+		if( state[1] == g_num )
 			g_count++;
-		if( sum < g_num )
-			fenjie(a, g_num, sum);
-		if( sum > g_num )
+		if( state[1] < g_num )
+			fenjie(state[0], g_num, state[1]);
+		if( state[1] > g_num )
 			return;
-		sum /= a;
-		a++;
+		state[1] /= state[0];
+		state[0]++;
 	}
 }
