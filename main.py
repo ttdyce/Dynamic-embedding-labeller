@@ -2,6 +2,7 @@ import os
 from os.path import isfile, join
 import numpy as np
 import random
+import json
 
 # config
 debug = True
@@ -72,30 +73,6 @@ def saveToFile():
     print("New dataset length:", lengths.__len__())
     
     pass
-
-def readTraceArr(traceTextFile):
-    """Handle multiple traces in one file, return trace text array"""
-    content = traceTextFile.read()
-    tracesRaw = [i.split(" -> ") for i in content.splitlines()]
-    tracesDone = []
-    newTrace = []
-    b = -999
-    for t in tracesRaw:# black magic
-        if(t[0] == '-1'): 
-            if(newTrace.__len__() != 0):
-                tracesDone.append(newTrace)
-            newTrace = []
-            newTrace.append(t[0])
-            newTrace.append(t[1])
-        elif(t[0] != b):
-            newTrace.append(t[0])
-            newTrace.append(t[1])
-        else: 
-            newTrace.append(t[1])
-        b = t[1]
-    tracesDone.append(newTrace)
-    
-    return tracesDone
     
 
 def printTraceText(fileName, traceArr, labelCount):
@@ -108,67 +85,30 @@ def printTraceText(fileName, traceArr, labelCount):
     print(' -> '.join(traceArr), "------", sep="\n")
     print("('1': Fixed value, '2': Stepper, '3': Gatherer, '': noise, 'q': save & quit)")
 
-def label(traceArr, userInput): 
-    """Process the text, return x: variable trace (in an array), and y: label id"""
-    #replace '-1' to '999' for input format
-    if (traceArr[0] == '-1'):
-        traceArr[0] = 999
-    else:
-        traceArr.insert(0, 999)
-    
-    #replace '' to '0' for input format
-    if (userInput == ''):
-        userInput = '0'
-    
-    x, y = [int(i) for i in traceArr], int(userInput)
-    traces.append(x)
-    labels.append(y)
-
-def main():
-    """Pack the program into main() so that I can use 'return' to quit"""
-    global preLabelCount
-    
-    validLabels = ['', '1', '2', '3', 'q']
-    badLabelError = 'Unvalid label! Please try again'
-    traceTextFileNames = [f for f in os.listdir(dir) if isfile(join(dir, f))]
-    random.shuffle(traceTextFileNames)
-    labelCount = preLabelCount
-    
-    for traceTextFileName in traceTextFileNames: 
-        textFilePath = join(dir, traceTextFileName)
-        with open(textFilePath, "r") as txtFile: 
-            traceTextArr = readTraceArr(txtFile)
-        
-        #Label all traces in a file
-        for traceArr in traceTextArr: 
-            if (traceArr.__len__() == 2): 
-                autoLabel(traceArr)
-                continue
-            
-            # basic UI
-            labelCount += 1
-            printTraceText(traceTextFileName, traceArr, labelCount)
-            
-            # handling input
-            userInput = input()
-            #1 wrong input
-            while(userInput not in validLabels): 
-                printTraceText(traceTextFileName, traceArr, labelCount)
-                print(badLabelError)
-                userInput = input()
-            #2 cmd 'q', save and quit
-            if(userInput.lower() == 'q'):
-                saveToFile()
-                return
-            #done handling input
+def label(stateTraces, stateLabels): 
+    """Process the text into traces:global and labels:global"""
+    #replace '-1' to '0' for input format
+    if(stateTraces.__len__() > 0):
+        for stateTrace in stateTraces:
+            for i in range(stateTrace.__len__()): 
+                item = stateTrace[i]
+                if (item == '-1'):
+                    stateTrace[i] = 0
+                    # print(item)
                 
-            #userInput: label id
-            label(traceArr, userInput)
+                
+    # split multiple trace & label to 1 tuple & array item
+    if(np.array(stateTraces).shape.__len__() > 1): 
+        x, y = np.transpose(stateTraces), [i for i in stateLabels]
+        traces.extend(x)
+        labels.extend(y)
+        # print("stateTraces len: ", np.array(stateTraces).shape)
+        # print(np.array(stateTraces).shape.__len__())
+    
+    print("\n")
+    
         
-        #Finished a file, move it out
-        os.rename(textFilePath, join(dirDone, traceTextFileName))
-        
-def main2():
+def toStateTrace():
     """Pack the program into main() so that I can use 'return' to quit"""
     global preLabelCount
     
@@ -178,27 +118,33 @@ def main2():
     
     for traceTextFileName in traceTextFileNames: 
         textFilePath = join(dir, traceTextFileName)
-        baseName = traceTextFileName.replace('.txt', '').replace('log-', '')
+        baseName = traceTextFileName.replace('.json', '').replace('logState-', '')
         traceText = baseName.split('-')
         # [0]: program name (*.exe), [1]: roles of variable, [2]: variable address
-        if(len(traceText) != 3): 
+        if(len(traceText) != 2): 
             continue
         
         exeName = traceText[0]
-        rolesOfVariableId = traceText[1]
-        variableAddress = traceText[2]
-        print(exeName, rolesOfVariableId, variableAddress)
-        
+        stateId = traceText[1]
+        print(exeName, stateId)
+    
         with open(textFilePath, "r") as txtFile: 
-            traceTextArr = readTraceArr(txtFile)
-        
-        #Label all traces in a file
-        for traceArr in traceTextArr: 
-            print(traceArr.__len__(), 'roles =', rolesOfVariableId)
-            if (traceArr.__len__() == 2 and rolesOfVariableId != '1'): 
-                continue
+            jsonText = txtFile.read()
+            stateJson = json.loads(jsonText)
+            # print(stateJson['labels'])
+            # print(stateJson['stateTraces'])
+            label(stateJson['stateTraces'], stateJson['labels'])
+            # Label traces
+            for trace in stateJson['stateTraces']: 
+                pass
             
-            label(traceArr, rolesOfVariableId)
+        #Label all traces in a file
+        # for traceArr in traceTextArr: 
+        #     print(traceArr.__len__(), 'roles =', rolesOfVariableId)
+        #     if (traceArr.__len__() == 2 and rolesOfVariableId != '1'): 
+        #         continue
+            
+        #     label(traceArr, rolesOfVariableId)
             
         
         #Finished a file, move it out
@@ -209,12 +155,14 @@ def main2():
 
 if __name__ == '__main__':
     init()
-    main2()
+    toStateTrace()
     
     if(debug == True): 
-        print("traces:", traces)
+        print("traces 0:", traces[0])
+        print("traces 1:", traces[1])
         print("labels:", labels)
         print("")
-        print("Old dataset length:", preLabelCount)
-        print("New dataset length:", traces.__len__())
+        print("Old labels length:", preLabelCount)
+        print("New labels length:", labels.__len__())
+        print("New traces length:", traces.__len__())
     
