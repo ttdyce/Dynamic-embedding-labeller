@@ -14,9 +14,12 @@ using namespace std;
 Intercept<int> decompose(int x, Intercept<int> y);
 int main()
 {
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	Intercept<int> n, m;
 	cin >> n;
-	for (Intercept<int> j(1, 2); j <= n; j++)
+	for (state[0] = Intercept<int>(1, 2); state[0] <= n; state[0]++)
 	{
 		cin >> m;
 		cout << decompose(m, 2) << endl;
@@ -25,16 +28,19 @@ int main()
 }
 Intercept<int> decompose(int x, Intercept<int> y)
 {
-	Intercept<int> sum(1, 3), b;
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> b; // sum(1, 3),
 	b = (int)sqrt(x);
 	if (x == 1)
 		return 0;
-	for (Intercept<int> i(y, 2); i <= b; i++)
+	for (state[1] = Intercept<int>(y, 2); state[1] <= b; state[1]++)
 	{
-		if (x % i == 0)
+		if (x % state[1] == 0)
 		{
-			sum = sum + decompose(x / i, i);
+			state[0] = state[0] + decompose(x / state[1], state[1]);
 		}
 	}
-	return sum;
+	return state[0];
 }

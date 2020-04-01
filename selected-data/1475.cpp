@@ -14,22 +14,29 @@ Intercept<int> fengjie(int a, Intercept<int> b)
 {
 	if (a == 2 || a == 3)
 		return 1;
-	Intercept<int> sum(1, 3);
+
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> sum(1, 3);
 	Intercept<int> c = sqrt(a);
-	for (Intercept<int> i(b, 2); i <= c; i++)
+	for (state[1] = Intercept<int>(b, 2); state[1] <= c; state[1]++)
 	{
-		if (a % i == 0)
+		if (a % state[1] == 0)
 		{
-			sum = sum + fengjie(a / i, i);
+			state[0] = state[0] + fengjie(a / state[1], state[1]);
 		}
 	}
-	return sum;
+	return state[0];
 }
 int main()
 {
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	Intercept<int> n, a;
 	cin >> n;
-	for (Intercept<int> i(1, 2); i <= n; i++)
+	for (state[0] = Intercept<int>(1, 2); state[0] <= n; state[0]++)
 	{
 		cin >> a;
 		cout << fengjie(a, 2) << endl;

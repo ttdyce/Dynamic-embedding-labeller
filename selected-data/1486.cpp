@@ -15,26 +15,32 @@ using namespace std;
 Intercept<int> tmp = 2;
 Intercept<int> suml(Intercept<int> n, Intercept<int> tmp) //??????
 {
-	Intercept<int> sum(0, 3);
+	// Intercept<int> sum(0, 3);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	if (n == 1)
 	{
 		return 1;
 	}
-	for (Intercept<int> i(tmp, 2); i <= n; i++)
+	for (state[1] = Intercept<int>(tmp, 2); state[1] <= n; state[1]++)
 	{
-		if (n % i == 0)
+		if (n % state[1] == 0)
 		{
-			sum += suml(n / i, i);
+			state[0] += suml(n / state[1], state[1]);
 		}
 	}
-	return sum;
+	return state[0];
 }
 int main()
 {
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	Intercept<int> m;
 	cin >> m;
 	Intercept<int> n;
-	for (Intercept<int> i(0, 2); i < m; i++)
+	for (state[0] = Intercept<int>(0, 2); state[0] < m; state[0]++)
 	{
 		cin >> n;
 		Intercept<int> zon_shu = 0;
