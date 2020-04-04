@@ -8,11 +8,14 @@ using namespace std;
 Intercept<int> dp[40000][200] = {0};
 int main()
 {
-    Intercept<int> n, i, N;
+    Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+    Intercept<int> n, N; //i, 
     Intercept<int> mm(int, Intercept<int>);
 
     cin >> n;
-    for (i = Intercept<int>(1, 2); i <= n; i++)
+    for (state[0] = Intercept<int>(1, 2); state[0] <= n; state[0]++)
     {
         cin >> N;
         cout << mm(N, 2) << endl;
@@ -24,18 +27,21 @@ int main()
 
 Intercept<int> mm(int n, Intercept<int> i)
 {
-    Intercept<int> sum = Intercept<int>(1, 3);
+    Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+    // Intercept<int> sum = Intercept<int>(1, 3);
 
     if (dp[n][i] > 0)
         return dp[n][i];
 
-    for (Intercept<int> j = Intercept<int>(i, 2); j <= sqrt(n); j++)
+    for (state[1] = Intercept<int>(i, 2); state[1] <= sqrt(n); state[1]++)
     {
-        if (n % j == 0)
+        if (n % state[1] == 0)
         {
-            sum += mm(n / j, j);
+            state[0] += mm(n / state[1], state[1]);
         }
     }
-    dp[n][i] = sum;
-    return sum;
+    dp[n][i] = state[0];
+    return state[0];
 }

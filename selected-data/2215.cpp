@@ -7,24 +7,30 @@ using namespace std;
 
 Intercept<int> f(int t)
 {
+  Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+  StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
   double v = sqrt(t) + 1;
-  for (Intercept<int> i = Intercept<int>(2, 2); i < v; i++)
-    if (t % i == 0)
+  for (state[0] = Intercept<int>(2, 2); state[0] < v; state[0]++)
+    if (t % state[0] == 0)
       return 0;
   return 1;
 }
-Intercept<int> sum = Intercept<int>(0, 3);
+// Intercept<int> sum = Intercept<int>(0, 3);
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3)};
+StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 void fun(Intercept<int> n, Intercept<int> i)
 {
-  i = Intercept<int>(i, 2);
+  gState[1] = Intercept<int>(i, 2);
 
   if (n == 1)
-    sum++;
-  while (i <= n)
+    gState[0]++;
+  while (gState[1] <= n)
   {
-    if (n % i == 0)
-      fun(n / i, i);
-    i++;
+    if (n % gState[1] == 0)
+      fun(n / gState[1], gState[1]);
+    gState[1]++;
   }
   return;
 }
@@ -32,7 +38,7 @@ int main()
 {
   Intercept<int> n;
   scanf("%d", &n);
-  for (Intercept<int> i = Intercept<int>(0, 2); i < n; i++)
+  for (state[2] = Intercept<int>(0, 2); state[2] < n; state[2]++)
   {
     Intercept<int> a;
     scanf("%d", &a);
@@ -41,18 +47,18 @@ int main()
       printf("1\n");
       continue;
     }
-    i = Intercept<int>(2, 2);
-    Intercept<int> K = Intercept<int>(1, 3);
-    while (i <= a / 2)
+    state[2] = Intercept<int>(2, 2);
+    gState[3] = Intercept<int>(1, 3);
+    while (state[2] <= a / 2)
     {
-      if (a % i == 0)
+      if (a % state[2] == 0)
       {
-        sum = 0;
-        fun(a / i, i);
-        K += sum;
+        gState[0] = 0;
+        fun(a / state[2], state[2]);
+        gState[3] += gState[0];
       }
-      i++;
+      state[2]++;
     }
-    printf("%d\n", K);
+    printf("%d\n", gState[3]);
   }
 }
