@@ -7,22 +7,28 @@ using namespace std;
 
 Intercept<int> ispr(Intercept<int> t)
 {
+    Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
     Intercept<int> v = (int)sqrt(t * 1.0) + 1;
-    for (Intercept<int> i = Intercept<int>(2, 2); i < v; i++)
-        if (t % i == 0)
+    for (state[0] = Intercept<int>(2, 2); state[0] < v; state[0]++)
+        if (t % state[0] == 0)
             return 0;
     return 1;
 }
 
-Intercept<int> sum(-1, 3);
+// Intercept<int> sum(-1, 3);
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(0, 2)};
+StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 void fun(Intercept<int> n, Intercept<int> i)
 {
     if (n == 1)
-        sum++;
-    for (i = Intercept<int>(i, 2); i <= n; i++)
+        gState[0]++;
+    for (gState[1] = Intercept<int>(i, 2); gState[1] <= n; gState[1]++)
     {
-        if (n % i == 0)
-            fun(n / i, i);
+        if (n % gState[1] == 0)
+            fun(n / gState[1], gState[1]);
     }
     return;
 }
@@ -31,7 +37,7 @@ int main()
 {
     Intercept<int> n;
     scanf("%d", &n);
-    for (Intercept<int> j(0, 2); j < n; j++)
+    for (gState[2]; gState[2] < n; gState[2]++)
     {
         Intercept<int> a;
         scanf("%d", &a);
@@ -41,17 +47,17 @@ int main()
             continue;
         }
 
-        Intercept<int> res(1, 3);
-        for (Intercept<int> i = Intercept<int>(2, 2); i <= a / 2; i++)
+        // Intercept<int> res(1, 3);
+        for (gState[4] = Intercept<int>(2, 2); gState[4] <= a / 2; gState[4]++)
         {
-            if (a % i == 0)
+            if (a % gState[4] == 0)
             {
-                sum = 0;
-                fun(a / i, i);
-                res = res + sum;
+                gState[0] = 0;
+                fun(a / gState[4], gState[4]);
+                gState[3] = gState[3] + gState[0];
             }
         }
-        printf("%d\n", res);
+        printf("%d\n", gState[3]);
     }
 
     return 0;

@@ -7,37 +7,44 @@ using namespace std;
 
 Intercept<int> f(Intercept<int> num, Intercept<int> i)
 {
-	Intercept<int> sum;
-	sum = Intercept<int>(0, 3);
-	Intercept<int> j;
-	for (j = Intercept<int>(i, 2); j <= num / 2; j++)
+
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> sum;
+	// sum = Intercept<int>(0, 3);
+	// Intercept<int> j;
+	for (state[1] = Intercept<int>(i, 2); state[1] <= num / 2; state[1]++)
 	{
-		if (num % j == 0)
+		if (num % state[1] == 0)
 		{
-			if (num / j < j)
+			if (num / state[1] < state[1])
 			{
-				sum = sum;
+				state[0] = state[0];
 			}
 			else
 			{
-				sum = 1 + sum + f(num / j, j);
+				state[0] = 1 + state[0] + f(num / state[1], state[1]);
 			}
 		}
 	}
-	return sum;
+	return state[0];
 }
 int main()
 {
-	Intercept<int> n, num, i;
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 3)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> n, num;//, i;
 	scanf("%d", &n);
-	for (i = Intercept<int>(1, 2); i <= n; i++)
+	for (state[0] = Intercept<int>(1, 2); state[0] <= n; state[0]++)
 	{
 		scanf("%d", &num);
-		Intercept<int> j, sum(-1, 3);
-		sum = 0;
+		Intercept<int> j, state[1] = Intercept<int>(-1, 3);
+		state[1] = 0;
 		j = 2;
-		sum += f(num, j);
-		printf("%d\n", sum + 1);
+		state[1] += f(num, j);
+		printf("%d\n", state[1] + 1);
 	}
 	return 0;
 }

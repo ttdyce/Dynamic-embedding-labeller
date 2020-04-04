@@ -5,39 +5,42 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum = Intercept<int>(1, 3);
+// Intercept<int> sum = Intercept<int>(1, 3);
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 void f(Intercept<int> i, Intercept<int> j)
 {
-	Intercept<int> k;
+	// Intercept<int> k;
 	if (i == 1)
-		sum++;
+		state[0]++;
 	else
 	{
-		for (k = Intercept<int>(j, 2); k <= i; k++)
+		for (state[1] = Intercept<int>(j, 2); state[1] <= i; state[1]++)
 		{
-			if (i % k == 0)
-				f(i / k, k);
+			if (i % state[1] == 0)
+				f(i / state[1], state[1]);
 		}
 	}
 }
 int main(void)
 {
 	Intercept<int> i, j, k;
-	Intercept<int> n(-1, 2);
+	state[2] = Intercept<int>(-1, 2);
 	Intercept<int> a;
-	scanf("%d", &n);
-	while (n--)
+	scanf("%d", &state[2]);
+	while (state[2]--)
 	{
-		sum = 1;
+		state[0] = 1;
 		scanf("%d", &a);
-		for (i = Intercept<int>(2, 2); i * i <= a; i++)
+		for (state[3] = Intercept<int>(2, 2); state[3] * state[3] <= a; state[3]++)
 		{
-			if (a % i == 0)
+			if (a % state[3] == 0)
 			{
-				f(a / i, i);
+				f(a / state[3], state[3]);
 			}
 		}
-		printf("%d\n", sum);
+		printf("%d\n", state[0]);
 	}
 	return 0;
 }

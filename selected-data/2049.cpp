@@ -7,21 +7,27 @@ using namespace std;
 
 Intercept<int> f(int n, Intercept<int> i)
 {
-    Intercept<int> sum(0, 3);
-    for (i = Intercept<int>(i, 2); i <= (int)sqrt(n); i++)
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+    // Intercept<int> sum(0, 3);
+    for (state[1] = Intercept<int>(i, 2); state[1] <= (int)sqrt(n); state[1]++)
     {
-        if (n % i == 0)
+        if (n % state[1] == 0)
         {
-            sum += f(n / i, i);
+            state[0] += f(n / state[1], state[1]);
         }
     }
-    return sum + 1;
+    return state[0] + 1;
 }
 main()
 {
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+    
     Intercept<int> i0, n0;
     scanf("%d", &n0);
-    for (i0 = Intercept<int>(0, 2); i0 < n0; i0++)
+    for (state[0] = Intercept<int>(0, 2); state[0] < n0; state[0]++)
     {
         Intercept<int> n;
         scanf("%d", &n);
