@@ -8,6 +8,7 @@ import json
 debug = True
 isContinue = False
 preLabelCount = 0
+exeNames = []
 dir = "out-datasetText/"
 dirDone = dir + "labeled/"
 dirOut = "out-dataset/"
@@ -38,35 +39,34 @@ def init():
             isContinue = True
         print("Received", inputText, "continue =", isContinue)
 
-def autoLabel(traceArr):
-    """Label traces with no value changes (Fix-value)"""
-    label(traceArr, 1)
+# def autoLabel(traceArr):
+#     """Label traces with no value changes (Fix-value)"""
+#     label(traceArr, 1)
 
 def saveToFile():
     """Save traces and labels to a folder (out-dataset/dataset.npz)"""
-    global isContinue, preLabelCount, traces, labels
+    global isContinue, preLabelCount, traces, labels, exeNames
     
     lengths = [len(i) for i in traces]
     print("Saving...")
-    if(isContinue):
-        with np.load(dirOut + 'dataset.npz', allow_pickle=True) as dataset: 
-            tracesOld = dataset['traces'].tolist()
-            lengthsOld = dataset['lengths'].tolist()
-            labelsOld = dataset['labels'].tolist()
+    # if(isContinue):
+    #     with np.load(dirOut + 'dataset.npz', allow_pickle=True) as dataset: 
+    #         tracesOld = dataset['traces'].tolist()
+    #         lengthsOld = dataset['lengths'].tolist()
+    #         labelsOld = dataset['labels'].tolist()
         
-        tracesOld.extend(traces)
-        lengthsOld.extend(lengths)
-        labelsOld.extend(labels)
-        traces = tracesOld
-        lengths = lengthsOld
-        labels = labelsOld
-        
-        
+        # tracesOld.extend(traces)
+        # lengthsOld.extend(lengths)
+        # labelsOld.extend(labels)
+        # traces = tracesOld
+        # lengths = lengthsOld
+        # labels = labelsOld
         
     np.savez(dirOut + 'dataset.npz'
             , traces=traces
             , lengths=lengths
-            , labels=labels)
+            , labels=labels
+            , exeNames=exeNames)
     
     print("File saved to ", dirOut, "dataset.npz", sep='')
     print("Old dataset length:", preLabelCount)
@@ -85,8 +85,9 @@ def printTraceText(fileName, traceArr, labelCount):
     print(' -> '.join(traceArr), "------", sep="\n")
     print("('1': Fixed value, '2': Stepper, '3': Gatherer, '': noise, 'q': save & quit)")
 
-def label(stateTraces, stateLabels): 
+def label(stateTraces, stateLabels, exeName): 
     """Process the text into traces:global and labels:global"""
+    global exeNames
     #replace '-1' to '0' for input format
     if(stateTraces.__len__() > 0):
         for stateTrace in stateTraces:
@@ -99,9 +100,11 @@ def label(stateTraces, stateLabels):
                 
     # split multiple trace & label to 1 tuple & array item
     if(np.array(stateTraces).shape.__len__() > 1): 
-        x, y = np.transpose(stateTraces), [i for i in stateLabels]
-        traces.extend(x)
+        x, y = stateTraces, [i for i in stateLabels]
+        # x, y = np.transpose(stateTraces), [i for i in stateLabels]
+        traces.append(x)
         labels.extend(y)
+        exeNames.append(exeName)
         # print("stateTraces len: ", np.array(stateTraces).shape)
         # print(np.array(stateTraces).shape.__len__())
     
@@ -133,7 +136,7 @@ def toStateTrace():
             stateJson = json.loads(jsonText)
             # print(stateJson['labels'])
             # print(stateJson['stateTraces'])
-            label(stateJson['stateTraces'], stateJson['labels'])
+            label(stateJson['stateTraces'], stateJson['labels'], exeName)
             # Label traces
             for trace in stateJson['stateTraces']: 
                 pass
@@ -165,4 +168,5 @@ if __name__ == '__main__':
         print("Old labels length:", preLabelCount)
         print("New labels length:", labels.__len__())
         print("New traces length:", traces.__len__())
+        print("exeNames: ", exeNames.__len__())
     
