@@ -8,14 +8,14 @@ from tensorflow.keras import layers
 from sklearn.model_selection import train_test_split
 from DatasetLoader import DatasetLoader as loader
 
-batch_size_fit = 20
+batch_size_fit = 5
 # Each MNIST image batch is a tensor of shape (batch_size, 28, 28).
 # Each input sequence will be of size (28, 28) (height is treated like time).
-input_dim = 5355, 4
+input_dim = 5355
 
 units = 50
 output_size = 3  # labels are from 0 to 3
-epochs = 20
+epochs = 50
 
 # Build the RNN model
 def build_model(allow_cudnn_kernel=True):
@@ -24,7 +24,7 @@ def build_model(allow_cudnn_kernel=True):
     # while RNN(LSTMCell(units)) will run on non-CuDNN kernel.
     if allow_cudnn_kernel:
         # The LSTM layer with default options uses CuDNN.
-        gru_layer = tf.keras.layers.GRU(units, input_shape=(None, 4))
+        gru_layer = tf.keras.layers.GRU(units, input_shape=(None, input_dim))
     else:
         # Wrapping a LSTMCell in a RNN layer will not use CuDNN.
         gru_layer = tf.keras.layers.GRU(
@@ -39,14 +39,7 @@ def build_model(allow_cudnn_kernel=True):
     )
     return model
 
-
-mnist = tf.keras.datasets.boston_housing
-
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-# x_train, x_test = x_train / 255.0, x_test / 255.0
-sample, sample_label = x_train[0], y_train[0]
-
-x, y, lens, lenMax, names = loader().loadDefault()
+x, y, lens, lenMax = loader().loadDefault()
 
 model = build_model(allow_cudnn_kernel=True)
 
@@ -56,8 +49,12 @@ model.compile(
     metrics=["accuracy"],
 )
 
-print(x.shape)
-print(y.shape)
+x = x.reshape(100, 1, 5355)
+# print(x.shape)
+# print(y.shape)
+
+# print(x[0])
+# print(y[0])
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 model.fit(

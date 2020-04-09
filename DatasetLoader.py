@@ -1,7 +1,7 @@
 import numpy as np
 # from sklearn.preprocessing import LabelEncoder
 # from sklearn.preprocessing import OneHotEncoder
-from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 
 
@@ -15,29 +15,38 @@ class DatasetLoader:
             traces = dataset["traces"]
             lengths = dataset["lengths"]
             labels = dataset["labels"]
-            exeNames = dataset["exeNames"]
+            # exeNames = dataset["exeNames"]
             
-        return traces, labels, lengths, exeNames
+        return traces, labels, lengths #, exeNames
 
     def load(self, datasetPath):
         
-        traces, labels, lengths, exeNames = self.loadRaw(datasetPath)
+        traces, labels, lengths = self.loadRaw(datasetPath)
 
-        stateLengths = [t[0].__len__() for t in traces]
-        traces, lengthsMax = self.padZeroTraces(traces)
+        # stateLengths = [t[0].__len__() for t in traces]
+        # traces, lengthsMax = self.padZeroTraces(traces)
+        traces, lengthsMax = self.padZero(traces, lengths)
         
-        traces = np.array([t for t in traces])
         
-        labels = self.compress(labels, stateLengths)
+        # labels = self.compress(labels, stateLengths)
         labels = self.oneHot(labels)
         lengthMax = np.array(lengths).max()
-        # print(traces.flatten())
-        print(traces.shape)
+        
+        print("traces", np.array([t for t in traces]).shape)
+        print("labels", labels[:3])
         
         # x_train, x_test, y_train, y_test = train_test_split(traces, labels, test_size=0.2)
 
-        return traces, labels, lengths, lengthMax, exeNames
+        return np.array([t for t in traces]), labels, lengths, lengthMax #, exeNames
 
+    def padZero(self, traces, lengths):
+        out = traces
+        lenMax = lengths.max()
+        for i in range(traces.__len__()): 
+            out[i] = np.pad(traces[i], (0, lenMax - lengths[i]))
+            
+        return out, lenMax
+        
     def padZeroTraces(self, data):
         # Get lengths of each row of data
         lens = [i.__len__() for i in data]
@@ -57,15 +66,6 @@ class DatasetLoader:
             trace = out[i]
             # print(np.array(trace).shape)
             out[i] = np.pad(trace, ((0, lensMax - lens[i]), (0, 0)), constant_values=0)
-            
-        # vectorize
-        # for i in range(out.__len__()):
-        #     trace = out[i]
-        #     arr = []
-        #     for traceItem in trace:
-        #         arr.append([traceItem])
-            
-        #     out[i] = arr
         
         return out, lensMax
 
@@ -86,7 +86,7 @@ class DatasetLoader:
         
     # ref: https://chrisalbon.com/machine_learning/preprocessing_structured_data/one-hot_encode_features_with_multiple_labels/
     def oneHot(self, labels): 
-        one_hot = MultiLabelBinarizer()
+        one_hot = LabelBinarizer()
         return one_hot.fit_transform(labels)
         
             # values = np.array(labels)

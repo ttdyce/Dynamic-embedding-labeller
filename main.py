@@ -100,9 +100,9 @@ def label(stateTraces, stateLabels, exeName):
                 
     # split multiple trace & label to 1 tuple & array item
     if(np.array(stateTraces).shape.__len__() > 1): 
-        x, y = stateTraces, [i for i in stateLabels]
-        # x, y = np.transpose(stateTraces), [i for i in stateLabels]
-        traces.append(x)
+        # x, y = stateTraces, [i for i in stateLabels]
+        x, y = np.transpose(stateTraces), [i for i in stateLabels]
+        traces.extend(x)
         labels.extend(y)
         exeNames.append(exeName)
         # print("stateTraces len: ", np.array(stateTraces).shape)
