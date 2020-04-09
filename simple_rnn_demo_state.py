@@ -5,15 +5,17 @@ import numpy as np
 import tensorflow as tf
 
 from tensorflow.keras import layers
+from sklearn.model_selection import train_test_split
 from DatasetLoader import DatasetLoader as loader
 
-batch_size = 4
+batch_size_fit = 20
 # Each MNIST image batch is a tensor of shape (batch_size, 28, 28).
 # Each input sequence will be of size (28, 28) (height is treated like time).
 input_dim = 5355, 4
 
-units = 64
-output_size = 4  # labels are from 0 to 4 (include only 3)
+units = 50
+output_size = 3  # labels are from 0 to 3
+epochs = 20
 
 # Build the RNN model
 def build_model(allow_cudnn_kernel=True):
@@ -22,15 +24,15 @@ def build_model(allow_cudnn_kernel=True):
     # while RNN(LSTMCell(units)) will run on non-CuDNN kernel.
     if allow_cudnn_kernel:
         # The LSTM layer with default options uses CuDNN.
-        lstm_layer = tf.keras.layers.LSTM(units, input_shape=(None, 4))
+        gru_layer = tf.keras.layers.GRU(units, input_shape=(None, 4))
     else:
         # Wrapping a LSTMCell in a RNN layer will not use CuDNN.
-        lstm_layer = tf.keras.layers.RNN(
+        gru_layer = tf.keras.layers.GRU(
             tf.keras.layers.LSTMCell(units), input_shape=(None, input_dim)
         )
     model = tf.keras.models.Sequential(
         [
-            lstm_layer,
+            gru_layer,
             tf.keras.layers.BatchNormalization(),
             tf.keras.layers.Dense(output_size),
         ]
@@ -49,12 +51,16 @@ x, y, lens, lenMax, names = loader().loadDefault()
 model = build_model(allow_cudnn_kernel=True)
 
 model.compile(
-    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    loss='categorical_crossentropy',
     optimizer="sgd",
     metrics=["accuracy"],
 )
 
+print(x.shape)
+print(y.shape)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+
 model.fit(
-    x, y[:52], validation_data=(x, y[:52]), batch_size=batch_size, epochs=5
+    x_train, y_train, validation_data=(x_test, y_test), batch_size=batch_size_fit, epochs=epochs
 )
 

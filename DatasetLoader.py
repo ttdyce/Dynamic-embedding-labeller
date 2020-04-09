@@ -1,52 +1,39 @@
 import numpy as np
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import OneHotEncoder
+# from sklearn.preprocessing import LabelEncoder
+# from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
 
 
 class DatasetLoader:
-    def loadRaw(self): 
-        datasetPath = "out-dataset/dataset.npz"
-        with np.load(datasetPath, allow_pickle=True) as dataset:
-            traces = dataset["traces"]
-            lengths = dataset["lengths"]
-            labels = dataset["labels"]
-            
-        return traces, labels, lengths
-    
     def loadDefault(self):
         return self.load("out-dataset/dataset.npz")
-
-    def load(self, datasetPath):
+    
+    def loadRaw(self, datasetPath): 
+        datasetPath = datasetPath
         with np.load(datasetPath, allow_pickle=True) as dataset:
             traces = dataset["traces"]
             lengths = dataset["lengths"]
             labels = dataset["labels"]
             exeNames = dataset["exeNames"]
-        
-        # print(np.array(traces[:2]))
-        # print(traces[0].tolist())
-        # print(traces[1].tolist())
+            
+        return traces, labels, lengths, exeNames
 
-        print(traces.dtype)
+    def load(self, datasetPath):
+        
+        traces, labels, lengths, exeNames = self.loadRaw(datasetPath)
+
+        stateLengths = [t[0].__len__() for t in traces]
         traces, lengthsMax = self.padZeroTraces(traces)
         
         traces = np.array([t for t in traces])
         
-        # labels = self.oneHot(labels)
+        labels = self.compress(labels, stateLengths)
+        labels = self.oneHot(labels)
         lengthMax = np.array(lengths).max()
         # print(traces.flatten())
         print(traces.shape)
-        # print("\n\n")
-        # print([t.shape for t in traces[0]])
-        # print("\n\n")
-        # print([t.shape for t in traces[0][0]])
-        # print("\n\n")
-        # print([np.array(i[0]).shape for i in traces])
-        # print(np.array(traces[0]).shape)
-        # print(np.array(traces[1]).shape)
-        # print(np.array(traces[2]).shape)
-        # print(np.array(traces[3][0]).tolist())
+        
         # x_train, x_test, y_train, y_test = train_test_split(traces, labels, test_size=0.2)
 
         return traces, labels, lengths, lengthMax, exeNames
@@ -82,17 +69,36 @@ class DatasetLoader:
         
         return out, lensMax
 
-    # ref: https://machinelearningmastery.com/how-to-one-hot-encode-sequence-data-in-python/
-    def oneHot(self, labels): 
-            values = np.array(labels)
-            # integer encode
-            label_encoder = LabelEncoder()
-            integer_encoded = label_encoder.fit_transform(values)
-            # binary encode
-            onehot_encoder = OneHotEncoder(sparse=False)
-            integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
-            onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
+    def compress(self, labels, stateLengths): 
+        # unique, counts = np.unique(names, return_counts=True) # ? Sometimes the order is wrong
+        count = 0
+        compressedLabels = []
+        for i in stateLengths: 
+            cLabel = []
             
-            return onehot_encoded
+            for k in range(i): 
+                cLabel.append(labels[count])
+                count += 1
+                
+            compressedLabels.append(cLabel)
+        
+        return compressedLabels
+        
+    # ref: https://chrisalbon.com/machine_learning/preprocessing_structured_data/one-hot_encode_features_with_multiple_labels/
+    def oneHot(self, labels): 
+        one_hot = MultiLabelBinarizer()
+        return one_hot.fit_transform(labels)
+        
+            # values = np.array(labels)
+            # # integer encode
+            # label_encoder = LabelEncoder()
+            # integer_encoded = label_encoder.fit_transform(values)
+            # # binary encode
+            # onehot_encoder = OneHotEncoder(sparse=False)
+            # integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
+            # onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
+            
+        # return labels
+        
 
 DatasetLoader().loadDefault()
