@@ -7,25 +7,30 @@ using namespace std;
 
 Intercept<int> f(Intercept<int> n, Intercept<int> m)
 {
-	Intercept<int> sum(1, 3), i;
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+	// Intercept<int> sum(1, 3), i;
 	if (n < m)
-		sum = 0;
+		state[0] = 0;
 	else if (n == m)
-		sum = 1;
+		state[0] = 1;
 	else
 	{
-		for (i = Intercept<int>(m, 2); i <= n; i++)
-			if (n % i == 0)
-				sum = sum + f(n / i, i);
+		for (state[1] = Intercept<int>(m, 2); state[1] <= n; state[1]++)
+			if (n % state[1] == 0)
+				state[0] = state[0] + f(n / state[1], state[1]);
 	}
-	return (sum);
+	return (state[0]);
 }
 int main()
 {
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	Intercept<int> x, j, a[100000];
 	scanf("%d", &x);
-	for (j = Intercept<int>(0, 2); j < x; j++)
-		scanf("%d", &a[j]);
-	for (j = 0; j < x; j++)
-		printf("%d\n", f(a[j], 2));
+	for (state[0] = Intercept<int>(0, 2); state[0] < x; state[0]++)
+		scanf("%d", &a[state[0]]);
+	for (state[0] = 0; state[0] < x; state[0]++)
+		printf("%d\n", f(a[state[0]], 2));
 }

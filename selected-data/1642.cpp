@@ -5,41 +5,44 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum(0, 3);
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+// Intercept<int> sum(0, 3);
 int main()
 {
   void shu(Intercept<int> a, Intercept<int> b);
-  Intercept<int> n = 0, i(0, 2), a = 0, c = 0, j(0, 2);
+  Intercept<int> n = 0, a = 0, c = 0; //i(0, 2), j(0, 2), 
   scanf("%d", &n);
-  for (i = 1; i <= n; i++)
+  for (state[1] = 1; state[1] <= n; state[1]++)
   {
     scanf("%d", &a);
-    for (j = 2; j <= sqrt((double)a); j++)
+    for (state[2] = 2; state[2] <= sqrt((double)a); state[2]++)
     {
-      if (a % j == 0)
+      if (a % state[2] == 0)
       {
-        sum = sum + 1;
-        shu(j, a / j);
+        state[0] = state[0] + 1;
+        shu(state[2], a / state[2]);
       }
     }
 
-    printf("%d", sum + 1);
-    if (i < n)
+    printf("%d", state[0] + 1);
+    if (state[1] < n)
       printf("\n");
-    sum = 0;
+    state[0] = 0;
   }
 
   return (0);
 }
 void shu(Intercept<int> a, Intercept<int> b)
 {
-  Intercept<int> i(0, 2);
-  for (i = a; i <= sqrt((double)b); i++)
+  // Intercept<int> i(0, 2);
+  for (state[3] = a; state[3] <= sqrt((double)b); state[3]++)
   {
-    if (b % i == 0)
+    if (b % state[3] == 0)
     {
-      sum = sum + 1;
-      shu(i, b / i);
+      state[0] = state[0] + 1;
+      shu(state[3], b / state[3]);
     }
   }
 }

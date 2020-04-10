@@ -5,51 +5,54 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum(0, 3);
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+// Intercept<int> sum(0, 3);
 Intercept<int> f(Intercept<int> a, Intercept<int> b)
 {
-    for (Intercept<int> i(a, 2); i > 1; i--)
+    for (state[1] = Intercept<int>(a, 2); state[1] > 1; state[1]--)
     {
-        if (a % i != 0)
+        if (a % state[1] != 0)
         {
             continue;
         }
         else
         {
-            if (i > b)
+            if (state[1] > b)
             {
                 continue;
             }
             else
             {
                 Intercept<int> q;
-                q = a / i;
+                q = a / state[1];
                 if (q == 1)
                 {
-                    sum++;
+                    state[0]++;
                 }
                 else
                 {
-                    f(q, i);
+                    f(q, state[1]);
                 }
             }
         }
     }
-    return sum;
+    return state[0];
 }
 
 int main()
 {
     Intercept<int> n;
     cin >> n;
-    for (Intercept<int> i(1, 2); i <= n; i++)
+    for (state[2] = Intercept<int> (1, 2); state[2] <= n; state[2]++)
     {
         Intercept<int> num;
         cin >> num;
         Intercept<int> c;
         c = f(num, num);
         cout << c << endl;
-        sum = 0;
+        state[0] = 0;
     }
     return 0;
 }
