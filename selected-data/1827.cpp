@@ -8,7 +8,11 @@ using namespace std;
 Intercept<int> num = 0;
 Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 {
-	i = Intercept<int>(i, 2);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// i = Intercept<int>(i, 2);
+	state[0] = Intercept<int>(i, 2);
 
 	if (a == 1)
 	{
@@ -29,22 +33,25 @@ Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 }
 int main()
 {
-	Intercept<int> a, t, j, i, count;
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> a, t, j, count; //i, 
 	cin >> t;
-	for (j = Intercept<int>(0, 2); j < t; j++)
+	for (state[0] = Intercept<int>(0, 2); state[0] < t; state[0]++)
 	{
 		count = 1;
 		cin >> a;
-		i = Intercept<int>(2, 2);
-		while (i <= (a / 2))
+		state[1] = Intercept<int>(2, 2);
+		while (state[1] <= (a / 2))
 		{
-			if (a % i == 0)
+			if (a % state[1] == 0)
 			{
 				num = 0;
-				sum(a / i, i);
+				sum(a / state[1], state[1]);
 				count = count + num;
 			}
-			i++;
+			state[1]++;
 		}
 		cout << count << endl;
 	}
