@@ -8,14 +8,14 @@ from tensorflow.keras import layers
 from sklearn.model_selection import train_test_split
 from DatasetLoader import DatasetLoader as loader
 
-batch_size_fit = 5
+batch_size_fit = 12
 # Each MNIST image batch is a tensor of shape (batch_size, 28, 28).
 # Each input sequence will be of size (28, 28) (height is treated like time).
-input_dim = 5355
+# input_dim = 21086 # declared below
 
-units = 50
+units = 32
 output_size = 3  # labels are from 0 to 3
-epochs = 50
+epochs = 40
 
 # Build the RNN model
 def build_model(allow_cudnn_kernel=True):
@@ -40,6 +40,7 @@ def build_model(allow_cudnn_kernel=True):
     return model
 
 x, y, lens, lenMax = loader().loadDefault()
+input_dim = lenMax
 
 model = build_model(allow_cudnn_kernel=True)
 
@@ -49,15 +50,15 @@ model.compile(
     metrics=["accuracy"],
 )
 
-x = x.reshape(100, 1, 5355)
+x = x.reshape(x.__len__(), 1, lenMax)
 # print(x.shape)
 # print(y.shape)
 
 # print(x[0])
 # print(y[0])
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2) #replaced by validation_split=0.2
 
 model.fit(
-    x_train, y_train, validation_data=(x_test, y_test), batch_size=batch_size_fit, epochs=epochs
+    x, y, batch_size=batch_size_fit, epochs=epochs, validation_split=0.2
 )
 
