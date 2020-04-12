@@ -7,13 +7,17 @@ using namespace std;
 
 Intercept<int> sushu(Intercept<int> a)
 {
-	Intercept<int> b = Intercept<int>(2, 2), c, d = 0, k;
-	while (b < a)
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> c, d = 0, k; //b = Intercept<int>(2, 2), 
+	state[0] = 2;
+	while (state[0] < a)
 	{
-		c = a % b;
+		c = a % state[0];
 		if (c != 0)
 		{
-			b = b + 1;
+			state[0] = state[0] + 1;
 			d = d + 1;
 		}
 		else
@@ -28,42 +32,52 @@ Intercept<int> sushu(Intercept<int> a)
 }
 Intercept<int> zheng(Intercept<int> n, Intercept<int> i)
 {
-	Intercept<int> sum = Intercept<int>(1, 3), a;
-	for (a = Intercept<int>(i, 2); a < n / 2; a++)
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> sum = Intercept<int>(1, 3), a;
+	for (state[1] = Intercept<int>(i, 2); state[1] < n / 2; state[1]++)
 	{
-		if (n % a == 0)
+		if (n % state[1] == 0)
 		{
-			if (a <= n / a)
+			if (state[1] <= n / state[1])
 			{
-				sum = sum + zheng(n / a, a);
+				state[0] = state[0] + zheng(n / state[1], state[1]);
 			}
 		}
 	}
-	return sum;
+	return state[0];
 }
 int main()
 {
-	Intercept<int> n, i, j = 0, k = 0, b[10000] = {0}, e[40000] = {0};
-	scanf("%d", &n);
-	for (i = Intercept<int>(0, 2); i < n; i++)
-	{
-		scanf("%d", &e[i]);
-	}
-	for (i = 0; i < n; i++)
-	{
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-		if (sushu(e[i]) == 0)
+	Intercept<int> n, j = 0, k = 0, b[10000] = {0}, e[40000] = {0}; //i, 
+	scanf("%d", &n);
+	for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+	{
+		int idx = state[0];
+		scanf("%d", &e[idx]);
+	}
+	for (state[0] = 0; state[0] < n; state[0]++)
+	{
+		int idx = state[0];
+
+		if (sushu(e[state[0]]) == 0)
 		{
-			b[i] = zheng(e[i], 2);
+			b[idx] = zheng(e[idx], 2);
 		}
 		else
 		{
-			b[i] = 1;
+			b[idx] = 1;
 		}
 	}
 
 	printf("%d", b[0]);
-	for (i = 1; i < n; i++)
-		printf("\n%d", b[i]);
+	for (state[0] = 1; state[0] < n; state[0]++){
+		int idx = state[0];
+		printf("\n%d", b[idx]);
+	}
 	return 0;
 }

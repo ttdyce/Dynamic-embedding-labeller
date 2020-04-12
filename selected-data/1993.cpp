@@ -9,27 +9,33 @@ Intercept<int> p = 0;
 
 Intercept<int> factor(Intercept<int> a, Intercept<int> min)
 {
-	Intercept<int> sum = Intercept<int>(0, 3);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> sum = Intercept<int>(0, 3);
 	if (min >= a)
 		return 1;
-	for (Intercept<int> j = Intercept<int>(min, 2); j <= a / min; j++)
-		if (a % j == 0)
-			sum += factor(a / j, j);
-	return sum;
+	for (state[1] = Intercept<int>(min, 2); state[1] <= a / min; state[1]++)
+		if (a % state[1] == 0)
+			state[0] += factor(a / state[1], state[1]);
+	return state[0];
 }
 
 int main()
 {
-	Intercept<int> n = Intercept<int>(0, 2), a = 0;
-	cin >> n;
-	while (n > 0)
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> a = 0; //n = Intercept<int>(0, 2), 
+	cin >> state[0];
+	while (state[0] > 0)
 	{
 		cin >> a;
 		if (a <= 2)
 			cout << 1 << endl;
 		else
 			cout << factor(a, 2) + 1 << endl;
-		n--;
+		state[0]--;
 	}
 	return 0;
 }

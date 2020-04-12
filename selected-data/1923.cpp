@@ -7,16 +7,19 @@ using namespace std;
 
 Intercept<int> digui(int m, Intercept<int> n, Intercept<int> sum)
 {
-	Intercept<int> i;
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	// Intercept<int> i;
 	sum++;
 	if (sqrt(m) < n)
 		return sum;
 	else
 	{
-		for (i = Intercept<int>(n, 2); i <= sqrt(m); i++)
+		for (state[0] = Intercept<int>(n, 2); state[0] <= sqrt(m); state[0]++)
 		{
-			if (m % i == 0)
-				sum = digui(m / i, i, sum);
+			if (m % state[0] == 0)
+				sum = digui(m / state[0], state[0], sum);
 		}
 		return sum;
 	}
@@ -24,9 +27,12 @@ Intercept<int> digui(int m, Intercept<int> n, Intercept<int> sum)
 
 int main()
 {
-	Intercept<int> n(-1, 2), a;
-	scanf("%d", &n);
-	while (n--)
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
+	Intercept<int> a; //n(-1, 2), 
+	scanf("%d", &state[0]);
+	while (state[0]--)
 	{
 		scanf("%d", &a);
 		printf("%d\n", digui(a, 2, 0));
