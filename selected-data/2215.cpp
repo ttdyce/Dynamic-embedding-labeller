@@ -38,7 +38,7 @@ int main()
 {
   Intercept<int> n;
   scanf("%d", &n);
-  for (state[2] = Intercept<int>(0, 2); state[2] < n; state[2]++)
+  for (gState[2] = Intercept<int>(0, 2); gState[2] < n; gState[2]++)
   {
     Intercept<int> a;
     scanf("%d", &a);
@@ -47,17 +47,17 @@ int main()
       printf("1\n");
       continue;
     }
-    state[2] = Intercept<int>(2, 2);
+    gState[2] = Intercept<int>(2, 2);
     gState[3] = Intercept<int>(1, 3);
-    while (state[2] <= a / 2)
+    while (gState[2] <= a / 2)
     {
-      if (a % state[2] == 0)
+      if (a % gState[2] == 0)
       {
         gState[0] = 0;
-        fun(a / state[2], state[2]);
+        fun(a / gState[2], gState[2]);
         gState[3] += gState[0];
       }
-      state[2]++;
+      gState[2]++;
     }
     printf("%d\n", gState[3]);
   }

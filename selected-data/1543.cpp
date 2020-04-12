@@ -33,7 +33,7 @@ int main()
 		scanf("%d", &a[state[0]]);
 		a[state[0]] = f(a[state[0]], 2);
 	}
-	for (Intercept<int> state[0] = 0; state[0] < n; state[0]++)
+	for (state[0] = 0; state[0] < n; state[0]++)
 	{
 		printf("%d\n", a[state[0]]);
 	}

@@ -12,7 +12,7 @@ Intercept<int> sum(Intercept<int> x, int y)
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
     // Intercept<int> c(-1, 3), i;
-    state[0] = Intercept<int>(-1, 3)
+    state[0] = Intercept<int>(-1, 3);
     if (x > sqrt(y))
         state[0] = 0;
     else

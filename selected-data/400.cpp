@@ -13,9 +13,9 @@ using namespace std;
  ***************************************/
 Intercept<int> factor(int x, Intercept<int> y) //?????????factor
 {
-    int length = 2;
-    Intercept<int> intercepts[length] = {Intercept<int>(2, 2), Intercept<int>(0, 3)};
-    StateIntercept state(intercepts, length);
+	int length = 2;
+	Intercept<int> intercepts[length] = {Intercept<int>(2, 2), Intercept<int>(0, 3)};
+	StateIntercept state(intercepts, length);
 
 	// Intercept<int> i;
 	for (state[0]; state[0] < x; state[0]++) //?????x?????
@@ -65,21 +65,24 @@ int main() //?????
 
 	Intercept<int> n;
 	cin >> n;
-	
-    int length = 2;
-    Intercept<int> intercepts[length] = {Intercept<int>(n, 1), Intercept<int>(0, 2)};
-    StateIntercept state(intercepts, length);
+
+	int length = 2;
+	Intercept<int> intercepts[length] = {Intercept<int>(n, 1), Intercept<int>(0, 2)};
+	StateIntercept state(intercepts, length);
 
 	// const Intercept<int> m(n, 1);
 	// int mInt = m;
-	Intercept<int> a[state[0]]; //, j;
+	int idx = state[0];
+	Intercept<int> a[idx]; //, j;
 	for (state[1]; state[1] < n; state[1]++)
 	{
-		cin >> a[state[1]]; //???????
+		int idx2 = state[1];
+		cin >> a[idx2]; //???????
 	}
 	for (state[1] = 0; state[1] < n; state[1]++)
 	{
-		cout << factor(a[state[1]], a[state[1]]) << endl; //??????
+		int idx2 = state[1];
+		cout << factor(a[idx2], a[idx2]) << endl; //??????
 	}
 	return 0;
 }

@@ -27,12 +27,12 @@ void f(Intercept<int> i, int m)
 {
       Intercept<int> s;//k, 
       s = (int)sqrt(m);
-      for (state[2] = Intercept<int>(i, 2); state[2] <= s; state[2]++)
+      for (gState[2] = Intercept<int>(i, 2); gState[2] <= s; gState[2]++)
       {
-            if (m % state[2] == 0)
+            if (m % gState[2] == 0)
             {
                   gState[0]++;
-                  f(state[2], m / state[2]);
+                  f(gState[2], m / gState[2]);
             }
       }
 }

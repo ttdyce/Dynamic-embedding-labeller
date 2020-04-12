@@ -41,7 +41,8 @@ void fun(Intercept<int> n, Intercept<int> i)
 
 int main()
 {
-	Intercept<int> a[100], i, res, state[1] = Intercept(-1, 2), n;
+	Intercept<int> a[100], i, res, n;
+	state[1] = Intercept<int>(-1, 2);
 	scanf("%d", &n);
 	for (state[1] = 0; state[1] < n; state[1]++)
 		scanf("%d", &a[state[1]]);

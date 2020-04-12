@@ -51,6 +51,8 @@ Intercept<int> zhaoyinshu(Intercept<int> x, Intercept<int> max)
 			zhaoyinshu(x / gState[1], gState[1]);
 		}
 	}
+
+	return 1;
 }
 int main()
 {

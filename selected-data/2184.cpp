@@ -50,7 +50,8 @@ int main()
             continue;
         }
 
-        Intercept<int> gState[3] = Intercept<int>(2, 2), gState[4] = Intercept<int>(1, 3);
+        gState[3] = Intercept<int>(2, 2);
+        gState[4] = Intercept<int>(1, 3);
         while (gState[3] <= a / 2)
         {
             if (a % gState[3] == 0)

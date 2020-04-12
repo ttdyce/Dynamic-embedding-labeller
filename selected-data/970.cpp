@@ -19,7 +19,7 @@ StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void f(Intercept<int> b, Intercept<int> a) //??????????????
 {
-	for (Intercept<int> state[1] = Intercept<int>(b, 2); state[1] <= a; state[1]++)
+	for (state[1] = Intercept<int>(b, 2); state[1] <= a; state[1]++)
 	{ //????????
 		if ((a % state[1] == 0) && (state[1] <= a / state[1]))
 		{
@@ -32,7 +32,8 @@ void f(Intercept<int> b, Intercept<int> a) //??????????????
 }
 int main()
 {
-	Intercept<int> a, state[2] = Intercept<int>(-1, 2);
+	Intercept<int> a;
+	state[2] = Intercept<int>(-1, 2);
 	cin >> state[2];
 	while (state[2] > 0)
 	{ //??????

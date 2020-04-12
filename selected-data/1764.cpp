@@ -23,6 +23,8 @@ Intercept<int> count(Intercept<int> x, Intercept<int> y) //?????????
     }
     return state[0] + 1;
   }
+
+  return 0;
 }
 int main()
 {
@@ -34,7 +36,7 @@ int main()
   Intercept<int> a[n];
   for (state[0]; state[0] < n; state[0]++)
     cin >> a[state[0]];
-  for (Intercept<int> state[0] = 0; state[0] < n; state[0]++)
+  for (state[0] = 0; state[0] < n; state[0]++)
     cout << count(a[state[0]], 2) << endl;
   return 0;
 }
