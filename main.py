@@ -166,7 +166,9 @@ if __name__ == '__main__':
         print("labels:", labels)
         print("")
         print("Old labels length:", preLabelCount)
+        print("---")
         print("New labels length:", labels.__len__())
         print("New traces length:", traces.__len__())
+        print("Traces length max:", np.array([len(i) for i in traces]).max())
         print("exeNames: ", exeNames.__len__())
     

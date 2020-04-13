@@ -101,4 +101,4 @@ class DatasetLoader:
         # return labels
         
 
-DatasetLoader().loadDefault()
+print(DatasetLoader().loadDefault())
