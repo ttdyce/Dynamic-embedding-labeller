@@ -29,7 +29,7 @@ class DatasetLoader:
         
         
         # labels = self.compress(labels, stateLengths)
-        labels = self.oneHot(labels)
+        # labels = self.oneHot(labels)
         lengthMax = np.array(lengths).max()
         
         print("traces", np.array([t for t in traces]).shape)
