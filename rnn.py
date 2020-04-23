@@ -6,14 +6,14 @@ import tensorflow as tf
 
 from tensorflow.keras import layers
 from sklearn.model_selection import train_test_split
-from DatasetLoader import DatasetLoader as loader
+from DatasetLoader import DatasetLoader as Loader
 
-batch_size_fit = 12
+batch_size_fit = 64
 # Each input sequence will be of size (28, 28) (height is treated like time).
 
-units = 32
+units = 128
 output_size = 3  # labels are from 0 to 3
-epochs = 40
+epochs = 50
 
 # Build the RNN model
 def build_model(allow_cudnn_kernel=True):
@@ -28,23 +28,29 @@ def build_model(allow_cudnn_kernel=True):
         gru_layer = tf.keras.layers.GRU(
             tf.keras.layers.LSTMCell(units), input_shape=(None, input_dim)
         )
+
     model = tf.keras.models.Sequential(
         [
             gru_layer,
-            tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.Dense(output_size),
+            #tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.Dense(output_size,activation='softmax'),
         ]
     )
     return model
 
-x, y, lens, lenMax = loader().loadDefault()
+loader = Loader()
+x, y, lens, lenMax = loader.load(datasetPath="out-dataset/dataset-variable-trace-110.npz")
+
+#x, y, lens, lenMax = loader().loadDefault()
 input_dim = lenMax
 
 model = build_model(allow_cudnn_kernel=True)
 
+opt = tf.keras.optimizers.Adam(lr=0.0001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+
 model.compile(
     loss='categorical_crossentropy',
-    optimizer="sgd",
+    optimizer=opt,
     metrics=["accuracy"],
 )
 
@@ -54,14 +60,21 @@ print("x.shape",x.shape)
 
 # print(x[0])
 # print(y[0])
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 model.summary()
 
 model.fit(
-    x, y, batch_size=batch_size_fit, epochs=epochs, validation_split=0.3
+    x_train, y_train, batch_size=batch_size_fit, epochs=epochs, validation_split=0.2
 )
 
 print('\n# Evaluate')
 result = model.evaluate(x_test,y_test)
 dict(zip(model.metrics_names, result))
+
+
+model.save('rnn-trace/', save_format="tf")
+#prepared for predictions
+# Xnew = np.array([[0.89337759, 0.65864154]])
+# ynew = model.predict_classes(Xnew)
+# print("X=%s, Predicted=%s" % (Xnew[0], ynew[0]))
