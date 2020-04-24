@@ -13,8 +13,8 @@ using namespace std;
 */
 // Intercept<int> sum;
 void calculate(int, Intercept<int>);
-Intercept<int> intercepts[4] = {Intercept<int>(-1, 1), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(-1, 2)};
-StateIntercept state(intercepts, 4);
+Intercept<int> intercepts[] = {Intercept<int>(-1, 1), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(-1, 2), Intercept<int>(-1, 4)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
@@ -22,10 +22,10 @@ int main()
 	cin >> state[0];
 	for (state[1]; state[1] < state[0]; state[1]++)
 	{
-		int m;
+		// int m;
 		state[2] = Intercept<int>(1, 3);
-		cin >> m;
-		calculate(m, Intercept<int>(2));
+		cin >> state[4];
+		calculate(state[4], Intercept<int>(2));
 		cout << state[2] << endl;
 	}
 	return 0;

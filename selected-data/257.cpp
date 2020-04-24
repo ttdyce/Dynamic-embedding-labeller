@@ -9,20 +9,20 @@ Intercept<int> sort(Intercept<int>, int, Intercept<int>);
 
 int main()
 {
-	Intercept<int> t = 0;
+	// Intercept<int> t = 0;
 
-	Intercept<int> intercepts[2] = {Intercept<int>(1, 2), Intercept<int>(1, 2)};
-	StateIntercept state(intercepts, 2);
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(1, 2), Intercept<int>(0, 4), Intercept<int>(1, 4)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	cin >> t;
+	cin >> state[2];
 	// Intercept<int> state[0](1, 2);
-	for (state[0] = 1; state[0] <= t; state[0]++)
+	for (state[0] = 1; state[0] <= state[2]; state[0]++)
 	{
 		Intercept<int> vacancy = 0;
-		Intercept<int> num = 1;
-		cin >> num;
+		// Intercept<int> num = 1;
+		cin >> state[3];
 		// Intercept<int> state[1](1, 2);
-		Intercept<int> temp = num;
+		Intercept<int> temp = state[3];
 		for (state[1] = 2; state[1] <= temp; state[1]++)
 		{
 			while (temp % state[1] == 0)
@@ -31,7 +31,7 @@ int main()
 				temp = temp / state[1];
 			}
 		}
-		cout << sort(Intercept<int>(1), vacancy, num) << endl;
+		cout << sort(Intercept<int>(1), vacancy, state[3]) << endl;
 	}
 	return 0;
 }
