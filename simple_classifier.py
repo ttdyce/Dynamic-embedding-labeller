@@ -1,9 +1,11 @@
 from tensorflow import keras
+
 # import tensorflow.compat.v1 as tf
 import tensorflow as tf
 import numpy as np
-from DatasetLoader import DatasetLoader as loader
+import DatasetLoader as loader
 from sklearn.model_selection import train_test_split
+
 # tf.disable_v2_behavior()
 tf.compat.v1.disable_v2_behavior()
 
@@ -11,12 +13,11 @@ modelOutName = "simple-demo-classifier.h5"
 
 
 class Classifier:
-    def __init__(self, inputLength):
-        self.inputLength = inputLength
+    def __init__(self, stateVariableLengths, stateLengths):
         # define model
         model = keras.Sequential(
             [
-                keras.layers.Dense(8, input_shape=(inputLength,)),
+                keras.layers.Dense(8, input_shape=(stateVariableLengths, stateLengths)),
                 keras.layers.Dense(8, activation="relu"),
                 keras.layers.Dense(4),
             ]
@@ -32,7 +33,9 @@ class Classifier:
         "fit & save & try predict"
         model = self.model
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
-        x_train, x_val, y_train, y_val = train_test_split(x_train,y_train,test_size=0.2)
+        x_train, x_val, y_train, y_val = train_test_split(
+            x_train, y_train, test_size=0.2
+        )
         model.fit(x_train, y_train, epochs=100)
 
         test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
@@ -42,7 +45,7 @@ class Classifier:
         probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
         predictions = probability_model.predict(x_test)
         val_prediction = probability_model.predict(x_val)
- 
+
         model.save(modelOutName)
         # Recreate the exact same model, including its weights and the optimizer
         the_model = tf.keras.models.load_model(modelOutName)
@@ -73,9 +76,9 @@ class Classifier:
         )
 
 
-traces, labels, lengths, lengthMax = loader().loadDefault()
+traces, labels, lengths, lengthMax = loader.loadVariableTrace()
 
 print(traces, labels, lengthMax)
 
-classifier = Classifier(inputLength=lengthMax)
+classifier = Classifier(stateVariableLengths=labels, stateLengths=lengthMax)
 classifier.fit(traces, labels)

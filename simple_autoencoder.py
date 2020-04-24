@@ -1,12 +1,12 @@
 import tensorflow as tf
 import numpy as np
-from DatasetLoader import DatasetLoader as loader
+import DatasetLoader as loader
 
 
 class Autoencoder:
     def __init__(self, D, d):
         # Input placeholder, "None" here means any size e.g. (13,D), (420,D), etc.
-        self.X = tf.placeholder(tf.float32, shape=(None, D))
+        self.X = tf.placeholder(tf.float32, shape=(None, None, D))
 
         # Input to hidden (D -> d)
         self.W1 = tf.Variable(tf.random_normal(shape=(D, d)), name='W1')
@@ -76,15 +76,17 @@ class Autoencoder:
         self.sess.close()
         del self.sess
 
-traces, labels, lengths, lengthMax = loader().loadDefault()
+traces, labels, lengths, lengthMax = loader.loadVariableTrace()
+s = np.array(traces).shape
+print(s)
 
-encoder = Autoencoder(lengthMax, 8)
+encoder = Autoencoder(4, 8)
 encoder.fit(traces, epochs=10)
 enc = encoder.encode(traces)
-dec = encoder.decode(enc)
+# dec = encoder.decode(enc)
 
-encoder.save()
-# encoder.restore()
-encoder.terminate()
-print(enc[0])
-print(dec[0])
+# encoder.save()
+# # encoder.restore()
+# encoder.terminate()
+# print(enc[0])
+# print(dec[0])
