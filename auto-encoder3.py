@@ -4,9 +4,10 @@ from DatasetLoader import DatasetLoader as loader
 
 traces, labels, lengths, lengthMax = loader().loadDefault()
 
-x_train=traces
+x_train, x_test, _ , _  = train_test_split(traces, labels, test_size=0.4)
 
-x_train = x_train.astype('float32') / 255.
+x_train = x_train.astype('float32')
+x_test = x_test.astype('float32')
 
 class Encoder(tf.keras.layers.Layer):
   def __init__(self, intermediate_dim):
@@ -68,26 +69,18 @@ def train(loss, model, opt, original):
 
 autoencoder = Autoencoder(intermediate_dim=8, original_dim=lengthMax)
 opt = tf.optimizers.Adam(learning_rate=0.001)
-epochs = 10
-
-training_dataset = tf.data.Dataset.from_tensor_slices(x_train)
+epochs = 50
 batch_size = 20 #devide the work to many times. 1 mini work include batch_size samples
-training_dataset = training_dataset.batch(batch_size)
-training_dataset = training_dataset.prefetch(batch_size * 4)
-
-writer = tf.summary.create_file_writer('tmp')
-
-with writer.as_default():
-    with tf.summary.record_if(True):
-        for epoch in range(epochs):
-            for step, batch_features in enumerate(training_dataset):
-                train(loss, autoencoder, opt, batch_features)
-                loss_values = loss(autoencoder, batch_features)
-                #original = tf.reshape(batch_features, (batch_features.shape[0], 28, 28, 1))
-                #reconstructed = tf.reshape(autoencoder(tf.constant(batch_features)), (batch_features.shape[0], 28, 28, 1))
-                tf.summary.scalar('loss', loss_values, step=step)
-                #tf.summary.image('original', original, max_outputs=10, step=step)
-                #tf.summary.image('reconstructed', reconstructed, max_outputs=10, step=step)
-
-
                 #tensorboard --logdir=path/to/log-directory
+
+
+autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+autoencoder.fit(x_train, x_train,
+                epochs=epochs,
+                batch_size=batch_size,
+                shuffle=True,
+                validation_data=(x_test, x_test))
+
+autoencoder.save('model/', save_format="tf")
+new_model = tf.keras.models.load_model('model/')
+
