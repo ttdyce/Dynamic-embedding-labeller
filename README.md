@@ -68,6 +68,7 @@ A class called `DatasetLoader` is recommended to access the `dataset.npz` file e
 import DatasetLoader as loader
 
 x, y, lengths, lengthMax = loader.stateTrace.load()
+x, y, lengths, lengthMax, exeNames, roleInStates = loader.variableTrace.load()
 
 ```
 
