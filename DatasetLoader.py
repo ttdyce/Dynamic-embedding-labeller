@@ -3,6 +3,7 @@ import numpy as np
 # from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
+import random
 
 
 class DatasetLoader:
@@ -99,6 +100,23 @@ class DatasetLoader:
             # onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
             
         # return labels
+    
+    def loadPredition(self, length, stack=False): 
+        "Generate prediction data for 3 roles"
+        predictions = [None] * 3
+        predictions[0] = [np.zeros(length), np.ones(length), np.full(length, 999), np.full(length, -1)] # ? -1 may not work ._.
+        predictions[1] = [np.arange(0, length, 1), np.arange(length, 0, -1), np.arange(0, 3 * length, 3), np.arange(1, 2 * length, 2)]
+        predictions[2] = [np.insert(np.arange(0, length - 1, 1), 0, 0), 
+                         np.insert(np.arange(0, length * 2 - 2, 2), 0, 0), 
+                         np.pad(sorted(np.arange(10), key=lambda k: random.random()), (0, length - 10)), 
+                         np.pad(sorted(np.arange(0, 100, 10), key=lambda k: random.random()), (0, length - 10))
+                         ]
+        predictions = np.array([np.array(p).astype(float) for p in predictions])
+        
+        if (not stack):
+            return predictions
+        else: 
+            return predictions.reshape(12, length)
         
 
 # print(DatasetLoader().loadDefault())
