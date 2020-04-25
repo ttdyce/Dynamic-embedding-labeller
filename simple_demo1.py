@@ -3,13 +3,13 @@ import tensorflow as tf
 import numpy as np
 from simple_autoencoder import Autoencoder
 from simple_classifier import Classifier
-from DatasetLoader import DatasetLoader as loader
+import DatasetLoader as loader
 
 print(tf.__version__)
 encodeLength = 8
 
 # dataset
-x, y, lengths, lengthMax = loader().loadDefault()
+x, y, lengths, lengthMax = loader.loadDefault()
 
 # encoding/embedding
 encoder = Autoencoder(lengthMax, encodeLength)

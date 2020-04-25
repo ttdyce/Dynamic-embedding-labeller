@@ -6,9 +6,11 @@ import json
 
 # config
 debug = True
-isContinue = False
+
+isContinue = True
 preLabelCount = 0
 exeNames = []
+roleInStates = []
 dir = "out-datasetText/"
 dirDone = dir + "labeled/"
 dirOut = "out-dataset/"
@@ -33,15 +35,11 @@ def init():
             preLabelCount = dataset['labels'].__len__()
             
         print("Found previous dataset.npz", "(", preLabelCount, ")", " in", dirOut)
-        print("Do you want to continue the last labelling? ('': Yes; 'n': No, restart labelling)")
+        print("Do you want to continue the last labelling? ('N': No, restart labelling, 'y': Yes)")
         inputText = input()
         if(inputText == ''):
-            isContinue = True
+            isContinue = False
         print("Received", inputText, "continue =", isContinue)
-
-# def autoLabel(traceArr):
-#     """Label traces with no value changes (Fix-value)"""
-#     label(traceArr, 1)
 
 def saveToFile():
     """Save traces and labels to a folder (out-dataset/dataset.npz)"""
@@ -49,45 +47,22 @@ def saveToFile():
     
     lengths = [len(i) for i in traces]
     print("Saving...")
-    # if(isContinue):
-    #     with np.load(dirOut + 'dataset.npz', allow_pickle=True) as dataset: 
-    #         tracesOld = dataset['traces'].tolist()
-    #         lengthsOld = dataset['lengths'].tolist()
-    #         labelsOld = dataset['labels'].tolist()
-        
-        # tracesOld.extend(traces)
-        # lengthsOld.extend(lengths)
-        # labelsOld.extend(labels)
-        # traces = tracesOld
-        # lengths = lengthsOld
-        # labels = labelsOld
         
     np.savez(dirOut + 'dataset.npz'
             , traces=traces
             , lengths=lengths
             , labels=labels
-            , exeNames=exeNames)
+            , exeNames=exeNames
+            , roleInStates=roleInStates
+            )
     
     print("File saved to ", dirOut, "dataset.npz", sep='')
     print("Old dataset length:", preLabelCount)
     print("New dataset length:", lengths.__len__())
     
-    pass
-    
-
-def printTraceText(fileName, traceArr, labelCount):
-    """Clean the screen, and print the trace text"""
-    _ = os.system('cls')
-    print("---", "label count: ", labelCount, "---")
-    print('')
-    print("File name--- ", fileName, "------", sep="\n")
-    print("(value -1: unassigned)")
-    print(' -> '.join(traceArr), "------", sep="\n")
-    print("('1': Fixed value, '2': Stepper, '3': Gatherer, '': noise, 'q': save & quit)")
 
 def label(stateTraces, stateLabels, exeName): 
     """Process the text into traces:global and labels:global"""
-    global exeNames
     #replace '-1' to '0' for input format
     if(stateTraces.__len__() > 0):
         for stateTrace in stateTraces:
@@ -100,30 +75,29 @@ def label(stateTraces, stateLabels, exeName):
                 
     # split multiple trace & label to 1 tuple & array item
     if(np.array(stateTraces).shape.__len__() > 1): 
-        # x, y = stateTraces, [i for i in stateLabels]
-        x, y = np.transpose(stateTraces), [i for i in stateLabels]
-        traces.extend(x)
-        labels.extend(y)
+        # x, y = np.transpose(stateTraces), [i for i in stateLabels]
+        # traces.extend(x)
+        # labels.extend(y)
+        x, y = stateTraces, stateLabels
+        traces.append(x)
+        labels.append(y)
         exeNames.append(exeName)
+        roleInStates.append(stateTrace.__len__())
         # print("stateTraces len: ", np.array(stateTraces).shape)
         # print(np.array(stateTraces).shape.__len__())
     
     print("\n")
     
         
-def toStateTrace():
+def main():
     """Pack the program into main() so that I can use 'return' to quit"""
-    global preLabelCount
-    
-    validLabels = ['0', '1', '2', '3']
     traceTextFileNames = [f for f in os.listdir(dir) if isfile(join(dir, f))]
-    labelCount = preLabelCount
     
     for traceTextFileName in traceTextFileNames: 
         textFilePath = join(dir, traceTextFileName)
         baseName = traceTextFileName.replace('.json', '').replace('logState-', '')
         traceText = baseName.split('-')
-        # [0]: program name (*.exe), [1]: roles of variable, [2]: variable address
+        # [0]: program name (*.exe), [1]: state address
         if(len(traceText) != 2): 
             continue
         
@@ -137,28 +111,13 @@ def toStateTrace():
             # print(stateJson['labels'])
             # print(stateJson['stateTraces'])
             label(stateJson['stateTraces'], stateJson['labels'], exeName)
-            # Label traces
-            for trace in stateJson['stateTraces']: 
-                pass
-            
-        #Label all traces in a file
-        # for traceArr in traceTextArr: 
-        #     print(traceArr.__len__(), 'roles =', rolesOfVariableId)
-        #     if (traceArr.__len__() == 2 and rolesOfVariableId != '1'): 
-        #         continue
-            
-        #     label(traceArr, rolesOfVariableId)
-            
-        
-        #Finished a file, move it out
-        # os.rename(textFilePath, join(dirDone, traceTextFileName))
         
     saveToFile()
     
 
 if __name__ == '__main__':
     init()
-    toStateTrace()
+    main()
     
     if(debug == True): 
         print("traces 0:", traces[0])
