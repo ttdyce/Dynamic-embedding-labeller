@@ -6,59 +6,68 @@ import tensorflow as tf
 
 from tensorflow.keras import layers
 from sklearn.model_selection import train_test_split
-from DatasetLoader import DatasetLoader as loader
+import DatasetLoader as loader
+from sklearn.preprocessing import LabelBinarizer
 
-batch_size_fit = 12
-# Each MNIST image batch is a tensor of shape (batch_size, 28, 28).
-# Each input sequence will be of size (28, 28) (height is treated like time).
-# input_dim = 21086 # declared below
+batch_size = 20
 
-units = 32
+input_dim = 1
+units = 100
 output_size = 3  # labels are from 0 to 3
-epochs = 40
+epochs = 20
 
 # Build the RNN model
-def build_model(allow_cudnn_kernel=True):
-    # CuDNN is only available at the layer level, and not at the cell level.
-    # This means `LSTM(units)` will use the CuDNN kernel,
-    # while RNN(LSTMCell(units)) will run on non-CuDNN kernel.
-    if allow_cudnn_kernel:
-        # The LSTM layer with default options uses CuDNN.
-        gru_layer = tf.keras.layers.GRU(units, input_shape=(None, input_dim))
-    else:
-        # Wrapping a LSTMCell in a RNN layer will not use CuDNN.
-        gru_layer = tf.keras.layers.GRU(
-            tf.keras.layers.LSTMCell(units), input_shape=(None, input_dim)
-        )
+def build_model():
+    embedding_layer = layers.Embedding(999+1, output_dim=100)
+    gru_layer = tf.keras.layers.GRU(units) #, input_shape=(None, input_dim)
+
     model = tf.keras.models.Sequential(
         [
+            embedding_layer,
             gru_layer,
-            tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.Dense(output_size),
+            # tf.keras.layers.BatchNormalization(),
+            tf.keras.layers.Dense(output_size, activation='softmax'),
         ]
     )
+
+    model.summary()
     return model
 
-x, y, lens, lenMax = loader().loadDefault()
-input_dim = lenMax
 
-model = build_model(allow_cudnn_kernel=True)
+x, y, lens, lenMax, _names, _counts = loader.stateTrace.load()
 
-model.compile(
-    loss='categorical_crossentropy',
-    optimizer="sgd",
-    metrics=["accuracy"],
-)
+# x = x.reshape(x.__len__(), lenMax, 1)
+y = LabelBinarizer().fit_transform(y)
 
-x = x.reshape(x.__len__(), 1, lenMax)
-# print(x.shape)
-# print(y.shape)
+model = build_model()
 
-# print(x[0])
-# print(y[0])
-# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2) #replaced by validation_split=0.2
+model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
-model.fit(
-    x, y, batch_size=batch_size_fit, epochs=epochs, validation_split=0.2
-)
+x_train, x_test, y_train, y_test = train_test_split(
+    x.astype(int), y.astype(int), test_size=0.1
+)  # replaced by validation_split=0.2
 
+history = model.fit(x_train, y_train, validation_split=0.1, batch_size=batch_size, epochs=epochs)
+
+print('')
+print('# Evaluate')
+result = model.evaluate(x_test,y_test)
+dict(zip(model.metrics_names, result))
+
+# draw loss
+plt.plot(history.history["loss"])
+plt.plot(history.history["val_loss"])
+plt.title("Model loss")
+plt.ylabel("Loss")
+plt.xlabel("Epoch")
+plt.legend(["Train", "Test"], loc="upper left")
+plt.show()
+
+# draw acc
+plt.plot(history.history["accuracy"])
+plt.plot(history.history["val_accuracy"])
+plt.title("Model accuracy")
+plt.ylabel("Accuracy")
+plt.xlabel("Epoch")
+plt.legend(["Train", "Test"], loc="upper left")
+plt.show()
