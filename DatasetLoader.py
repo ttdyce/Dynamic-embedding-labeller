@@ -2,6 +2,7 @@ import numpy as np
 import random
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
+import random
 
 class Trace(): 
     def load(self, **kwargs): 
@@ -108,8 +109,6 @@ class VariableTrace(Trace):
             return predictions
         else: 
             return predictions.reshape(12, length)
-            
-        
 
 stateTrace = StateTrace("out-dataset/dataset.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
