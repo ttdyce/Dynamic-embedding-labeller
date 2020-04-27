@@ -23,6 +23,9 @@ class Trace():
                 # replace -1 to 999
                 if item == -1:
                     t[i] = 999
+                # replace <0 to 0                
+                if item < 0:
+                    t[i] = 0
                 # x becomes x / x.max()
                 # tracesMax = np.array(traces.max()).max()
                 # t[i] = item / tracesMax
@@ -34,22 +37,58 @@ class StateTrace(Trace):
         self.path = path
         self.isState = True
         
-    def preprocess(self, datasetPath, flatten=True): 
+    def preprocess(self, datasetPath, flatten=True, model=None): 
         "Default return [state, timestep, features], if flatten=True, "
         traces, labels, _lengths, exeNames, roleInStates = loadRaw(datasetPath)
-        # flatten 3D to 2D
-        traces = [np.transpose(t) for t in traces]
-        traces = [t for ts in traces for t in ts]
-        lengths = np.array([t.__len__() for t in traces])
         
-        traces, lengthsMax = self.padZero(traces, lengths)
-        traces, lengthsMax = self.normalize(traces)
+        if(model == None): 
+            # flatten 3D to 2D
+            traces = [np.transpose(t) for t in traces]
+            traces = [t for ts in traces for t in ts]
+            lengths = np.array([t.__len__() for t in traces])
+            
+            traces, lengthsMax = self.padZero(traces, lengths)
+            traces, lengthsMax = self.normalize(traces)
 
-        labels = self.oneHot(labels)
-        lengthMax = np.array(lengths).max()
-        # x_train, x_test, y_train, y_test = train_test_split(traces, labels, test_size=0.2)
-
-        return np.array([t for t in traces]), labels, lengths, lengthMax , exeNames, roleInStates
+            labels = self.oneHot(labels)
+            # x_train, x_test, y_train, y_test = train_test_split(traces, labels, test_size=0.2)
+            return np.array([t for t in traces]), labels, lengths, lengthsMax , exeNames, roleInStates
+        if(model == '1'): 
+            outTraces = []
+            for t in traces: 
+                t = np.array(t).transpose()
+                traceLength = t.__len__()
+                for i in range(traceLength): 
+                    indices = list(range(traceLength))
+                    indices.remove(i)
+                    supportTraces = []
+                    for index in indices: 
+                        supportTraces.append([[item] for item in t[index]])
+                    mainTrace = [[item] for item in t[i]]
+                    
+                    generated = [np.concatenate((mainTrace, supportTrace), axis=1) for supportTrace in supportTraces]
+                    if(generated.__len__() == 0): 
+                        generated = [mainTrace]
+                    outTraces.extend(generated)
+            
+            outLabels = []
+            for l in labels: 
+                length = l.__len__()
+                for item in l: 
+                    if(length == 1): 
+                        outLabels.append(item)
+                    else: 
+                        for i in range(length-1): 
+                            outLabels.append(item)
+            
+            return np.array(outTraces), np.array(outLabels)
+        if(model == '2a'): 
+            pass
+        if(model == '2b'): 
+            pass
+        if(model == '2b'): 
+            pass
+        
     
     def oneHot(self, labels):
         "loop through labels, one hot & flatten them"
@@ -129,7 +168,7 @@ def loadRaw(datasetPath, isState=True):
         return traces, labels, lengths
         
 # loaded = variableTrace.load()
-loaded = stateTrace.load()
+loaded = stateTrace.load(model='1')
 print(loaded)
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])
