@@ -89,7 +89,47 @@ class StateTrace(Trace):
             
             return np.array(outTraces), np.array(LabelBinarizer().fit_transform(outLabels)), lengths, lengthsMax , exeNames, roleInStates
         if(model == '2a'): 
-            pass
+            outTraces = []
+            maxRole = roleInStates.max()
+            for t in traces: 
+                t = np.array(t).transpose()
+                traceLength = t.__len__()
+                for i in range(traceLength): 
+                    indices = list(range(traceLength))
+                    indices.remove(i)
+                    
+                    mainTrace = [[item] for item in t[i]]
+                    supportTraces = []
+                    for index in indices: 
+                        supportTraces.append([[item] for item in t[index]])
+                    if(indices.__len__() + 1 < maxRole): 
+                        for ii in range(maxRole - (indices.__len__() + 1)): 
+                            supportTraces.append([[0] for i in range(mainTrace.__len__())])
+                    
+                    generated = mainTrace
+                    for supportTrace in supportTraces: 
+                        generated = np.concatenate((generated, supportTrace), axis=1) 
+                     
+                    outTraces.append(generated)
+            
+            # outLabels = []
+            # for l in labels: 
+            #     length = l.__len__()
+            #     for item in l: 
+            #         if(length == 1): 
+            #             outLabels.append(item)
+            #         else: 
+            #             for i in range(length-1): 
+            #                 outLabels.append(item)
+            
+            outTraces = normalize(outTraces)
+            outTraces = padZero(outTraces)
+            lengths = np.array([t.__len__() for t in outTraces])
+            lengthsMax = lengths.max()
+            labels = self.oneHot(labels)
+            
+            return np.array(outTraces), labels, lengths, lengthsMax , exeNames, roleInStates
+        
         if(model == '2b'): 
             pass
         if(model == '2b'): 
@@ -199,7 +239,7 @@ def normalize(traces, dim=3):
     
     return traces
 # loaded = variableTrace.load()
-# loaded = stateTrace.load(model='1')
-# print(loaded)
+loaded = stateTrace.load(model='2a')
+print(loaded)
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])
