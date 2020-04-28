@@ -61,14 +61,15 @@ class StateTrace(Trace):
                 for i in range(traceLength): 
                     indices = list(range(traceLength))
                     indices.remove(i)
+                    
+                    mainTrace = [[item] for item in t[i]]
                     supportTraces = []
                     for index in indices: 
                         supportTraces.append([[item] for item in t[index]])
-                    mainTrace = [[item] for item in t[i]]
+                    if(indices.__len__() == 0): 
+                        supportTraces = [[[0] for i in range(mainTrace.__len__())]]
                     
                     generated = [np.concatenate((mainTrace, supportTrace), axis=1) for supportTrace in supportTraces]
-                    if(generated.__len__() == 0): 
-                        generated = [mainTrace]
                     outTraces.extend(generated)
             
             outLabels = []
@@ -81,7 +82,12 @@ class StateTrace(Trace):
                         for i in range(length-1): 
                             outLabels.append(item)
             
-            return np.array(outTraces), np.array(outLabels)
+            outTraces = normalize(outTraces)
+            outTraces = padZero(outTraces)
+            lengths = np.array([t.__len__() for t in outTraces])
+            lengthsMax = lengths.max()
+            
+            return np.array(outTraces), np.array(LabelBinarizer().fit_transform(outLabels)), lengths, lengthsMax , exeNames, roleInStates
         if(model == '2a'): 
             pass
         if(model == '2b'): 
@@ -166,9 +172,34 @@ def loadRaw(datasetPath, isState=True):
         return traces, labels, lengths, exeNames, roleInStates
     else: 
         return traces, labels, lengths
-        
+
+def padZero(traces, dim=3, pad_dim=2): 
+    lengths = np.array([item.__len__() for item in traces])
+    lenMax = lengths.max()
+    for index in range(len(traces)): 
+        trace = traces[index].tolist()
+        # for i in range(lenMax - trace.__len__()): 
+        if(trace.__len__() < 300):
+            for i in range(300 - trace.__len__()): 
+                traces[index] = np.append(traces[index], [np.zeros(trace[0].__len__()).astype(int)], axis=0)
+
+        traces[index] = traces[index][:300]
+    return traces
+
+def normalize(traces, dim=3):
+    for trace in traces:
+        for t in trace: 
+            for i in range(t.__len__()): 
+                traceItem = t[i]
+                if traceItem == -1:
+                    t[i] = 999
+                # replace <0 to 0                
+                if traceItem < 0:
+                    t[i] = 0
+    
+    return traces
 # loaded = variableTrace.load()
-loaded = stateTrace.load(model='1')
-print(loaded)
+# loaded = stateTrace.load(model='1')
+# print(loaded)
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])
