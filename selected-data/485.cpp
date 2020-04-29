@@ -7,9 +7,8 @@ using namespace std;
 
 Intercept<int> devide(Intercept<int> n, Intercept<int> m)
 {
-	int length = 2;
-	Intercept<int> intercepts[length] = {Intercept<int>(0, 3), Intercept<int>(m ,2)};
-	StateIntercept state(intercepts, length);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(m ,2)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (n < m)
 		m = n;
@@ -28,17 +27,16 @@ Intercept<int> devide(Intercept<int> n, Intercept<int> m)
 
 int main()
 {
-	int length = 1;
-	Intercept<int> intercepts[length] = {Intercept<int>(0, 2)};
-	StateIntercept state(intercepts, length);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, i, m;
-	cin >> n;
+	// Intercept<int> n, i, m;
+	cin >> state[1];
 	// i = Intercept<int>(0, 2);
-	while (state[0] < n)
+	while (state[0] < state[1])
 	{
-		cin >> m;
-		cout << devide(m, m) << endl; //???????
+		cin >> state[2];
+		cout << devide(state[2], state[2]) << endl; //???????
 		state[0]++;
 	}
 	return 0;

@@ -9,13 +9,12 @@ Intercept<int> f(Intercept<int>, Intercept<int>); //????
 int main()					//?????
 {							//?????
 
-	int length = 1;
-	Intercept<int> intercepts[length] = {Intercept<int>(0, 2)};
-	StateIntercept state(intercepts, length);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, i, a[50];
-	cin >> n; //??????
-	for (state[0]; state[0] < n; state[0]++)
+	Intercept<int> i, a[50]; //n, 
+	cin >> state[1]; //??????
+	for (state[0]; state[0] < state[1]; state[0]++)
 	{
 		cin >> a[state[0]];				//????
 		cout << f(a[state[0]], 2) << endl; //????
@@ -26,9 +25,8 @@ int main()					//?????
 Intercept<int> f(Intercept<int> n, Intercept<int> p) //??????????????p?????
 
 {
-	int length = 2;
-	Intercept<int> intercepts[length] = {Intercept<int>(0, 3), Intercept<int>(p, 2)};
-	StateIntercept state(intercepts, length);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(p, 2)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> sum(0,3), m;
 	if (n < p)
