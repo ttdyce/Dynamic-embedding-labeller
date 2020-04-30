@@ -30,17 +30,17 @@ Intercept<int> f(Intercept<int> x, int y) //???????????????y?????????x????????
 
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, x, b[100]; //i
-	cin >> n; //?????????
-	for (state[0]; state[0] <= n; state[0]++)
+	Intercept<int> b[100]; //i n, x, 
+	cin >> state[1]; //?????????
+	for (state[0]; state[0] <= state[1]; state[0]++)
 	{
-		cin >> x;
-		b[state[0]] = x;
+		cin >> state[2];
+		b[state[0]] = state[2];
 	}
-	for (state[0] = 1; state[0] <= n; state[0]++)
+	for (state[0] = 1; state[0] <= state[1]; state[0]++)
 	{
 		cout << f(2, b[state[0]]) + 1 << endl;
 	} //???????

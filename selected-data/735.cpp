@@ -13,15 +13,15 @@ using namespace std;
 Intercept<int>  j = 2; //????????????????? sum(1, 3),
 void num(int);				   //??????
 
-Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(1, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(1, 2), Intercept<int>(0, 2), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()					   //?????
 {
-	Intercept<int> n, a[100];
+	Intercept<int> a[100];//n, 
 	// Intercept<int> i;
-	cin >> n;
-	for (state[1] = Intercept<int>(1, 2); state[1] <= n; state[1]++) //????n?????
+	cin >> state[3];
+	for (state[1] = Intercept<int>(1, 2); state[1] <= state[3]; state[1]++) //????n?????
 	{
 		cin >> a[state[1]];
 		num(a[state[1]]); //????

@@ -25,16 +25,16 @@ Intercept<int> divide(int n, Intercept<int> j)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n;
-	cin >> n;
-	Intercept<int> m, p; // k, 
-	for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+	// Intercept<int> n;
+	cin >> state[1];
+	Intercept<int> p; // k, m, 
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
-		cin >> m;
-		p = divide(m, 2);
+		cin >> state[2];
+		p = divide(state[2], 2);
 		cout << p << endl;
 	}
 	return 0;

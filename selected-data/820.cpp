@@ -9,9 +9,8 @@ using namespace std;
 Intercept<int> yueshu[100] = {0};
 Intercept<int> s = 0;
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
-
 
 void number(Intercept<int> num, Intercept<int> s)
 {
@@ -29,20 +28,21 @@ void number(Intercept<int> num, Intercept<int> s)
 
 int main()
 {
-	Intercept<int> n = 0;
-	cin >> n;
-	Intercept<int> num = 0;
-	while (cin >> num)
+	// Intercept<int> n = 0;
+	cin >> state[3];
+	// Intercept<int> num = 0;
+	while (state[3]--)
 	{
-		Intercept<int> j = 0;//i = 0, 
-		for (state[2] = Intercept<int>(2, 2); state[2] <= num; state[2]++)
-			if (num % state[2] == 0)
+		cin >> state[4];
+		Intercept<int> j = 0; //i = 0,
+		for (state[2] = Intercept<int>(2, 2); state[2] <= state[4]; state[2]++)
+			if (state[4] % state[2] == 0)
 			{
 				yueshu[j] = state[2];
 				j++;
 			}
 		s = j - 1;
-		number(num, s);
+		number(state[4], s);
 		cout << state[0] << endl;
 		state[0] = 0;
 	}

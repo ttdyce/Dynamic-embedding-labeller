@@ -6,7 +6,7 @@
 using namespace std;
 
 // Intercept<int> sum(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void fenjie(Intercept<int> t, Intercept<int> n)
@@ -24,13 +24,13 @@ void fenjie(Intercept<int> t, Intercept<int> n)
 }
 int main()
 {
-	Intercept<int> k = 0; //n(0, 2), 
+	// Intercept<int> k = 0; //n(0, 2), 
 	cin >> state[2];
 	while (state[2] > 0)
 	{
-		cin >> k;
+		cin >> state[3];
 		state[0] = 0;
-		fenjie(2, k);
+		fenjie(2, state[3]);
 		state[2]--;
 		cout << state[0] << endl;
 	}

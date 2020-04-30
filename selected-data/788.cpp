@@ -8,15 +8,15 @@ using namespace std;
 Intercept<int> Factorization(Intercept<int>, Intercept<int>);
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, x, i, k;
-	cin >> n;
-	for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+	Intercept<int> i, k; //n, x, 
+	cin >> state[1];
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
-		cin >> x;
-		cout << Factorization(x, 2) + 1 << endl;
+		cin >> state[2];
+		cout << Factorization(state[2], 2) + 1 << endl;
 	}
 	return 0;
 }
