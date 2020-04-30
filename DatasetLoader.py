@@ -112,16 +112,6 @@ class StateTrace(Trace):
                      
                     outTraces.append(generated)
             
-            # outLabels = []
-            # for l in labels: 
-            #     length = l.__len__()
-            #     for item in l: 
-            #         if(length == 1): 
-            #             outLabels.append(item)
-            #         else: 
-            #             for i in range(length-1): 
-            #                 outLabels.append(item)
-            
             outTraces = normalize(outTraces)
             outTraces = padZero(outTraces)
             lengths = np.array([t.__len__() for t in outTraces])
@@ -131,8 +121,51 @@ class StateTrace(Trace):
             return np.array(outTraces), labels, lengths, lengthsMax , exeNames, roleInStates
         
         if(model == '2b'): 
-            pass
-        if(model == '2b'): 
+            outTraces = []
+            maxRole = roleInStates.max()
+            # dig into each state
+            for t in traces: 
+                # each trace become [timestep, single role] ([[0,1,2,3,4], [0,0,0,0,0], ...])
+                t = np.array(t).transpose()
+                traceLength = t.__len__() # in terms of timestep
+                for i in range(traceLength): 
+                    indices = list(range(traceLength))
+                    indices.remove(i)
+                    
+                    mainTrace = [[item] for item in t[i]]
+                    differentST = getDifferentST(indices, t, maxRole)
+                    
+                    supportTraces = []
+                    # for index in indices: 
+                    #     supportTraces.append([[item] for item in t[index]])
+                    # if(indices.__len__() + 1 < maxRole): 
+                    #     for ii in range(maxRole - (indices.__len__() + 1)): 
+                    #         supportTraces.append([[0] for i in range(mainTrace.__len__())])
+                    
+                    for supportTraces in differentST: 
+                        generated = mainTrace
+                        for supportTrace in supportTraces: 
+                            generated = np.concatenate((generated, supportTrace), axis=1) 
+                        
+                        outTraces.append(generated)
+            
+            outLabels = []
+            for l in labels: 
+                length = l.__len__()
+                for item in l: 
+                    if(length == 1): 
+                        outLabels.append(item)
+                    else: 
+                        for i in range(maxRole - 1): 
+                            outLabels.append(item)
+                            
+            outTraces = normalize(outTraces)
+            outTraces = padZero(outTraces)
+            lengths = np.array([t.__len__() for t in outTraces])
+            lengthsMax = lengths.max()
+            
+            return np.array(outTraces), np.array(LabelBinarizer().fit_transform(outLabels)), lengths, lengthsMax , exeNames, roleInStates
+        if(model == '3'): 
             pass
         
     
@@ -238,8 +271,45 @@ def normalize(traces, dim=3):
                     t[i] = 0
     
     return traces
+
+def getDifferentST(indices, t, maxRole):
+    originalLength = indices.__len__()
+    traceLength = t[0].__len__()
+    differentST = []
+    
+    if(originalLength == 0): 
+        supportTraces = []
+        for ii in range(maxRole - 1): 
+            supportTraces.append([[0] for i in range(traceLength)])
+        differentST.append(supportTraces)
+        return differentST
+    
+    indices = np.pad(indices, (0, maxRole - indices.__len__() - 1), constant_values=-1)
+    STIndices = []
+    for index in range(maxRole - 1): 
+        temp = indices
+        firstElement = temp[0]
+        temp = np.delete(temp, 0)
+        temp = np.insert(temp, index, firstElement)
+        
+        # temp = np.pad(temp, (0, maxRole - temp.__len__()), constant_values=-1)
+        STIndices.append(temp)
+    
+    for STindex in STIndices: 
+        supportTraces = []
+        for index in STindex: 
+            if(index != -1): 
+                supportTraces.append([[item] for item in t[index]])
+            else: 
+                supportTraces.append([[0] for i in range(traceLength)])
+        # if(indices.__len__() + 1 < maxRole): 
+        #     for ii in range(maxRole - (indices.__len__() + 1)): 
+        #         supportTraces.append([[0] for i in range(traceLength)])
+        differentST.append(supportTraces)
+    
+    return differentST
 # loaded = variableTrace.load()
-loaded = stateTrace.load(model='2a')
+loaded = stateTrace.load(model='2b')
 print(loaded)
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])
