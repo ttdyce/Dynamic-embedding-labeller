@@ -7,18 +7,18 @@ using namespace std;
 
 Intercept<int> sum[50];
 // Intercept<int> i;
-Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
 	void digui(Intercept<int> x, Intercept<int> y);
-	Intercept<int> n;
+	// Intercept<int> n;
 	Intercept<int> j[50], m[50];
 
-	scanf("%d", &n);
+	scanf("%d", &gState[1]);
 
-	for (gState[0] = Intercept<int>(0, 2); gState[0] < n; gState[0]++)
+	for (gState[0] = Intercept<int>(0, 2); gState[0] < gState[1]; gState[0]++)
 	{
 		scanf("%d", &m[gState[0]]);
 		sum[gState[0]] = Intercept<int>(0, 3);

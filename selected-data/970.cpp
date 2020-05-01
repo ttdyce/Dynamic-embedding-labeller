@@ -14,7 +14,7 @@ using namespace std;
 
 // Intercept<int> sum = Intercept<int>(1, 3);					   //?????1?????
 
-Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(-1, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(-1, 2), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void f(Intercept<int> b, Intercept<int> a) //??????????????
@@ -32,14 +32,14 @@ void f(Intercept<int> b, Intercept<int> a) //??????????????
 }
 int main()
 {
-	Intercept<int> a;
+	// Intercept<int> a;
 	state[2] = Intercept<int>(-1, 2);
 	cin >> state[2];
 	while (state[2] > 0)
 	{ //??????
-		cin >> a;
+		cin >> state[3];
 		state[0] = 1;
-		f(2, a);			 //????
+		f(2, state[3]);			 //????
 		cout << state[0] << endl; //????
 		state[2]--;
 	}

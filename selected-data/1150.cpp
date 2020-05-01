@@ -26,15 +26,15 @@ Intercept<int> way(Intercept<int> x, Intercept<int> m)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, a;// , i
-	scanf("%d", &n);
-	for (state[0] = Intercept<int>(1, 2); state[0] <= n; state[0]++)
+	// Intercept<int> n, a;// , i
+	scanf("%d", &state[1]);
+	for (state[0] = Intercept<int>(1, 2); state[0] <= state[1]; state[0]++)
 	{
-		scanf("%d", &a);
-		printf("%d\n", way(a, 2));
+		scanf("%d", &state[2]);
+		printf("%d\n", way(state[2], 2));
 	}
 	return 0;
 }

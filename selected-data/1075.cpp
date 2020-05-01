@@ -5,24 +5,24 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> a;
+// Intercept<int> a;
 Intercept<int> res;
 // Intercept<int> sum = Intercept<int>(-1, 3);
 
-Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void dfs(Intercept<int> cnt)
 {
-    if (cnt * state[0] == a)
+    if (cnt * state[0] == state[5])
     {
         res++;
         return;
     }
-    if (cnt * state[0] < a)
+    if (cnt * state[0] < state[5])
     {
         state[0] *= cnt;
-        Intercept<int> j = a / state[0];
+        Intercept<int> j = state[5] / state[0];
         for (state[1] = Intercept<int>(cnt, 2); state[1] <= j; state[1]++)
             dfs(state[1]);
         state[0] /= cnt;
@@ -31,14 +31,14 @@ void dfs(Intercept<int> cnt)
 }
 int main()
 {
-    Intercept<int> nCases;
-    scanf("%d", &nCases);
-    for ( state[2] = Intercept<int>(0, 2); state[2] < nCases; state[2]++)
+    // Intercept<int> nCases;
+    scanf("%d", &state[4]);
+    for ( state[2] = Intercept<int>(0, 2); state[2] < state[4]; state[2]++)
     {
-        scanf("%d", &a);
+        scanf("%d", &state[5]);
         res = 0;
         state[0] = 1;
-        for ( state[3] = Intercept<int>(2, 2); state[3] <= a; state[3]++)
+        for ( state[3] = Intercept<int>(2, 2); state[3] <= state[5]; state[3]++)
             dfs(state[3]);
         printf("%d\n", res);
     }
