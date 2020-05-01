@@ -18,7 +18,7 @@ Intercept<int> ispr(Intercept<int> t)
 }
 
 // Intercept<int> sum(-1, 3);
-Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void fun(Intercept<int> n, Intercept<int> i)
@@ -35,25 +35,25 @@ void fun(Intercept<int> n, Intercept<int> i)
 
 int main()
 {
-    Intercept<int> n;
-    scanf("%d", &n);
-    for (gState[2]; gState[2] < n; gState[2]++)
+    // Intercept<int> n;
+    scanf("%d", &gState[5]);
+    for (gState[2]; gState[2] < gState[5]; gState[2]++)
     {
-        Intercept<int> a;
-        scanf("%d", &a);
-        if (ispr(a) == 1)
+        // Intercept<int> a;
+        scanf("%d", &state[6]);
+        if (ispr(state[6]) == 1)
         {
             printf("1\n");
             continue;
         }
 
         // Intercept<int> res(1, 3);
-        for (gState[4] = Intercept<int>(2, 2); gState[4] <= a / 2; gState[4]++)
+        for (gState[4] = Intercept<int>(2, 2); gState[4] <= state[6] / 2; gState[4]++)
         {
-            if (a % gState[4] == 0)
+            if (state[6] % gState[4] == 0)
             {
                 gState[0] = 0;
-                fun(a / gState[4], gState[4]);
+                fun(state[6] / gState[4], gState[4]);
                 gState[3] = gState[3] + gState[0];
             }
         }
