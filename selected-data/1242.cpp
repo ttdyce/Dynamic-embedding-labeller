@@ -32,16 +32,16 @@ Intercept<int> kinds(int x)
 }
 int main()
 { //???
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n = 0;
-	cin >> n; //?????????n
-	for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+	// Intercept<int> n = 0;
+	cin >> state[1]; //?????????state[1]
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
-		Intercept<int> x = 0;	 //????x
-		cin >> x;				  //??x
-		cout << kinds(x) << endl; //??x????????kinds
+		// Intercept<int> x = 0;	 //????x
+		cin >> state[2];				  //??state[2]
+		cout << kinds(state[2]) << endl; //??x????????kinds
 		j = 2;					  //??
 	}
 	return 0; //?????
