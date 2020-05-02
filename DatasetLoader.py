@@ -83,7 +83,7 @@ class StateTrace(Trace):
                             outLabels.append(item)
             
             outTraces = normalize(outTraces)
-            outTraces = padZero(outTraces)
+            outTraces = padZero(outTraces, 300)
             lengths = np.array([t.__len__() for t in outTraces])
             lengthsMax = lengths.max()
             
@@ -113,7 +113,7 @@ class StateTrace(Trace):
                     outTraces.append(generated)
             
             outTraces = normalize(outTraces)
-            outTraces = padZero(outTraces)
+            outTraces = padZero(outTraces, 300)
             lengths = np.array([t.__len__() for t in outTraces])
             lengthsMax = lengths.max()
             labels = self.oneHot(labels)
@@ -160,7 +160,7 @@ class StateTrace(Trace):
                             outLabels.append(item)
                             
             outTraces = normalize(outTraces)
-            outTraces = padZero(outTraces)
+            outTraces = padZero(outTraces, 300)
             lengths = np.array([t.__len__() for t in outTraces])
             lengthsMax = lengths.max()
             
@@ -228,7 +228,7 @@ class VariableTrace(Trace):
         else: 
             return predictions.reshape(12, length)
 
-stateTrace = StateTrace("out-dataset/dataset.npz")
+stateTrace = StateTrace("out-dataset/dataset-state-trace-110.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
 
 def loadRaw(datasetPath, isState=True):
@@ -246,17 +246,17 @@ def loadRaw(datasetPath, isState=True):
     else: 
         return traces, labels, lengths
 
-def padZero(traces, dim=3, pad_dim=2): 
+def padZero(traces, maxTimestep, dim=3, pad_dim=2): 
     lengths = np.array([item.__len__() for item in traces])
     lenMax = lengths.max()
     for index in range(len(traces)): 
         trace = traces[index].tolist()
         # for i in range(lenMax - trace.__len__()): 
-        if(trace.__len__() < 300):
-            for i in range(300 - trace.__len__()): 
+        if(trace.__len__() < maxTimestep):
+            for i in range(maxTimestep - trace.__len__()): 
                 traces[index] = np.append(traces[index], [np.zeros(trace[0].__len__()).astype(int)], axis=0)
 
-        traces[index] = traces[index][:300]
+        traces[index] = traces[index][:maxTimestep]
     return traces
 
 def normalize(traces, dim=3):
