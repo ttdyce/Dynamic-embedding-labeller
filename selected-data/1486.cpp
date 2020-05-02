@@ -34,17 +34,17 @@ Intercept<int> suml(Intercept<int> n, Intercept<int> tmp) //??????
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> m;
-	cin >> m;
-	Intercept<int> n;
-	for (state[0] = Intercept<int>(0, 2); state[0] < m; state[0]++)
+	// Intercept<int> m;
+	cin >> state[1];
+	// Intercept<int> n;
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
-		cin >> n;
+		cin >> state[2];
 		Intercept<int> zon_shu = 0;
-		zon_shu = suml(n, tmp);
+		zon_shu = suml(state[2], tmp);
 		cout << zon_shu << endl;
 	}
 }

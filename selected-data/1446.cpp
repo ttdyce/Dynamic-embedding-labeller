@@ -6,19 +6,19 @@
 using namespace std;
 
 // Intercept<int> sum(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
 	void yinshu(Intercept<int>, Intercept<int>); //????????????????????????
-	Intercept<int> n, a;						 //i,
-	cin >> n;
-	for (state[1] = Intercept<int>(1, 2); state[1] <= n; state[1]++)
+	// Intercept<int> n, a;						 //i,
+	cin >> state[3];
+	for (state[1] = Intercept<int>(1, 2); state[1] <= state[3]; state[1]++)
 	{
 		state[0] = 0;
-		cin >> a;
-		yinshu(a, 2);
+		cin >> state[4];
+		yinshu(state[4], 2);
 		cout << state[0] << endl;
 	}
 	return 0;

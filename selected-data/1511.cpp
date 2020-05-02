@@ -24,13 +24,13 @@ Intercept<int> f(Intercept<int> n, Intercept<int> m)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> x, j, a[100000];
-	scanf("%d", &x);
-	for (state[0] = Intercept<int>(0, 2); state[0] < x; state[0]++)
+	Intercept<int> j, a[100000];//x, 
+	scanf("%d", &state[1]);
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 		scanf("%d", &a[state[0]]);
-	for (state[0] = 0; state[0] < x; state[0]++)
+	for (state[0] = 0; state[0] < state[1]; state[0]++)
 		printf("%d\n", f(a[state[0]], 2));
 }

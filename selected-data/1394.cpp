@@ -12,20 +12,20 @@ using namespace std;
 //*************************************************************************
 void breakup(Intercept<int>, Intercept<int>);
 // Intercept<int> sum(-1, 3);
-Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
-	Intercept<int> n, x; //, count(0, 2)
-	cin >> n; //??????
-	while (state[1] < n)
+	// Intercept<int> n, x; //, count(0, 2)
+	cin >> state[3]; //??????
+	while (state[1] < state[3])
 	{
 		state[0] = 0;
 		state[1]++;  //?????
-		cin >> x; //??????
-		if (x > 3)
-			breakup(x, 2);		 //????
+		cin >> state[4]; //??????
+		if (state[4] > 3)
+			breakup(state[4], 2);		 //????
 		cout << state[0] + 1 << endl; //???????????
 	}
 	return 0;
