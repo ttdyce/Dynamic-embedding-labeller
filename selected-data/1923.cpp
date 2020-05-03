@@ -27,14 +27,14 @@ Intercept<int> digui(int m, Intercept<int> n, Intercept<int> sum)
 
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	Intercept<int> a; //n(-1, 2), 
 	scanf("%d", &state[0]);
 	while (state[0]--)
 	{
-		scanf("%d", &a);
-		printf("%d\n", digui(a, 2, 0));
+		scanf("%d", &state[1]);
+		printf("%d\n", digui(state[1], 2, 0));
 	}
 }
