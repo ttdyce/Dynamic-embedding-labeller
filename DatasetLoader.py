@@ -4,6 +4,84 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 import random
 
+
+def loadRaw(datasetPath, isState=True):
+    with np.load(datasetPath, allow_pickle=True) as dataset:
+        traces = dataset["traces"]
+        lengths = dataset["lengths"]
+        labels = dataset["labels"]
+            # only found in state
+        if(isState): 
+            exeNames = dataset["exeNames"]
+            roleInStates = dataset["roleInStates"]
+
+    if(isState): 
+        return traces, labels, lengths, exeNames, roleInStates
+    else: 
+        return traces, labels, lengths
+
+def padZero(traces, maxTimestep, dim=3, pad_dim=2): 
+    lengths = np.array([item.__len__() for item in traces])
+    lenMax = lengths.max()
+    for index in range(len(traces)): 
+        trace = traces[index].tolist()
+        # for i in range(lenMax - trace.__len__()): 
+        if(trace.__len__() < maxTimestep):
+            for i in range(maxTimestep - trace.__len__()): 
+                traces[index] = np.append(traces[index], [np.zeros(trace[0].__len__()).astype(int)], axis=0)
+
+        traces[index] = traces[index][:maxTimestep]
+    return traces
+
+def normalize(traces, dim=3):
+    for trace in traces:
+        for t in trace: 
+            for i in range(t.__len__()): 
+                traceItem = t[i]
+                if traceItem == -1:
+                    t[i] = 999
+                # replace <0 to 0                
+                if traceItem < 0:
+                    t[i] = 0
+    
+    return traces
+
+def getDifferentST(indices, t, maxRole):
+    originalLength = indices.__len__()
+    traceLength = t[0].__len__()
+    differentST = []
+    
+    if(originalLength == 0): 
+        supportTraces = []
+        for ii in range(maxRole - 1): 
+            supportTraces.append([[0] for i in range(traceLength)])
+        differentST.append(supportTraces)
+        return differentST
+    
+    indices = np.pad(indices, (0, maxRole - indices.__len__() - 1), constant_values=-1)
+    STIndices = []
+    for index in range(maxRole - 1): 
+        temp = indices
+        firstElement = temp[0]
+        temp = np.delete(temp, 0)
+        temp = np.insert(temp, index, firstElement)
+        
+        # temp = np.pad(temp, (0, maxRole - temp.__len__()), constant_values=-1)
+        STIndices.append(temp)
+    
+    for STindex in STIndices: 
+        supportTraces = []
+        for index in STindex: 
+            if(index != -1): 
+                supportTraces.append([[item] for item in t[index]])
+            else: 
+                supportTraces.append([[0] for i in range(traceLength)])
+        # if(indices.__len__() + 1 < maxRole): 
+        #     for ii in range(maxRole - (indices.__len__() + 1)): 
+        #         supportTraces.append([[0] for i in range(traceLength)])
+        differentST.append(supportTraces)
+    
+    return differentST
 class Trace(): 
     def load(self, **kwargs): 
         return self.preprocess(self.path, **kwargs)
@@ -33,13 +111,28 @@ class Trace():
         return traces
     
 class StateTrace(Trace): 
-    def __init__(self, path): 
+    def __init__(self, path, isPrediction = False, maxRole = None): 
         self.path = path
         self.isState = True
+        self.isPrediction = isPrediction
+        self.maxRole = maxRole
+        
+        
+        if(self.isPrediction != True): 
+            traces, labels, _lengths, exeNames, roleInStates = loadRaw(self.path)
+            maxRole = max(roleInStates)
+            self.prediction = StateTrace("out-dataset/prediction/dataset.npz", isPrediction=True, maxRole=maxRole)
+            
         
     def preprocess(self, datasetPath, flatten=True, model=None): 
         "Default return [state, timestep, features], if flatten=True, "
         traces, labels, _lengths, exeNames, roleInStates = loadRaw(datasetPath)
+        
+        if(self.isPrediction == False and self.maxRole == None): 
+            maxRole = roleInStates.max()
+        else: 
+            maxRole  = self.maxRole
+        
         
         if(model == None): 
             # flatten 3D to 2D
@@ -90,7 +183,7 @@ class StateTrace(Trace):
             return np.array(outTraces), np.array(LabelBinarizer().fit_transform(outLabels)), lengths, lengthsMax , exeNames, roleInStates
         if(model == '2a'): 
             outTraces = []
-            maxRole = roleInStates.max()
+            # maxRole = roleInStates.max()
             for t in traces: 
                 t = np.array(t).transpose()
                 traceLength = t.__len__()
@@ -122,7 +215,7 @@ class StateTrace(Trace):
         
         if(model == '2b'): 
             outTraces = []
-            maxRole = roleInStates.max()
+            # maxRole = roleInStates.max()
             # dig into each state
             for t in traces: 
                 # each trace become [timestep, single role] ([[0,1,2,3,4], [0,0,0,0,0], ...])
@@ -231,85 +324,8 @@ class VariableTrace(Trace):
 stateTrace = StateTrace("out-dataset/dataset-state-trace-110.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
 
-def loadRaw(datasetPath, isState=True):
-    with np.load(datasetPath, allow_pickle=True) as dataset:
-        traces = dataset["traces"]
-        lengths = dataset["lengths"]
-        labels = dataset["labels"]
-            # only found in state
-        if(isState): 
-            exeNames = dataset["exeNames"]
-            roleInStates = dataset["roleInStates"]
-
-    if(isState): 
-        return traces, labels, lengths, exeNames, roleInStates
-    else: 
-        return traces, labels, lengths
-
-def padZero(traces, maxTimestep, dim=3, pad_dim=2): 
-    lengths = np.array([item.__len__() for item in traces])
-    lenMax = lengths.max()
-    for index in range(len(traces)): 
-        trace = traces[index].tolist()
-        # for i in range(lenMax - trace.__len__()): 
-        if(trace.__len__() < maxTimestep):
-            for i in range(maxTimestep - trace.__len__()): 
-                traces[index] = np.append(traces[index], [np.zeros(trace[0].__len__()).astype(int)], axis=0)
-
-        traces[index] = traces[index][:maxTimestep]
-    return traces
-
-def normalize(traces, dim=3):
-    for trace in traces:
-        for t in trace: 
-            for i in range(t.__len__()): 
-                traceItem = t[i]
-                if traceItem == -1:
-                    t[i] = 999
-                # replace <0 to 0                
-                if traceItem < 0:
-                    t[i] = 0
-    
-    return traces
-
-def getDifferentST(indices, t, maxRole):
-    originalLength = indices.__len__()
-    traceLength = t[0].__len__()
-    differentST = []
-    
-    if(originalLength == 0): 
-        supportTraces = []
-        for ii in range(maxRole - 1): 
-            supportTraces.append([[0] for i in range(traceLength)])
-        differentST.append(supportTraces)
-        return differentST
-    
-    indices = np.pad(indices, (0, maxRole - indices.__len__() - 1), constant_values=-1)
-    STIndices = []
-    for index in range(maxRole - 1): 
-        temp = indices
-        firstElement = temp[0]
-        temp = np.delete(temp, 0)
-        temp = np.insert(temp, index, firstElement)
-        
-        # temp = np.pad(temp, (0, maxRole - temp.__len__()), constant_values=-1)
-        STIndices.append(temp)
-    
-    for STindex in STIndices: 
-        supportTraces = []
-        for index in STindex: 
-            if(index != -1): 
-                supportTraces.append([[item] for item in t[index]])
-            else: 
-                supportTraces.append([[0] for i in range(traceLength)])
-        # if(indices.__len__() + 1 < maxRole): 
-        #     for ii in range(maxRole - (indices.__len__() + 1)): 
-        #         supportTraces.append([[0] for i in range(traceLength)])
-        differentST.append(supportTraces)
-    
-    return differentST
 # loaded = variableTrace.load()
-loaded = stateTrace.load(model='2b')
-print(loaded)
+loaded = stateTrace.prediction.load(model='2b')
+print(loaded[0], loaded[1])
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])

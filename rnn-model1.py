@@ -8,9 +8,9 @@ import DatasetLoader as Loader
 from sklearn.model_selection import KFold
 
 batch_size_fit = 64
-units = 200
+units = 8
 output_size = 3  # labels are from 0 to 3
-epochs = 100
+epochs = 50
 
 
 # Build the RNN model
@@ -56,5 +56,10 @@ print('\n# Evaluate')
 result = model.evaluate(x_test,y_test)
 dict(zip(model.metrics_names, result))
 
+predictionData = Loader.stateTrace.prediction.load(model='1') # same return format with stateTrace.load(model='1')
+
+predictions = model.predict(predictionData[0])
+print(predictions) #result
+print(predictionData[1])
 
 model.save('rnn-trace/', save_format="tf")
