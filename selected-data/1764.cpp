@@ -31,9 +31,9 @@ int main()
   Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
   StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-  // int n;
   cin >> state[1];
-  Intercept<int> a[state[1]];
+  int n = state[1];
+  Intercept<int> a[n];
   for (state[0]; state[0] < state[1]; state[0]++)
     cin >> a[state[0]];
   for (state[0] = 0; state[0] < state[1]; state[0]++)

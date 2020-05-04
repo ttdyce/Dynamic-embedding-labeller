@@ -40,20 +40,20 @@ int main()
     for (gState[2]; gState[2] < gState[5]; gState[2]++)
     {
         // Intercept<int> a;
-        scanf("%d", &state[6]);
-        if (ispr(state[6]) == 1)
+        scanf("%d", &gState[6]);
+        if (ispr(gState[6]) == 1)
         {
             printf("1\n");
             continue;
         }
 
         // Intercept<int> res(1, 3);
-        for (gState[4] = Intercept<int>(2, 2); gState[4] <= state[6] / 2; gState[4]++)
+        for (gState[4] = Intercept<int>(2, 2); gState[4] <= gState[6] / 2; gState[4]++)
         {
-            if (state[6] % gState[4] == 0)
+            if (gState[6] % gState[4] == 0)
             {
                 gState[0] = 0;
-                fun(state[6] / gState[4], gState[4]);
+                fun(gState[6] / gState[4], gState[4]);
                 gState[3] = gState[3] + gState[0];
             }
         }
