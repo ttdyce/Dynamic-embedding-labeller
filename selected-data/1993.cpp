@@ -23,18 +23,18 @@ Intercept<int> factor(Intercept<int> a, Intercept<int> min)
 
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> a = 0; //n = Intercept<int>(0, 2), 
+	// Intercept<int> a = 0; //n = Intercept<int>(0, 2), 
 	cin >> state[0];
 	while (state[0] > 0)
 	{
-		cin >> a;
-		if (a <= 2)
+		cin >> state[1];
+		if (state[1] <= 2)
 			cout << 1 << endl;
 		else
-			cout << factor(a, 2) + 1 << endl;
+			cout << factor(state[1], 2) + 1 << endl;
 		state[0]--;
 	}
 	return 0;

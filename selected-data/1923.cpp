@@ -30,7 +30,7 @@ int main()
 	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> a; //n(-1, 2), 
+	// Intercept<int> a; //n(-1, 2), 
 	scanf("%d", &state[0]);
 	while (state[0]--)
 	{
