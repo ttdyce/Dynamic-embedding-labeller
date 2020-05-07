@@ -20,11 +20,13 @@ int main()
 }
 Intercept<int> ways(Intercept<int> a, Intercept<int> min)
 {
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(-1, 2), Intercept<int>(0, 6)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 	if (a < min)
+	{
+		state[2] = 1;
 		return 0;
-	Intercept<int> intercepts[2] = {Intercept<int>(0, 3), Intercept<int>(-1, 2)};
-	StateIntercept state(intercepts, 2);
-
+	}
 	for (state[1] = min; state[1] <= sqrt(a * 1.0); state[1]++)
 	{
 		if (a % state[1] == 0)

@@ -38,14 +38,19 @@ int main()
 
 Intercept<int> sort(Intercept<int> start, int vacancy, Intercept<int> num)
 {
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 3), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	if (num < start)
+	{
+		state[2] = 1;
 		return 0;
-
+	}
 	if (vacancy == 1)
+	{
+		state[3] = 1;
 		return 1;
-
-	Intercept<int> intercepts[2] = {Intercept<int>(1, 2), Intercept<int>(0, 3)};
-	StateIntercept state(intercepts, 2);
+	}
 
 	// Intercept<int> sum(0, 3);
 	// Intercept<int> i(1, 2);

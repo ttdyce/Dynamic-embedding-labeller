@@ -13,7 +13,7 @@ using namespace std;
  ***************************************/
 Intercept<int> factor(int x, Intercept<int> y) //?????????factor
 {
-	Intercept<int> intercepts[] = {Intercept<int>(2, 2), Intercept<int>(0, 3)};
+	Intercept<int> intercepts[] = {Intercept<int>(2, 2), Intercept<int>(0, 3), Intercept<int>(0, 6)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> i;
@@ -26,6 +26,7 @@ Intercept<int> factor(int x, Intercept<int> y) //?????????factor
 	}
 	if (state[0] == x)
 	{
+		state[2] = 1;
 		return 1; //??x??????1
 	}
 	else //????????????
