@@ -22,15 +22,15 @@ Intercept<int> f(int n, Intercept<int> i)
 }
 main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
     
-    Intercept<int> i0, n0;
-    scanf("%d", &n0);
-    for (state[0] = Intercept<int>(0, 2); state[0] < n0; state[0]++)
+    Intercept<int> i0; //, n0;
+    scanf("%d", &state[1]);
+    for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
     {
-        Intercept<int> n;
-        scanf("%d", &n);
-        printf("%d\n", f(n, 2));
+        // Intercept<int> n;
+        scanf("%d", &state[2]);
+        printf("%d\n", f(state[2], 2));
     }
 }

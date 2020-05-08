@@ -7,18 +7,18 @@ using namespace std;
 
 void decprime(Intercept<int> begain, Intercept<int> a);
 // Intercept<int> sum = Intercept<int>(1, 3);
-Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
-StateIntercept state(intercepts, sizeof(intercepts)/sizeof(intercepts[0]));
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
-	Intercept<int> n, a;
+	// Intercept<int> n, a;
 	// Intercept<int> k;
-	cin >> n;
-	for (state[1]; state[1] < n; state[1]++)
+	cin >> state[3];
+	for (state[1]; state[1] < state[3]; state[1]++)
 	{
-		cin >> a;
-		decprime(2, a);
+		cin >> state[4];
+		decprime(2, state[4]);
 		cout << state[0] << endl;
 		state[0] = 1;
 	}

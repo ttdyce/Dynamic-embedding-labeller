@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 
 from sklearn.model_selection import train_test_split
-import DatasetLoader as loader
+import DatasetLoader as Loader
 from sklearn.model_selection import KFold
 
 batch_size_fit = 64
@@ -24,9 +24,10 @@ def build_model():
     )
     return model
 
-x, y, lens, lenMax, _names, _counts = loader.stateTrace.load()
+# loader = Loader()
+x, y, lengths, lengthsMax , exeNames, roleInStates = Loader.stateTrace.load(model='1')
+#x, y, lens, lenMax = loader().loadDefault()
 
-input_dim = lenMax
 model = build_model()
 
 opt = tf.keras.optimizers.Adam(lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
@@ -36,8 +37,9 @@ model.compile(
     metrics=["accuracy"],
 )
 
-x = x.reshape(x.__len__(),300,1)
+# x = x.reshape(x.__len__(),300,1)
 # x = x.reshape(x.__len__(),lenMax,1)
+# x = x.reshape(x.__len__(),300,2)
 print("x.shape",x.shape)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
@@ -55,5 +57,10 @@ print('\n# Evaluate')
 result = model.evaluate(x_test,y_test)
 dict(zip(model.metrics_names, result))
 
+predictionData = Loader.stateTrace.prediction.load(model='1') # same return format with stateTrace.load(model='1')
+
+predictions = model.predict(predictionData[0])
+print(predictions) #result
+print(predictionData[1])
 
 model.save('rnn-stateTrace/model1/', save_format="tf")

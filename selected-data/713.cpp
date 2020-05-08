@@ -6,7 +6,7 @@
 using namespace std;
 
 // Intercept<int> sum(1, 3);
-Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 2) };
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 2), Intercept<int>(0, 4), Intercept<int>(0, 4) };
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 Intercept<int> kk(Intercept<int> a, Intercept<int> b)
@@ -39,13 +39,13 @@ Intercept<int> seperate(Intercept<int> a, Intercept<int> b)
 }
 int main()
 {
-	Intercept<int> n,  m; // i,
-	cin >> n;
+	// Intercept<int> n,  m; // i,
+	cin >> state[4];
 
-	for (state[3]; state[3] <= n; state[3]++)
+	for (state[3]; state[3] <= state[4]; state[3]++)
 	{
-		cin >> m;
-		cout << seperate(m, m - 1) << endl;
+		cin >> state[5];
+		cout << seperate(state[5], state[5] - 1) << endl;
 		state[0] = 1;
 	}
 	return 0;

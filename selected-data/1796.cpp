@@ -8,16 +8,16 @@ using namespace std;
 Intercept<int> breakways(Intercept<int> num, Intercept<int> min);
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n;
-	cin >> n;
-	Intercept<int> number;
-	for (state[0] = Intercept<int>(1, 2); state[0] <= n; state[0]++)
+	// Intercept<int> n;
+	cin >> state[1];
+	// Intercept<int> number;
+	for (state[0] = Intercept<int>(1, 2); state[0] <= state[1]; state[0]++)
 	{
-		cin >> number;
-		cout << breakways(number, 2) << endl;
+		cin >> state[2];
+		cout << breakways(state[2], 2) << endl;
 	}
 }
 

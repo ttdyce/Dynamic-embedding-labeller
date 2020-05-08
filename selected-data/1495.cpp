@@ -28,19 +28,19 @@ Intercept<int> function(Intercept<int> a, Intercept<int> m)
 
 int main()
 {
-	Intercept<int> n, m[100];// i,
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> m[100];// i,n, 
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 
-	scanf("%d", &n);
+	scanf("%d", &state[1]);
 
-	for (state[0] = Intercept<int>(0, 2); state[0] <= n - 1; state[0]++)
+	for (state[0] = Intercept<int>(0, 2); state[0] <= state[1] - 1; state[0]++)
 	{
 		scanf("%d", &m[state[0]]);
 	}
 
-	for (state[0] = 0; state[0] <= n - 1; state[0]++)
+	for (state[0] = 0; state[0] <= state[1] - 1; state[0]++)
 	{
 		printf("%d\n", function(2, m[state[0]]));
 	}

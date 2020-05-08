@@ -50,17 +50,17 @@ Intercept<int> zheng(Intercept<int> n, Intercept<int> i)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, j = 0, k = 0, b[10000] = {0}, e[40000] = {0}; //i, 
-	scanf("%d", &n);
-	for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+	Intercept<int> j = 0, k = 0, b[10000] = {0}, e[40000] = {0}; //i, n, 
+	scanf("%d", &state[1]);
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
 		int idx = state[0];
 		scanf("%d", &e[idx]);
 	}
-	for (state[0] = 0; state[0] < n; state[0]++)
+	for (state[0] = 0; state[0] < state[1]; state[0]++)
 	{
 		int idx = state[0];
 
@@ -75,7 +75,7 @@ int main()
 	}
 
 	printf("%d", b[0]);
-	for (state[0] = 1; state[0] < n; state[0]++){
+	for (state[0] = 1; state[0] < state[1]; state[0]++){
 		int idx = state[0];
 		printf("\n%d", b[idx]);
 	}

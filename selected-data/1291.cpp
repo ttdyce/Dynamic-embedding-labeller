@@ -15,20 +15,20 @@ using namespace std;
  */
 
 // Intercept<int> sum(1, 3); //??????Sum
-Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 Intercept<int> Fact(int x, Intercept<int> y);
 
 int main()
 {
-	Intercept<int> n, a;
-	cin >> n;
-	for (state[1] = Intercept<int>(0, 2); state[1] < n; state[1]++)
+	// Intercept<int> n, a;
+	cin >> state[3];
+	for (state[1] = Intercept<int>(0, 2); state[1] < state[3]; state[1]++)
 	{
-		cin >> a;
+		cin >> state[4];
 		state[0] = 1;	//????state[0]
-		Fact(a, 2); //????
+		Fact(state[4], 2); //????
 		cout << state[0] << endl;
 	}
 	return 0;

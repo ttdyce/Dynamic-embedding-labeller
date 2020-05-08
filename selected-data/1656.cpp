@@ -22,17 +22,17 @@ Intercept<int> meide(int x, Intercept<int> y)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> k, n, m;
-	scanf("%d", &k);
-	for (state[0] = Intercept<int>(0, 2); state[0] < k; state[0]++)
+	// Intercept<int> k, n, m;
+	scanf("%d", &state[1]);
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
-		scanf("%d", &n);
-		if (n >= 3)
+		scanf("%d", &state[2]);
+		if (state[2] >= 3)
 		{
-			printf("%d\n", meide(n, 2));
+			printf("%d\n", meide(state[2], 2));
 		}
 		else
 		{

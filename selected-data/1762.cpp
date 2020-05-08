@@ -13,7 +13,7 @@ using namespace std;
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 // Intercept<int> sum(0, 3); //????sum
@@ -33,13 +33,13 @@ void devide(Intercept<int> a, Intercept<int> b) //??
 
 int main() //???
 {
-	Intercept<int> n, a;
-	cin >> n;
-	for (state[1] = Intercept<int> (0, 2); state[1] < n; state[1]++)
+	// Intercept<int> n, a;
+	cin >> state[2];
+	for (state[1] = Intercept<int> (0, 2); state[1] < state[2]; state[1]++)
 	{
-		cin >> a;
+		cin >> state[3];
 		state[0] = 0;
-		devide(a, 2);
+		devide(state[3], 2);
 		cout << state[0] << endl;
 	}
 	return 0;

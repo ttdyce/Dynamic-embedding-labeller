@@ -35,17 +35,17 @@ Intercept<int> devide(Intercept<int> m, Intercept<int> x, Intercept<int> i)
 
 int main()
 {
-	Intercept<int> intercepts[3] = {Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(1, 2)};
-	StateIntercept state(intercepts, 3);
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(1, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, a;
-	cin >> n;
-	for (state[0] = 0; state[0] < n; state[0]++)
+	// Intercept<int> n, a;
+	cin >> state[3];
+	for (state[0] = 0; state[0] < state[3]; state[0]++)
 	{
 		// Intercept<int> sum(0, 3);
-		cin >> a;
+		cin >> state[4];
 		for (state[2]; state[2] <= 16; state[2]++)
-			state[1] += devide(a, state[2], 1);
+			state[1] += devide(state[4], state[2], 1);
 		cout << state[1] << endl;
 	}
 	return 0;

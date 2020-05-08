@@ -22,16 +22,16 @@ Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> t, a;//, j;
-	cin >> t;
+	// Intercept<int> t, a;//, j;
+	cin >> state[1];
 
-	for (state[0] = Intercept<int>(0, 2); state[0] < t; state[0]++)
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
-		cin >> a;
-		cout << sum(a, 2) << endl;
+		cin >> state[2];
+		cout << sum(state[2], 2) << endl;
 	}
 	return 0;
 }

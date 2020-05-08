@@ -5,7 +5,7 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 3)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 // Intercept<int> sum(0, 2);                       //???????????
@@ -28,18 +28,18 @@ int main() //???
     cin >> state[2];         //??????
     while (state[2]--)       //??
     {
-        Intercept<int> a;          //??????????
-        cin >> a;                  //????
+        // Intercept<int> a;          //??????????
+        cin >> state[5];                  //????
         // Intercept<int> i(2, 2);      //???????2?
-        // Intercept<int> result(1, 3); //????????a??????
+        // Intercept<int> result(1, 3); //????????state[5]??????
         state[3] = Intercept<int>(2, 2);
         state[4] = Intercept<int>(1, 3);
-        while (state[3] <= a / 2)         //??state[3]???a???
+        while (state[3] <= state[5] / 2)         //??state[3]???state[5]???
         {
-            if (a % state[3] == 0) //??state[3]?a???
+            if (state[5] % state[3] == 0) //??state[3]?state[5]???
             {
                 state[0] = 0;        //state[0]??
-                fact(a / state[3], state[3]); //????????/state[3]
+                fact(state[5] / state[3], state[3]); //????????/state[3]
                 state[4] += state[0];  //????????state[3]????
             }
             state[3]++; //i?1

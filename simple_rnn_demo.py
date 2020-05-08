@@ -1,64 +1,80 @@
 import collections
 import matplotlib.pyplot as plt
 import numpy as np
-
 import tensorflow as tf
 
-from tensorflow.keras import layers
 from sklearn.model_selection import train_test_split
-from DatasetLoader import DatasetLoader as loader
+import DatasetLoader as Loader
 
-batch_size_fit = 12
-# Each MNIST image batch is a tensor of shape (batch_size, 28, 28).
-# Each input sequence will be of size (28, 28) (height is treated like time).
-# input_dim = 21086 # declared below
+batch_size_fit = 50
+units = 10
+output_size = 4  # labels are from 0 to 3
+epochs = 100
 
-units = 32
-output_size = 3  # labels are from 0 to 3
-epochs = 40
+gpus = tf.config.experimental.list_physical_devices("GPU")
+print(gpus)
+for gpu in gpus:
+    tf.config.experimental.set_memory_growth(gpu, True)
 
 # Build the RNN model
-def build_model(allow_cudnn_kernel=True):
-    # CuDNN is only available at the layer level, and not at the cell level.
-    # This means `LSTM(units)` will use the CuDNN kernel,
-    # while RNN(LSTMCell(units)) will run on non-CuDNN kernel.
-    if allow_cudnn_kernel:
-        # The LSTM layer with default options uses CuDNN.
-        gru_layer = tf.keras.layers.GRU(units, input_shape=(None, input_dim))
-    else:
-        # Wrapping a LSTMCell in a RNN layer will not use CuDNN.
-        gru_layer = tf.keras.layers.GRU(
-            tf.keras.layers.LSTMCell(units), input_shape=(None, input_dim)
-        )
+def build_model():
     model = tf.keras.models.Sequential(
         [
-            gru_layer,
-            tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.Dense(output_size),
+            tf.keras.layers.GRU(units, input_shape=(300, 7)),
+            tf.keras.layers.Dense(output_size, activation="softmax"),
         ]
     )
     return model
 
-x, y, lens, lenMax = loader().loadDefault()
-input_dim = lenMax
 
-model = build_model(allow_cudnn_kernel=True)
+# loader = Loader()
+x, y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r4.load(model="2b")
+# x, y, lens, lenMax = loader().loadDefault()
 
-model.compile(
-    loss='categorical_crossentropy',
-    optimizer="sgd",
-    metrics=["accuracy"],
+model = build_model()
+
+opt = tf.keras.optimizers.Adam(
+    lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False
+)
+model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+
+# x = x.reshape(x.__len__(),300,2)
+print("x.shape", x.shape)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1)
+
+model.summary()
+# callback = tf.keras.callbacks.EarlyStopping(
+#     monitor="val_loss", min_delta=0, patience=5, verbose=0, mode="auto"
+# )
+
+# checkpoint = tf.keras.callbacks.ModelCheckpoint('rnn-trace/', monitor='val_accuracy',callbacks=[callback], verbose=1, save_best_only=False, mode='max')
+
+history = model.fit(
+    x_train, y_train, batch_size=batch_size_fit, epochs=epochs, validation_split=0.1
 )
 
-x = x.reshape(x.__len__(), 1, lenMax)
-# print(x.shape)
-# print(y.shape)
+print("\n# Evaluate")
+result = model.evaluate(x_test, y_test)
+dict(zip(model.metrics_names, result))
 
-# print(x[0])
-# print(y[0])
-# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2) #replaced by validation_split=0.2
 
-model.fit(
-    x, y, batch_size=batch_size_fit, epochs=epochs, validation_split=0.2
-)
+# model.save("rnn-trace/", save_format="tf")
 
+
+# draw loss
+plt.plot(history.history["loss"])
+plt.plot(history.history["val_loss"])
+plt.title("Model loss")
+plt.ylabel("Loss")
+plt.xlabel("Epoch")
+plt.legend(["Train", "Test"], loc="upper left")
+plt.show()
+
+# draw acc
+plt.plot(history.history["accuracy"])
+plt.plot(history.history["val_accuracy"])
+plt.title("Model accuracy")
+plt.ylabel("Accuracy")
+plt.xlabel("Epoch")
+plt.legend(["Train", "Test"], loc="upper left")
+plt.show()

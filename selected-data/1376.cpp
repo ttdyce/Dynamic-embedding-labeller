@@ -9,17 +9,17 @@ Intercept<int> f(Intercept<int> a, Intercept<int> b);
 
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, c[100], a; //, sum(-1, 3), i
-	scanf("%d", &n);
-	for (state[1] = Intercept<int>(1, 2); state[1] <= n; state[1]++)
+	Intercept<int> c[100], a; //, sum(-1, 3), i, n, 
+	scanf("%d", &state[2]);
+	for (state[1] = Intercept<int>(1, 2); state[1] <= state[2]; state[1]++)
 	{
 		scanf("%d", &c[state[1]]);
 	}
 
-	for (state[1] = 1; state[1] <= n; state[1]++)
+	for (state[1] = 1; state[1] <= state[2]; state[1]++)
 	{
 		a = c[state[1]];
 		state[0] = f(a, 2);

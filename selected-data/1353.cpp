@@ -14,15 +14,15 @@ using namespace std;
 Intercept<int> fun(int n, Intercept<int> m);
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, num;
-	cin >> n;
-	for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+	// Intercept<int> n, num;
+	cin >> state[1];
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
-		cin >> num;
-		cout << fun(num, 2) << endl;
+		cin >> state[2];
+		cout << fun(state[2], 2) << endl;
 	}
 	return 0;
 }

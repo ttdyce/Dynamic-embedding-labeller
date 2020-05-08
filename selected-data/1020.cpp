@@ -6,7 +6,7 @@
 using namespace std;
 
 // Intercept<int> sum(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void f(Intercept<int> a, Intercept<int> s)
@@ -28,12 +28,12 @@ void f(Intercept<int> a, Intercept<int> s)
 
 int main()
 {
-	Intercept<int> n, num; //, j
-	cin >> n;
-	for (state[2] = Intercept<int>(1, 2); state[2] <= n; state[2]++)
+	// Intercept<int> n, num; //, j
+	cin >> state[3];
+	for (state[2] = Intercept<int>(1, 2); state[2] <= state[3]; state[2]++)
 	{
-		cin >> num;
-		f(num, 2);
+		cin >> state[4];
+		f(state[4], 2);
 		printf("%d\n", state[0]);
 		state[0] = 0;
 	}

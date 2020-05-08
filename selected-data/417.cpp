@@ -5,9 +5,9 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> sum = Intercept<int>(0, 3); //???????
-Intercept<int> intercepts[3] = {Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(1, 2)};
-StateIntercept state(intercepts, 3);
+// Intercept<int> sum = Intercept<int>(0, 3); //???????
+Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(1, 2), Intercept<int>(0, 4)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void fj(int n, Intercept<int> m)
 {
@@ -25,14 +25,14 @@ void fj(int n, Intercept<int> m)
 }
 int main()
 {
-	Intercept<int> N;	  //j,    //??????????????
+	// Intercept<int> N;	   //j,    //??????????????
 	Intercept<int> a[100]; //?????
-	cin >> N;
-	for (state[2]; state[2] <= N; state[2]++)
+	cin >> state[3];
+	for (state[2]; state[2] <= state[3]; state[2]++)
 	{
 		cin >> a[state[2]]; //?????
 	}
-	for (state[2] = 1; state[2] <= N; state[2]++)
+	for (state[2] = 1; state[2] <= state[3]; state[2]++)
 	{
 		state[1] = 0;
 		fj(a[state[2]], 2); //?????

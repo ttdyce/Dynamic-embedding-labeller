@@ -25,16 +25,16 @@ Intercept<int> ans(Intercept<int> sum, Intercept<int> min)
 
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-    Intercept<int> a[10000], b[10000], p, q, m, n, i, j;
-    scanf("%d", &n);
-    for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+    Intercept<int> a[10000], b[10000], p, q, m; //, n, i, j
+    scanf("%d", &state[1]);
+    for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
     {
         scanf("\n%d", &a[state[0]]);
     }
-    for (state[0] = 0; state[0] < n; state[0]++)
+    for (state[0] = 0; state[0] < state[1]; state[0]++)
     {
         printf("%d\n", ans(a[state[0]], 2));
     }

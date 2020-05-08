@@ -7,9 +7,8 @@ using namespace std;
 
 Intercept<int> fenjieyinshi(Intercept<int> n, Intercept<int> m) //????????
 {
-    int length = 2;
-    Intercept<int> intercepts[length] = {Intercept<int>(0, 2), Intercept<int>(1, 3)};
-    StateIntercept state(intercepts, length);
+    Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(1, 3)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> i(0, 2);
 	// Intercept<int> sum(1, 3);
@@ -25,21 +24,20 @@ Intercept<int> fenjieyinshi(Intercept<int> n, Intercept<int> m) //????????
 }
 int main() //???
 {		   //?????
-    int length = 1;
-    Intercept<int> intercepts[length] = {Intercept<int>(0, 2)};
-    StateIntercept state(intercepts, length);
+    Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n = 0;
+	// Intercept<int> n = 0;
 	// Intercept<int> i(0, 2);
-	Intercept<int> a = 0;
-	cin >> n; //???????????????
-	for (state[0] = 0; state[0] < n; state[0]++)
+	// Intercept<int> a = 0;
+	cin >> state[1]; //???????????????
+	for (state[0] = 0; state[0] < state[1]; state[0]++)
 	{
-		cin >> a; //???????
-		if (a == 1)
+		cin >> state[2]; //???????
+		if (state[2] == 1)
 			cout << 1 << endl;
 		else
-			cout << fenjieyinshi(a, 2) << endl; //????
+			cout << fenjieyinshi(state[2], 2) << endl; //????
 	}
 	return 0;
 } //?????

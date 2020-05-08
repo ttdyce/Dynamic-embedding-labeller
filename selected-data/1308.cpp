@@ -25,16 +25,16 @@ Intercept<int> calculate(Intercept<int> a, Intercept<int> num)
 
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n;
-	cin >> n;
-	Intercept<int> num = 0;
-	for (state[0] = Intercept<int>(0, 2); state[0] < n; state[0]++)
+	// Intercept<int> n;
+	cin >> state[1];
+	// Intercept<int> num = 0;
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{ // input part
-		cin >> num;
-		cout << calculate(num, num) << endl;
+		cin >> state[2];
+		cout << calculate(state[2], state[2]) << endl;
 	}
 	return 0;
 }

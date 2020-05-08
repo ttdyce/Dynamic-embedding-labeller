@@ -8,17 +8,17 @@ using namespace std;
 void factor(Intercept<int> a, Intercept<int> k);
 // Intercept<int> sum(0, 3);
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
-	Intercept<int> n, a; //, i(0, 2)
-	cin >> n;
-	for (state[1] = 1; state[1] <= n; state[1]++)
+	// Intercept<int> n, a; //, i(0, 2)
+	cin >> state[3];
+	for (state[1] = 1; state[1] <= state[3]; state[1]++)
 	{
-		cin >> a;
-		factor(a, 2);
+		cin >> state[4];
+		factor(state[4], 2);
 		cout << state[0] + 1 << endl;
 		state[0] = 0;
 	}

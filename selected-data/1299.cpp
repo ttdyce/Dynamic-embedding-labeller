@@ -6,7 +6,7 @@
 using namespace std;
 
 Intercept<int> used[32770] = {0}; //????sum???????????used?i???i???????? sum(0, 3),
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void f(Intercept<int> n)					 //??f??n????????
@@ -35,9 +35,9 @@ void f(Intercept<int> n)					 //??f??n????????
 }
 int main()
 {
-	Intercept<int> m, a[100];
-	cin >> m;
-	for (state[2] = Intercept<int>(1, 2); state[2] <= m; state[2]++)
+	Intercept<int> a[100]; // m,
+	cin >> state[3];
+	for (state[2] = Intercept<int>(1, 2); state[2] <= state[3]; state[2]++)
 	{
 		cin >> a[state[2]];
 		if (a[state[2]] == 1)

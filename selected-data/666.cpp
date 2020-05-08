@@ -6,7 +6,7 @@
 using namespace std;
 
 // Intercept<int> sum(-1, 3);
-Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts)/sizeof(intercepts[0]));
 
 Intercept<int> yin(Intercept<int> c, Intercept<int> g) //?????
@@ -31,17 +31,17 @@ Intercept<int> yin(Intercept<int> c, Intercept<int> g) //?????
 }
 int main()
 {
-    Intercept<int> n, a[1000], b[1000], d; //i, 
-    cin >> n;
-    for (state[2]; state[2] < n; state[2]++)
+    Intercept<int> a[1000], b[1000], d; //i, n, 
+    cin >> state[3];
+    for (state[2]; state[2] < state[3]; state[2]++)
         cin >> a[state[2]]; //??
-    for (state[2] = 0; state[2] < n; state[2]++)
+    for (state[2] = 0; state[2] < state[3]; state[2]++)
     {
         d = 2;
         state[0] = 0;
         b[state[2]] = yin(a[state[2]], d);
     }
-    for (state[2] = 0; state[2] < n; state[2]++)
+    for (state[2] = 0; state[2] < state[3]; state[2]++)
         cout << b[state[2]] << endl; //??
     return 0;
 }

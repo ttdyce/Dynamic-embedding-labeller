@@ -20,18 +20,18 @@ A Labelling system
 
 Here is the label id reference (Not all of them are used)
 
-| id  | role        |
-| --- | ----------- |
-| 1   | Fixed value |
-| 2   | Stepper     |
-| 3   | Gatherer    |
-| 4   |             |
-| 5   |             |
-| 6   |             |
-| 7   |             |
-| 8   |             |
-| 9   |             |
-| 10  |             |
+| id  | role               |
+| --- | ------------------ |
+| 1   | Fixed value        |
+| 2   | Stepper            |
+| 3   | Gatherer           |
+| 4   | Most-recent holder |
+| 5   | Most-wanted holder |
+| 6   | Follower           |
+| 7   | Temporary          |
+| 8   | One-way flag       |
+| 9   |                    |
+| 10  |                    |
 
 To label a variable, replace the initial value to a construtor `Intercept<int>(int initial_value, int label id)` like the follow example.
 
@@ -67,8 +67,8 @@ A class called `DatasetLoader` is recommended to access the `dataset.npz` file e
 # assuming DatasetLoader.py is under the same folder
 import DatasetLoader as loader
 
-x, y, lengths, lengthMax = loader.stateTrace.load()
-x, y, lengths, lengthMax, exeNames, roleInStates = loader.variableTrace.load()
+x, y, lengths, lengthMax = loader.variableTrace.load()
+x, y, lengths, lengthMax, exeNames, roleInStates = loader.stateTrace.load()
 
 ```
 

@@ -16,16 +16,16 @@ Intercept<int> g_count(-1, 3), g_j;                        //count???-1,j?????
 int main()
 {
 	// Intercept<int> n(-1, 1), a, i(-1, 2);      
-	Intercept<int> a;      
-	Intercept<int> intercepts[2] = {Intercept<int>(-1, 1), Intercept<int>(-1, 2)};
-	StateIntercept state(intercepts, 2);                  //n????a?????
+	// Intercept<int> a;      
+	Intercept<int> intercepts[] = {Intercept<int>(-1, 1), Intercept<int>(-1, 2), Intercept<int>(-1, 4)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 	cin >> state[0];
 	for ( state[1] = 0; state[1] < state[0]; state[1] ++ )
 	{
 		g_count = 0;
 		g_j = 2;
-		cin >> a;
-		cout << sum(a) + 1 << endl;
+		cin >> state[2];
+		cout << sum(state[2]) + 1 << endl;
 	}
 	return 0;
 }

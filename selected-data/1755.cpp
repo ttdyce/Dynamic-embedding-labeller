@@ -32,18 +32,18 @@ Intercept<int> fenjie(Intercept<int> a, Intercept<int> max)
 
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	Intercept<int> k = 0;
-	Intercept<int> n = 0;
-	Intercept<int> num = 0;
-	cin >> n; //??
-	for (state[0] = Intercept<int>(1, 2); state[0] <= n; state[0]++)
+	// Intercept<int> n = 0;
+	// Intercept<int> num = 0;
+	cin >> state[1]; //??
+	for (state[0] = Intercept<int>(1, 2); state[0] <= state[1]; state[0]++)
 	{
-		cin >> num;				  //?????
-		cout << fenjie(num, num); //????????
-		if (state[0] < n)
+		cin >> state[2];				  //?????
+		cout << fenjie(state[2], state[2]); //????????
+		if (state[0] < state[1])
 			cout << endl;
 	}
 	return 0;

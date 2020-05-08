@@ -7,23 +7,23 @@ using namespace std;
 
 void f(int, Intercept<int>);
 // Intercept<int> sum(0, 3), res(1, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
-	Intercept<int> n, a, i, j;
-	cin >> n;
-	for (state[2] = Intercept<int>(0, 2); state[2] < n; state[2]++) //n???
+	// Intercept<int> n, a, i, j;
+	cin >> state[5];
+	for (state[2] = Intercept<int>(0, 2); state[2] < state[5]; state[2]++) //n???
 	{
 		state[1] = 1; //??????a=a
-		cin >> a;
-		for (state[3] = Intercept<int>(2, 2); state[3] <= (int)sqrt((float)a); state[3]++) //??????
+		cin >> state[6];
+		for (state[3] = Intercept<int>(2, 2); state[3] <= (int)sqrt((float)state[6]); state[3]++) //??????
 		{
-			if (a % state[3] == 0)
+			if (state[6] % state[3] == 0)
 			{
 				state[0] = 0;
-				f(a / state[3], state[3]); //????????
+				f(state[6] / state[3], state[3]); //????????
 				state[1] += state[0];
 			}
 		}

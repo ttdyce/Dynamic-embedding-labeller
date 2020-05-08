@@ -7,18 +7,18 @@ using namespace std;
 
 // Intercept<int> sum(0, 3);                          //?????????????
 void ways(Intercept<int> a, Intercept<int> last);
-Intercept<int> intercepts[2] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
-StateIntercept state(intercepts, 2);
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 4)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
 {
-	Intercept<int> n, num[100];
-	cin >> n;
-	for (state[1] = Intercept<int>(0, 2); state[1] < n; state[1]++)
+	Intercept<int> num[100]; //n, 
+	cin >> state[2];
+	for (state[1] = Intercept<int>(0, 2); state[1] < state[2]; state[1]++)
 	{
 		cin >> num[state[1]];
 	}
-	for (state[1] = 0; state[1] < n; state[1]++)
+	for (state[1] = 0; state[1] < state[2]; state[1]++)
 	{
 		ways(num[state[1]], 2);   //??????????
 		cout << state[0] << endl; //??

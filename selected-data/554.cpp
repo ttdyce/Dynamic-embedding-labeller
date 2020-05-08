@@ -6,8 +6,8 @@
 using namespace std;
 
 // Intercept<int> sum(0, 3);
-Intercept<int> intercepts[3] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
-StateIntercept state(intercepts, 3);
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4)};
+StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 Intercept<int> geshu(int a, Intercept<int> x)
 {
@@ -32,9 +32,9 @@ Intercept<int> geshu(int a, Intercept<int> x)
 }
 int main()
 {
-	Intercept<int> n, a[100], b[100], x; //i,
-	scanf("%d", &n);
-	for (state[1]; state[1] < n; state[1]++)
+	Intercept<int> a[100], b[100], x; //i, n, 
+	scanf("%d", &state[3]);
+	for (state[1]; state[1] < state[3]; state[1]++)
 	{
 		scanf("%d", &a[state[1]]);
 		if (a[state[1]] == 2 || a[state[1]] == 3)
@@ -46,7 +46,7 @@ int main()
 			b[state[1]] = geshu(a[state[1]], x);
 		}
 	}
-	for (state[1] = 0; state[1] < n; state[1]++)
+	for (state[1] = 0; state[1] < state[3]; state[1]++)
 	{
 		printf("%d\n", b[state[1]]);
 	}

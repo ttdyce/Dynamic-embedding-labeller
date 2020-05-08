@@ -6,7 +6,7 @@
 using namespace std;
 
 // Intercept<int> sum(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void divide(Intercept<int> n, Intercept<int> a)
@@ -24,12 +24,12 @@ void divide(Intercept<int> n, Intercept<int> a)
 }
 int main()
 {
-	Intercept<int> N = 0, n = 0;// , i(0, 2)
-	cin >> N;
-	for (state[2] = 0; state[2] < N; state[2]++)
+	// Intercept<int> N = 0, n = 0;// , i(0, 2)
+	cin >> state[3];
+	for (state[2] = 0; state[2] < state[3]; state[2]++)
 	{
-		cin >> n;
-		divide(n, 2);
+		cin >> state[4];
+		divide(state[4], 2);
 		cout << state[0] << endl;
 		state[0] = 0;
 	}

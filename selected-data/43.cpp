@@ -9,15 +9,15 @@ Intercept<int> ways(Intercept<int>, Intercept<int>);
 int main()
 {
 	Intercept<int> ways(Intercept<int> a, Intercept<int> min);
-	Intercept<int> intercepts[1] = {Intercept<int>(-1, 2)};
-	StateIntercept state(intercepts, 1);
-	int b;
+	Intercept<int> intercepts[] = {Intercept<int>(-1, 2), Intercept<int>(-1, 4)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+	// int b;
 	scanf("%d", &state[0]);
 
 	while (state[0]-- > 0)
 	{
-		scanf("%d", &b);
-		printf("%d\n", ways(b, 2));
+		scanf("%d", &state[1]);
+		printf("%d\n", ways(state[1], 2));
 	}
 }
 Intercept<int> ways(Intercept<int> a, Intercept<int> min)

@@ -6,7 +6,7 @@
 using namespace std;
 
 // Intercept<int> sum(-1, 3);
-Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(-1, 2), Intercept<int>(0, 2)};
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(-1, 2), Intercept<int>(0, 2), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, 1);
 
 void f(Intercept<int> x, Intercept<int> i)
@@ -27,14 +27,14 @@ int main()
     while (state[2] > 0)
     {
 
-        Intercept<int> x = 0, i, ans = Intercept<int>(1, 3);
-        cin >> x;
-        for (state[3] = Intercept<int>(2, 2); state[3] * state[3] < x; state[3]++)
+        Intercept<int>i, ans = Intercept<int>(1, 3);// x = 0, 
+        cin >> state[4];
+        for (state[3] = Intercept<int>(2, 2); state[3] * state[3] < state[4]; state[3]++)
         {
-            if (x % state[3] == 0)
+            if (state[4] % state[3] == 0)
             {
                 state[0] = 0;
-                f(x / state[3], state[3]);
+                f(state[4] / state[3], state[3]);
                 ans += state[0];
             }
         }

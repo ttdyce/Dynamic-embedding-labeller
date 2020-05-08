@@ -5,7 +5,7 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 3)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 // Intercept<int> sum(0, 3);
@@ -25,19 +25,19 @@ void recur(Intercept<int> N, Intercept<int> i)
 }
 int main()
 {
-    Intercept<int> t = 0;
-    cin >> t;
-    for (state[2] = Intercept<int>(0, 2); state[2] < t; state[2]++)
+    // Intercept<int> t = 0;
+    cin >> state[5];
+    for (state[2] = Intercept<int>(0, 2); state[2] < state[5]; state[2]++)
     {
-        Intercept<int> n = 0;
-        cin >> n;
+        // Intercept<int> n = 0;
+        cin >> state[6];
         // Intercept<int> i = 2, res(1, 3);
-        for (state[3] = Intercept<int>(2, 2); state[3] <= n / 2; state[3]++)
+        for (state[3] = Intercept<int>(2, 2); state[3] <= state[6] / 2; state[3]++)
         {
-            if (n % state[3] == 0)
+            if (state[6] % state[3] == 0)
             {
                 state[0] = 0;
-                recur(n / state[3], state[3]);
+                recur(state[6] / state[3], state[3]);
                 state[4] += state[0];
             }
         }

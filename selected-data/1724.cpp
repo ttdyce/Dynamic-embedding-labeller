@@ -36,18 +36,18 @@ Intercept<int> work(Intercept<int> m, Intercept<int> n)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> n, m, a;
-	cin >> n;
+	// Intercept<int> n, m, a;
+	cin >> state[3];
 	Intercept<int> i, j, k;
-	for (state[1] = Intercept<int>(1, 2); state[1] <= n; state[1]++)
+	for (state[1] = Intercept<int>(1, 2); state[1] <= state[3]; state[1]++)
 	{
-		cin >> m;
+		cin >> state[4];
 		// Intercept<int> s(0, 3);
-		for (state[2] = Intercept<int>(2, 2); state[2] <= m; state[2]++)
-			state[0] += work(m, state[2]);
+		for (state[2] = Intercept<int>(2, 2); state[2] <= state[4]; state[2]++)
+			state[0] += work(state[4], state[2]);
 		cout << state[0] << endl;
 	}
 	return 0;

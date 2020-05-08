@@ -25,7 +25,7 @@ Intercept<int> panduansushu(Intercept<int> t)
 }
 
 // Intercept<int> sum = Intercept<int>(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(0, 4)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void fun(Intercept<int> n, Intercept<int> i)
@@ -41,12 +41,12 @@ void fun(Intercept<int> n, Intercept<int> i)
 
 int main()
 {
-	Intercept<int> a[100], i, res, n;
+	Intercept<int> a[100], i, res; //, n;
 	state[1] = Intercept<int>(-1, 2);
-	scanf("%d", &n);
-	for (state[1] = 0; state[1] < n; state[1]++)
+	scanf("%d", &state[5]);
+	for (state[1] = 0; state[1] < state[5]; state[1]++)
 		scanf("%d", &a[state[1]]);
-	for (state[1] = 0; state[1] < n; state[1]++)
+	for (state[1] = 0; state[1] < state[5]; state[1]++)
 	{
 		if (panduansushu(a[state[1]]) == 1)
 		{

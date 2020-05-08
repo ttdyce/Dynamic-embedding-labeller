@@ -8,9 +8,8 @@ using namespace std;
 //n???????i?????????
 Intercept<int> divi(Intercept<int> n, Intercept<int> i)
 {
-	int length = 2;
-	Intercept<int> intercepts[length] = {Intercept<int>(0, 3), Intercept<int>(2, 2)};
-	StateIntercept state(intercepts, length);
+    Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(2, 2)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
     // Intercept<int> num = Intercept<int>(0, 3);
     if (n % i == 0)
@@ -34,21 +33,20 @@ Intercept<int> divi(Intercept<int> n, Intercept<int> i)
 
 int main()
 {
-	int length = 3;
-	Intercept<int> intercepts[length] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2)};
-	StateIntercept state(intercepts, length);
+    Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-    Intercept<int> n = 0; //?????
-    Intercept<int> t = 0; //????
+    // Intercept<int> n = 0; //?????
+    // Intercept<int> t = 0; //????
     // Intercept<int> sum(-1, 3);   //?????
-    cin >> t;
-    for (state[1]; state[1] < t; state[1]++)
+    cin >> state[3];
+    for (state[1]; state[1] < state[3]; state[1]++)
     {
         state[0] = 0;
-        cin >> n;
-        for (state[2]; state[2] <= n / 2; state[2]++) //?????????1*n???
+        cin >> state[4];
+        for (state[2]; state[2] <= state[4] / 2; state[2]++) //?????????1*n???
         {
-            state[0] = state[0] + divi(n, state[2]);
+            state[0] = state[0] + divi(state[4], state[2]);
         }
         cout << state[0] + 1 << endl;
     }
