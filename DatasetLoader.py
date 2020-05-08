@@ -129,7 +129,7 @@ def loadRaw(datasetPath, isState=True):
         return traces, labels, lengths
         
 # loaded = variableTrace.load()
-loaded = stateTrace.load()
-print(loaded)
+# loaded = stateTrace.load()
+# print(loaded)
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])
