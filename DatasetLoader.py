@@ -262,7 +262,18 @@ class StateTrace(Trace):
             
             return np.array(outTraces), np.array(LabelBinarizer().fit_transform(outLabels)), lengths, lengthsMax , exeNames, roleInStates
         if(model == '3'): 
-            pass
+            x, y, lens, lenMax, exeNames, roleInStates = self.load(model='2b')
+            x1 = []
+            for i in x: 
+                x1.append([[k[0]] for k in i])
+            x1 = np.array(x1)
+
+            x2 = []
+            for i in x: 
+                x2.append([[k[1:]] for k in i])
+            x2 = np.array(x2)
+            
+            return (x1, x2), y, lens, lenMax
         
     
     def oneHot(self, labels):
@@ -328,7 +339,7 @@ stateTrace = StateTrace("out-dataset/dataset-state-trace-110.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
 
 # loaded = variableTrace.load()
-loaded = stateTrace.r4.load(model='2b')
-print(loaded[0], loaded[1])
+loaded = stateTrace.r4.load(model='3')
+# print(loaded[0], loaded[1])
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])
