@@ -30,13 +30,15 @@ int main()
 
 Intercept<int> f(Intercept<int> a, Intercept<int> b)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 6)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> sum(1, 3);
 	// Intercept<int> i;
-	if (a < b)
+	if (a < b){
+		state[2] = 1;
 		return 0;
+	}
 	for (state[1] = Intercept<int>(b, 2); state[1] < a; state[1]++)
 	{
 		if (a % state[1] != 0)
