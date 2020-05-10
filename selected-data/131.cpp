@@ -8,7 +8,7 @@ using namespace std;
 Intercept<int> num(Intercept<int> a, Intercept<int> b, Intercept<int> c) //??????????
 {
 	// Intercept<int> sum(0,3), j(-1,2); //sum????
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(-1, 2), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(-1, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 	if (a > c)
 	{

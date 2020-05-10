@@ -22,7 +22,7 @@ int main()
 }
 Intercept<int> Factorization(Intercept<int> x, Intercept<int> y)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(y, 2), Intercept<int>(0, 3), Intercept<int>(0, 6) };
+	Intercept<int> intercepts[] = {Intercept<int>(y, 2), Intercept<int>(0, 3), Intercept<int>(0, 8) };
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> i;

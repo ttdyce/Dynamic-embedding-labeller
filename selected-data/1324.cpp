@@ -12,7 +12,7 @@ using namespace std;
 
 Intercept<int> ifsushu(Intercept<int> n) //????????????1???
 {
-	Intercept<int> intercepts[] = {Intercept<int>(n - 1, 2), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(n - 1, 2), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (n == 1)

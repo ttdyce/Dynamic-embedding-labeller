@@ -8,7 +8,7 @@ using namespace std;
 Intercept<int> Factorization(Intercept<int> n, Intercept<int> k)
 { //????????
 	// Intercept<int> sum(0, 3); //??????sum??????????
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (n < k)

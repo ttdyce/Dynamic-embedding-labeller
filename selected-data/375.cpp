@@ -34,7 +34,7 @@ int main()
 }
 Intercept<int> qufen(Intercept<int> n)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> j;
@@ -60,7 +60,7 @@ Intercept<int> power(Intercept<int> a, Intercept<int> b)
 }
 Intercept<int> num(Intercept<int> n, Intercept<int> g, Intercept<int> h)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(-1, 2), Intercept<int>(0, 3), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(-1, 2), Intercept<int>(0, 3), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if ((g == 1) && (n >= h)){ //???????

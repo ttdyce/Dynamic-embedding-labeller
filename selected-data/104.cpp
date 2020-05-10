@@ -8,7 +8,7 @@ using namespace std;
 Intercept<int> de(Intercept<int> s, Intercept<int> a)
 { //???????a???????s?????????
 	// Intercept<int> sum(0, 3); //?????????????
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(s, 2), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(s, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (a == 1){

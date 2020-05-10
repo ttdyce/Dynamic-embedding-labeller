@@ -25,7 +25,7 @@ int main()					//?????
 Intercept<int> f(Intercept<int> n, Intercept<int> p) //??????????????p?????
 
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(p, 2), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(p, 2), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> sum(0,3), m;

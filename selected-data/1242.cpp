@@ -16,7 +16,7 @@ Intercept<int> j = 2; //??????j
 
 Intercept<int> kinds(int x)
 { //????kinds
-	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> sum(1, 3);

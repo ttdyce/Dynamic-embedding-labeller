@@ -38,7 +38,7 @@ int main()
 
 Intercept<int> sort(Intercept<int> start, int vacancy, Intercept<int> num)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 3), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 3), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (num < start)

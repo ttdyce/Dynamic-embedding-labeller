@@ -29,7 +29,7 @@ int main()
 }
 Intercept<int> divmet(Intercept<int> n, Intercept<int> i)
 {
-    Intercept<int> intercepts[] = {Intercept<int>(2, 2), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+    Intercept<int> intercepts[] = {Intercept<int>(2, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
     StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
     Intercept<int> num = 0;

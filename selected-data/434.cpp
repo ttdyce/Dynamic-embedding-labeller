@@ -8,7 +8,7 @@ using namespace std;
 //n???????i?????????
 Intercept<int> divi(Intercept<int> n, Intercept<int> i)
 {
-    Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(2, 2), Intercept<int>(0, 6), Intercept<int>(0, 6)};
+    Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(2, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
     StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
     // Intercept<int> num = Intercept<int>(0, 3);

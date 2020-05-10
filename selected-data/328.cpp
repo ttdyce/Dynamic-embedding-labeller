@@ -31,7 +31,7 @@ int main()
 Intercept<int> Divide(Intercept<int> a, Intercept<int> b)
 {
     int length = 2;
-    Intercept<int> intercepts[length] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 6)};
+    Intercept<int> intercepts[length] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
     // Intercept<int> Sum(0, 3);
