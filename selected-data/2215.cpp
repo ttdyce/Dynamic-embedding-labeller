@@ -7,13 +7,17 @@ using namespace std;
 
 Intercept<int> f(int t)
 {
-  Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+  Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
   StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
   double v = sqrt(t) + 1;
   for (state[0] = Intercept<int>(2, 2); state[0] < v; state[0]++)
     if (t % state[0] == 0)
+    {
+      state[1] = 1;
       return 0;
+    }
+  state[2] = 1;
   return 1;
 }
 // Intercept<int> sum = Intercept<int>(0, 3);

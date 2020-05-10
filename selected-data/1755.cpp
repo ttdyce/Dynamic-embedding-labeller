@@ -15,13 +15,16 @@ using namespace std;
 
 Intercept<int> fenjie(Intercept<int> a, Intercept<int> max)
 { //a:?????max??1??????????????
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> i(0, 2);
 	// Intercept<int> sum(0, 3); //????
 	if (a == 1)
+	{
+		state[2] = 1;
 		return 1; //1???????1??????
+	}
 	for (state[1] = max; state[1] >= 2; state[1]--)
 	{
 		if ((a % state[1]) == 0)
@@ -41,7 +44,7 @@ int main()
 	cin >> state[1]; //??
 	for (state[0] = Intercept<int>(1, 2); state[0] <= state[1]; state[0]++)
 	{
-		cin >> state[2];				  //?????
+		cin >> state[2];					//?????
 		cout << fenjie(state[2], state[2]); //????????
 		if (state[0] < state[1])
 			cout << endl;
