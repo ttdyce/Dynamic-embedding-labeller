@@ -120,6 +120,7 @@ class StateTrace(Trace):
         
         if(self.roles == 3): 
             self.r4 = StateTrace("out-dataset/dataset-state-trace-110-r4.npz", roles=4)
+            self.r5 = StateTrace("out-dataset/dataset-state-trace-110-r5.npz", roles=5)
             
             if(self.isPrediction != True): 
                 traces, labels, _lengths, exeNames, roleInStates = loadRaw(self.path)
@@ -339,7 +340,7 @@ stateTrace = StateTrace("out-dataset/dataset-state-trace-110.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
 
 # loaded = variableTrace.load()
-loaded = stateTrace.r4.load(model='3')
-# print(loaded[0], loaded[1])
+loaded = stateTrace.r5.load(model='3')
+print(loaded[0], loaded[1])
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])

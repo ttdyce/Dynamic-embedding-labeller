@@ -20,12 +20,12 @@ Intercept<int> panduansushu(Intercept<int> t)
 	}
 	if (s[0] > t / 2)
 	{
-		state[1] = 1;
+		s[1] = 1;
 		return 1;
 	}
 	else
 	{
-		state[2] = 1;
+		s[2] = 1;
 		return 0;
 	}
 }
