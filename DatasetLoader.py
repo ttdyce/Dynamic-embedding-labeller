@@ -271,10 +271,10 @@ class StateTrace(Trace):
 
             x2 = []
             for i in x: 
-                x2.append([[k[1:]] for k in i])
+                x2.append([k[1:] for k in i])
             x2 = np.array(x2)
             
-            return (x1, x2), y, lens, lenMax
+            return (x1, x2), y, lens, lenMax, exeNames, roleInStates
         
     
     def oneHot(self, labels):
