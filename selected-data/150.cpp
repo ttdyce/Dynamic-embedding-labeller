@@ -33,7 +33,10 @@ int main()
 void calculate(int m, Intercept<int> begin)
 {
 	// Intercept<int> i;
-	Intercept<int> n = sqrt((double)m);
+	Intercept<int> intercepts[] = {Intercept<int>(0,7)};
+	StateIntercept states(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+	// Intercept<int> n = sqrt((double)m);
+	states[0] = sqrt((double)m);
 	for (state[3] = Intercept<int>(begin, 2); state[3] <= n; state[3]++)
 	{
 		if (m % state[3] == 0)

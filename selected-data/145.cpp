@@ -13,6 +13,9 @@ using namespace std;
 //*************************************************
 Intercept<int> sum(Intercept<int>);                      //sum??????????a=a?
 Intercept<int> g_count(-1, 3), g_j;                        //count???-1,j?????
+Intercept<int> intercepts[] = {Intercept<int>(-1,7)};
+StateIntercept gState(intercepts,sizeof(intercepts) / sizeof(intercepts[0]));
+
 int main()
 {
 	// Intercept<int> n(-1, 1), a, i(-1, 2);      
@@ -22,7 +25,7 @@ int main()
 	cin >> state[0];
 	for ( state[1] = 0; state[1] < state[0]; state[1] ++ )
 	{
-		g_count = 0;
+		gState[0] = 0;
 		g_j = 2;
 		cin >> state[2];
 		cout << sum(state[2]) + 1 << endl;
@@ -41,10 +44,10 @@ Intercept<int> sum( Intercept<int> a)
 		if ( a % state[0] == 0 )                  //?a??i????????????1
 		{
 			g_j = state[0];                       //j??i???????
-			g_count++;
+			gState[0]++;
 			sum( a / state[0] );		
 		}
 	}
-	return g_count;
+	return gState[0];
 }
 	

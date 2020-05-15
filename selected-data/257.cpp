@@ -11,14 +11,15 @@ int main()
 {
 	// Intercept<int> t = 0;
 
-	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(1, 2), Intercept<int>(0, 4), Intercept<int>(1, 4)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(1, 2), Intercept<int>(0, 4), Intercept<int>(1, 4),Intercept<int>(0,7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	cin >> state[2];
 	// Intercept<int> state[0](1, 2);
 	for (state[0] = 1; state[0] <= state[2]; state[0]++)
 	{
-		Intercept<int> vacancy = 0;
+		Intercept<int> state[4] = 0;
+		// Intercept<int> vacancy = 0;
 		// Intercept<int> num = 1;
 		cin >> state[3];
 		// Intercept<int> state[1](1, 2);
@@ -27,11 +28,11 @@ int main()
 		{
 			while (temp % state[1] == 0)
 			{
-				vacancy = vacancy + 1;
+				state[4] = state[4] + 1;
 				temp = temp / state[1];
 			}
 		}
-		cout << sort(Intercept<int>(1), vacancy, state[3]) << endl;
+		cout << sort(Intercept<int>(1), state[4], state[3]) << endl;
 	}
 	return 0;
 }
