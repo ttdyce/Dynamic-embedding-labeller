@@ -16,15 +16,16 @@ using namespace std;
 
 // Intercept<int> sum(-1, 3);
 Intercept<int> a[100];
-Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(-1, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void search(Intercept<int> t, Intercept<int> k)
 {
 	Intercept<int> i;
-	if (k == 1)
+	if (k == 1){
 		state[0]++;
-	else
+		state[4]++;
+	}else
 		for (i = a[t - 1]; i <= k; i++)
 			if (k % i == 0)
 			{
@@ -41,6 +42,7 @@ int main()
 	{
 		cin >> state[3];
 		state[0] = 0;
+		state[4] = 0;
 		a[0] = 2;
 		search(1, state[3]);
 		cout << state[0] << endl;
