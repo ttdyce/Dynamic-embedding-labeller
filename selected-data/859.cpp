@@ -19,7 +19,7 @@ int main()
 	// Intercept<int> n = 0, integer = 0;						 //???????????n?????plate????apple
 	Intercept<int> division(Intercept<int>, Intercept<int>); //????putapple??????????plate?????
 															 //apple???????????
-	cin >> state[1];												 //??????n
+	cin >> state[1];										 //??????n
 	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0]++)
 	{
 		cin >> state[2];
@@ -30,14 +30,18 @@ int main()
 
 Intercept<int> division(Intercept<int> integer, Intercept<int> limit)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(1, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(1, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (limit <= 1)
+	{
+		state[2] = 1;
 		return 0;
+	}
 	switch (integer)
 	{
 	case 1:
+		state[3] = 1;
 		return 1;
 		break;
 	default:

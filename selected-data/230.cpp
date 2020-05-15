@@ -32,12 +32,13 @@ int main()
 Intercept<int> divide(Intercept<int> n, Intercept<int> i) //???????????????1???
 {
     // Intercept<int> num(0, 3);
-    Intercept<int> intercepts[2] = {Intercept<int>(0, 3), Intercept<int>(2, 2)};
-    StateIntercept state(intercepts, 2);
+    Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(2, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
+    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
     if (n % i == 0)
     {
         if (n == i) //?????????????????1
         {
+            state[2] = 1;
             return 1;
         }
         for (state[1]; state[1] <= i; state[1]++)
@@ -49,6 +50,7 @@ Intercept<int> divide(Intercept<int> n, Intercept<int> i) //???????????????1???
 
     else
     {
+        state[3] = 1;
         return 0;
     }
 }

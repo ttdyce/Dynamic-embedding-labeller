@@ -34,7 +34,7 @@ int main()
 }
 Intercept<int> qufen(Intercept<int> n)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 2), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> j;
@@ -42,6 +42,7 @@ Intercept<int> qufen(Intercept<int> n)
 	{
 		if (power(2, state[0]) > n)
 		{
+			state[1] = 1;
 			return state[0] - 1;
 			break;
 		}
@@ -59,12 +60,13 @@ Intercept<int> power(Intercept<int> a, Intercept<int> b)
 }
 Intercept<int> num(Intercept<int> n, Intercept<int> g, Intercept<int> h)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(-1, 2), Intercept<int>(0, 3)};
+	Intercept<int> intercepts[] = {Intercept<int>(-1, 2), Intercept<int>(0, 3), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	if ((g == 1) && (n >= h)) //???????
+	if ((g == 1) && (n >= h)){ //???????
+		state[2] = 1;
 		return 1;
-	Intercept<int> j = 0, a[20000];				 //, i(-1, 2), count(0, 3)
+	}Intercept<int> j = 0, a[20000];				 //, i(-1, 2), count(0, 3)
 	for (state[0] = h; state[0] < n; state[0]++) //???????????? n ?? i ?? g ??????n / i????? g - 1?
 	{											 //?n = i * ……?g?? ???? n / i = h * ……(g - 1 ???h??????i???
 		if (n % state[0] == 0)
@@ -73,9 +75,10 @@ Intercept<int> num(Intercept<int> n, Intercept<int> g, Intercept<int> h)
 			j++;
 		}
 	}
-	if (j == 0) //j == 0?????????????????
+	if (j == 0){ //j == 0?????????????????
+		state[3] = 1;
 		return 0;
-	else
+	}else
 	{
 		for (state[0] = 0; state[0] < j; state[0]++)
 			state[1] = state[1] + num(n / a[state[0]], g - 1, a[state[0]]);

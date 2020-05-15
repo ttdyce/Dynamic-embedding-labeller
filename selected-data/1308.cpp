@@ -8,11 +8,14 @@ using namespace std;
 Intercept<int> calculate(Intercept<int> a, Intercept<int> num)
 { // a is the max num
 	// Intercept<int> sum(0, 3);
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (num == 1)
+	{
+		state[1] = 1;
 		return 1;
+	}
 	for (state[1] = Intercept<int>(num, 2); state[1] >= 2; state[1]--)
 	{
 		if (num % state[1] == 0 && state[1] <= a)

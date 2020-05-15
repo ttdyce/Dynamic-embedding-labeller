@@ -11,7 +11,7 @@ int main()
     Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
     StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-    // Intercept<int> n, N; //i, 
+    // Intercept<int> n, N; //i,
     Intercept<int> mm(int, Intercept<int>);
 
     cin >> state[1];
@@ -27,14 +27,16 @@ int main()
 
 Intercept<int> mm(int n, Intercept<int> i)
 {
-    Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+    Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
     StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
     // Intercept<int> sum = Intercept<int>(1, 3);
 
     if (dp[n][i] > 0)
+    {
+        state[2] = 1;
         return dp[n][i];
-
+    }
     for (state[1] = Intercept<int>(i, 2); state[1] <= sqrt(n); state[1]++)
     {
         if (n % state[1] == 0)

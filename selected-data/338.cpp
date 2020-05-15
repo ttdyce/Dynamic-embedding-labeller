@@ -30,7 +30,7 @@ int main()
 void fenjie(Intercept<int> a, Intercept<int> num, Intercept<int> sum)
 {
 	int length = 2;
-	Intercept<int> intercepts[length] = {Intercept<int>(a, 2), Intercept<int>(sum, 3)};
+	Intercept<int> intercepts[length] = {Intercept<int>(a, 2), Intercept<int>(sum, 3), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, length);
 
 	// a = Intercept<int>(a, 2);
@@ -42,9 +42,10 @@ void fenjie(Intercept<int> a, Intercept<int> num, Intercept<int> sum)
 			gState[0]++;
 		if (state[1] < gState[1])
 			fenjie(state[0], gState[1], state[1]);
-		if (state[1] > gState[1])
+		if (state[1] > gState[1]){
+			state[2] = 1;
 			return;
-		state[1] /= state[0];
+		}state[1] /= state[0];
 		state[0]++;
 	}
 }

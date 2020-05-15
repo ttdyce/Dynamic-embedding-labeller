@@ -13,12 +13,16 @@ using namespace std;
 
 Intercept<int> devide(Intercept<int> m, Intercept<int> x, Intercept<int> i)
 {
+	Intercept<int> intercepts[] = {Intercept<int>(i, 2), Intercept<int>(0, 3), Intercept<int>(0, 8), Intercept<int>(0, 8)};
+	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
+
 	if (x == 1 && m >= i)
+	{
+		state[2] = 1;
 		return 1;
+	}
 	else if (x > 1)
 	{
-		Intercept<int> intercepts[2] = {Intercept<int>(i, 2), Intercept<int>(0, 3)};
-		StateIntercept state(intercepts, 2);
 
 		// Intercept<int> j(i, 2);
 		// Intercept<int> sum(0, 3);
@@ -30,6 +34,8 @@ Intercept<int> devide(Intercept<int> m, Intercept<int> x, Intercept<int> i)
 		}
 		return state[1];
 	}
+
+	state[3] = 1;
 	return 0;
 }
 

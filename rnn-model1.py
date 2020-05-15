@@ -10,7 +10,7 @@ from sklearn.model_selection import KFold
 batch_size_fit = 64
 units = 8
 output_size = 3  # labels are from 0 to 3
-epochs = 50
+epochs = 650
 
 
 # Build the RNN model
@@ -18,6 +18,7 @@ def build_model():
     model = tf.keras.models.Sequential(
         [
             tf.keras.layers.GRU(units, input_shape=(None, 2)),
+            #Dense (units to output_size 3?4?)
             tf.keras.layers.Dense(output_size,activation='softmax')
         ]
     )
@@ -36,6 +37,8 @@ model.compile(
     metrics=["accuracy"],
 )
 
+# x = x.reshape(x.__len__(),300,1)
+# x = x.reshape(x.__len__(),lenMax,1)
 # x = x.reshape(x.__len__(),300,2)
 print("x.shape",x.shape)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
@@ -45,8 +48,6 @@ callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
                                             min_delta=0,
                                             patience=5,
                                             verbose=0, mode='auto')
-
-checkpoint = tf.keras.callbacks.ModelCheckpoint('rnn-trace/', monitor='val_accuracy',callbacks=[callback], verbose=1, save_best_only=False, mode='max')
 
 model.fit(
     x_train, y_train, batch_size=batch_size_fit, epochs=epochs, validation_split=0.2
@@ -62,4 +63,4 @@ predictions = model.predict(predictionData[0])
 print(predictions) #result
 print(predictionData[1])
 
-model.save('rnn-trace/', save_format="tf")
+model.save('rnn-stateTrace/model1/', save_format="tf")

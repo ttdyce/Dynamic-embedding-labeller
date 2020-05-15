@@ -22,14 +22,15 @@ int main()
 }
 Intercept<int> Factorization(Intercept<int> x, Intercept<int> y)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(y, 2), Intercept<int>(0, 3) };
+	Intercept<int> intercepts[] = {Intercept<int>(y, 2), Intercept<int>(0, 3), Intercept<int>(0, 8) };
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> i;
 	// Intercept<int> sum(0, 3);
-	if (x < 4)
+	if (x < 4){
+		state[2] = 1;
 		return 0;
-	else
+	}else
 	{
 		for (state[0] = Intercept<int>(y, 2); state[0] <= sqrt((double)x); state[0]++)
 			if (x % state[0] == 0)

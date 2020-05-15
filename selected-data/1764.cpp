@@ -7,12 +7,15 @@ using namespace std;
 
 Intercept<int> count(Intercept<int> x, Intercept<int> y) //?????????
 {
+  Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
+  StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
   if (x < y)
+  {
+    state[2] = 1;
     return 0; //????
+  }
   if (x >= y)
   {
-    Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
-    StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
     // Intercept<int> sum(0, 3);
     state[1] = y;
@@ -24,6 +27,7 @@ Intercept<int> count(Intercept<int> x, Intercept<int> y) //?????????
     return state[0] + 1;
   }
 
+  state[3] = 1;
   return 0;
 }
 int main()

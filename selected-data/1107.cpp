@@ -13,13 +13,19 @@ Intercept<int> F(Intercept<int> min, Intercept<int> a)
 {
 	// Intercept<int> i;
 	// Intercept<int> sum(0, 3);
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	if (min == a) //????????
+	if (min == a)
+	{ //????????
+		state[2] = 1;
 		return 1;
+	}
 	if (a == 1)
+	{
+		state[3] = 1;
 		return 1; //???????
+	}
 	for (state[1] = Intercept<int>(min, 2); state[1] <= a; state[1]++)
 	{
 		if (a % state[1] == 0)

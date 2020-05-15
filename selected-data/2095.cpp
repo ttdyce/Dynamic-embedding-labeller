@@ -7,7 +7,7 @@ using namespace std;
 
 Intercept<int> panduansushu(Intercept<int> t)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept s(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> i;
@@ -19,9 +19,15 @@ Intercept<int> panduansushu(Intercept<int> t)
 		}
 	}
 	if (s[0] > t / 2)
+	{
+		s[1] = 1;
 		return 1;
+	}
 	else
+	{
+		s[2] = 1;
 		return 0;
+	}
 }
 
 // Intercept<int> sum = Intercept<int>(0, 3);
