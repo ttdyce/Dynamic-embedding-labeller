@@ -17,16 +17,14 @@ epochs = 650
 def build_model():
     model = tf.keras.models.Sequential(
         [
-            tf.keras.layers.GRU(units, input_shape=(None, 2)),
+            tf.keras.layers.GRU(units, input_shape=(None, 1)),
             #Dense (units to output_size 3?4?)
             tf.keras.layers.Dense(output_size,activation='softmax')
         ]
     )
     return model
 
-# loader = Loader()
 x, y, lengths, lengthsMax , exeNames, roleInStates = Loader.stateTrace.load(model='1')
-#x, y, lens, lenMax = loader().loadDefault()
 
 model = build_model()
 
@@ -37,9 +35,6 @@ model.compile(
     metrics=["accuracy"],
 )
 
-# x = x.reshape(x.__len__(),300,1)
-# x = x.reshape(x.__len__(),lenMax,1)
-# x = x.reshape(x.__len__(),300,2)
 print("x.shape",x.shape)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 

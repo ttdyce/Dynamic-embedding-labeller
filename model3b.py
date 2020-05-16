@@ -28,11 +28,11 @@ features = roleInStates.max()
 # model
 first_input = Input(shape=(300, 1))
 first_GRU = tf.keras.layers.GRU(units)(first_input)
-first_dense = tf.keras.layers.Dense(output_size, activation="softmax")(first_GRU)
+first_dense = tf.keras.layers.Dense(output_size, activation="sigmoid")(first_GRU)
 
 second_input = Input(shape=(300, features - 1))
 second_GRU = tf.keras.layers.GRU(units)(second_input)
-second_dense = tf.keras.layers.Dense(output_size, activation="softmax")(second_GRU)
+second_dense = tf.keras.layers.Dense(output_size, activation="sigmoid")(second_GRU)
 
 merged = concatenate([first_dense, second_dense])
 #dense
@@ -71,7 +71,7 @@ print("\n# Evaluate")
 result = model.evaluate([x1_test, x2_test], y_test)
 dict(zip(model.metrics_names, result))
 
-model.save("rnn-trace/", save_format="tf")
+model.save("rnn-stateTrace/model3/", save_format="tf")
 
 
 # draw loss
