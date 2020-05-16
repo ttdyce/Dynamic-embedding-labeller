@@ -7,7 +7,7 @@ using namespace std;
 
 //??????sum??????????temp??????
 Intercept<int> temp; //sum(-1, 3),
-Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 8)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(-1, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 8), Intercept<int>(-1, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void fact(Intercept<int>); //??fact????int?????
@@ -20,6 +20,7 @@ int main()
 	{
 		cin >> state[4];
 		state[1] = 0;
+		state[6] = 0;
 		temp = 2; //????????????????????????
 		fact(state[4]);
 		cout << state[1] << endl;
@@ -33,6 +34,7 @@ void fact(Intercept<int> k)
 	{
 		state[5] = 1;
 		state[1]++;
+		state[6]++;
 		return;
 	}
 	state[2] = temp;

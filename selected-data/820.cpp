@@ -9,7 +9,7 @@ using namespace std;
 Intercept<int> yueshu[100] = {0};
 Intercept<int> s = 0;
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void number(Intercept<int> num, Intercept<int> s)
@@ -20,7 +20,10 @@ void number(Intercept<int> num, Intercept<int> s)
 		if (num < yueshu[state[1]])
 			continue;
 		if (num == yueshu[state[1]])
+		{
 			state[0]++;
+			state[5]++;
+		}
 		else if (num > yueshu[state[1]] && num % yueshu[state[1]] == 0)
 			number(num / yueshu[state[1]], state[1]);
 	}
@@ -45,6 +48,7 @@ int main()
 		number(state[4], s);
 		cout << state[0] << endl;
 		state[0] = 0;
+		state[5] = 0;
 	}
 	return 0;
 }

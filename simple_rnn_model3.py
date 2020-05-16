@@ -8,15 +8,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 import DatasetLoader as Loader
 
-# tensorflow gpu work around
-# gpus = tf.config.experimental.list_physical_devices("GPU")
-# print(gpus)
-# for gpu in gpus:
-#     tf.config.experimental.set_memory_growth(gpu, True)
-
 # config
 batch_size_fit = 100
-units = 50
+units = 200
 output_size = 5  # labels are from 0 to 3
 epochs = 100
 
@@ -28,24 +22,27 @@ features = roleInStates.max()
 # model
 first_input = Input(shape=(300, 1))
 first_GRU = tf.keras.layers.GRU(units)(first_input)
-first_dense = tf.keras.layers.Dense(output_size, activation="softmax")(first_GRU)
+first_dense = tf.keras.layers.Dense(output_size, activation="sigmoid")(first_GRU)
+# ~~softmax~~ -> sigmoid / tanh
 
 second_input = Input(shape=(300, features - 1))
 second_GRU = tf.keras.layers.GRU(units)(second_input)
-second_dense = tf.keras.layers.Dense(output_size, activation="softmax")(second_GRU)
+second_dense = tf.keras.layers.Dense(output_size, activation="sigmoid")(second_GRU)
 
 merged = concatenate([first_dense, second_dense])
 #dense
 #third_dense = tf.keras.layers.Dense(output_size, activation="softmax")(second_GRU)
-out = tf.keras.layers.Dense(output_size, activation="softmax")(merged)
+#adam 太進取
+merged_dense = tf.keras.layers.Dense(60, activation="relu")(merged) # small dense, see it is 12 or 12 * 5
+out = tf.keras.layers.Dense(output_size, activation="softmax")(merged_dense)
 
 model = tf.keras.models.Model(inputs=[first_input, second_input], outputs=out)
 
-#adam 太進取
+# try sgd, reduce lr
 opt = tf.keras.optimizers.Adam(
     lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False
 )
-model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
 x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(x1, x2, y, test_size=0.2)
 
@@ -71,7 +68,7 @@ print("\n# Evaluate")
 result = model.evaluate([x1_test, x2_test], y_test)
 dict(zip(model.metrics_names, result))
 
-model.save("rnn-trace/", save_format="tf")
+# model.save("rnn-trace/", save_format="tf")
 
 
 # draw loss
