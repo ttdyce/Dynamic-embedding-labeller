@@ -7,7 +7,7 @@ using namespace std;
 
 Intercept<int> g, f; //sum = Intercept<int>(0, 3), 
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 Intercept<int> divide(Intercept<int> chushu, Intercept<int> a)
@@ -26,10 +26,11 @@ Intercept<int> divide(Intercept<int> chushu, Intercept<int> a)
             else
             {
                 state[0]++;
+                state[5]++;
             }
         }
     }
-    return state[0];
+    return state[5];
 }
 int main()
 {
@@ -41,6 +42,7 @@ int main()
         Intercept<int>c = 2;// b = 0, 
         cin >> state[4];
         state[0] = 0;
+        state[5] = 0;
         cout << divide(c, state[4]) << endl;
     }
 

@@ -7,7 +7,7 @@ using namespace std;
 
 void fenjie(Intercept<int>, Intercept<int>, Intercept<int>);
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 // Intercept<int> g_num, g_count;
@@ -38,8 +38,10 @@ void fenjie(Intercept<int> a, Intercept<int> num, Intercept<int> sum)
 	while (state[0] <= gState[1])
 	{
 		state[1] *= state[0];
-		if (state[1] == gState[1])
+		if (state[1] == gState[1]){
 			gState[0]++;
+			gState[2]++;
+		}
 		if (state[1] < gState[1])
 			fenjie(state[0], gState[1], state[1]);
 		if (state[1] > gState[1]){

@@ -17,7 +17,7 @@ epochs = 650
 def build_model():
     model = tf.keras.models.Sequential(
         [
-            tf.keras.layers.GRU(units, input_shape=(None, 1)),
+            tf.keras.layers.GRU(units, input_shape=(None, 2)),
             #Dense (units to output_size 3?4?)
             tf.keras.layers.Dense(output_size,activation='softmax')
         ]
@@ -58,4 +58,4 @@ predictions = model.predict(predictionData[0])
 print(predictions) #result
 print(predictionData[1])
 
-model.save('rnn-stateTrace/model1/', save_format="tf")
+model.save('rnn-stateTrace/model2b/', save_format="tf")

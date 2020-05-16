@@ -11,7 +11,7 @@ using namespace std;
 void out(int, Intercept<int>);
 
 // Intercept<int> t(1, 2);
-Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int> (1, 2), Intercept<int> (0, 4), Intercept<int> (0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int> (1, 2), Intercept<int> (0, 4), Intercept<int> (0, 4), Intercept<int> (1, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
@@ -27,6 +27,7 @@ int main()
 		out(state[3], 2.0);
 		cout << state[1] << endl;
 		state[1] = 1;
+		state[4] = 1;
 	}
 
 	cin >> state[0];
@@ -43,6 +44,7 @@ void out(int sum, Intercept<int> q)
 	if (sum % q == 0 && q <= num)
 	{
 		state[1]++;
+		state[4]++;
 		out(sum / q, q);
 		out(sum, q + 1);
 	}
