@@ -21,7 +21,7 @@ Intercept<int> work(Intercept<int> m,Intercept<int> n)
 }*/
 Intercept<int> work(Intercept<int> m, Intercept<int> n)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8), Intercept<int>(0, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (m == n)
@@ -36,7 +36,10 @@ Intercept<int> work(Intercept<int> m, Intercept<int> n)
 	}
 	// Intercept<int> sum(0, 3);
 	for (state[1] = Intercept<int>(n, 2); state[1] <= m / n; state[1]++)
+	{
 		state[0] += work(m / n, state[1]);
+		state[4] += state[0];
+	}
 	return state[0];
 }
 int main()

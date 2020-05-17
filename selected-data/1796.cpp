@@ -23,7 +23,7 @@ int main()
 
 Intercept<int> breakways(Intercept<int> num, Intercept<int> min)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> sum(0, 3);
@@ -32,9 +32,15 @@ Intercept<int> breakways(Intercept<int> num, Intercept<int> min)
 		if (num % state[1] == 0)
 		{
 			if (num != state[1])
+			{
 				state[0] += breakways(num / state[1], state[1]);
+				state[2] += state[0];
+			}
 			else
+			{
 				state[0] += 1;
+				state[2] += 1;
+			}
 		}
 	}
 	return state[0];

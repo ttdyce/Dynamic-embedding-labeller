@@ -8,7 +8,7 @@ using namespace std;
 void factor(Intercept<int> a, Intercept<int> k);
 // Intercept<int> sum(0, 3);
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()
@@ -21,6 +21,7 @@ int main()
 		factor(state[4], 2);
 		cout << state[0] + 1 << endl;
 		state[0] = 0;
+		state[5] = 0;
 	}
 	return 0;
 }
@@ -34,6 +35,7 @@ void factor(Intercept<int> a, Intercept<int> k)
 		if (a % state[2] == 0)
 		{
 			state[0]++;
+			state[5]++;
 			factor(a / state[2], state[2]);
 		}
 	}

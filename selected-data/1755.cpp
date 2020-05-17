@@ -15,7 +15,7 @@ using namespace std;
 
 Intercept<int> fenjie(Intercept<int> a, Intercept<int> max)
 { //a:?????max??1??????????????
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> i(0, 2);
@@ -28,7 +28,10 @@ Intercept<int> fenjie(Intercept<int> a, Intercept<int> max)
 	for (state[1] = max; state[1] >= 2; state[1]--)
 	{
 		if ((a % state[1]) == 0)
+		{
 			state[0] += fenjie(a / state[1], state[1]); //i??????
+			state[3] += state[0];
+		}
 	}
 	return state[0]; //????
 }

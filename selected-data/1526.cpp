@@ -5,7 +5,7 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 // Intercept<int> sum(0, 3);
@@ -30,6 +30,7 @@ Intercept<int> f(Intercept<int> a, Intercept<int> b)
                 if (q == 1)
                 {
                     state[0]++;
+                    state[5]++;
                 }
                 else
                 {
@@ -53,6 +54,7 @@ int main()
         c = f(state[4], state[4]);
         cout << c << endl;
         state[0] = 0;
+        state[5] = 0;
     }
     return 0;
 }

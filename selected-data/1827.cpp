@@ -33,14 +33,14 @@ Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> j, count; //i, a, t, 
+	// Intercept<int> j, count; //i, a, t, 
 	cin >> state[2];
 	for (state[0] = Intercept<int>(0, 2); state[0] < state[2]; state[0]++)
 	{
-		count = 1;
+		state[4] = 1;
 		cin >> state[3];
 		state[1] = Intercept<int>(2, 2);
 		while (state[1] <= (state[3] / 2))
@@ -49,11 +49,11 @@ int main()
 			{
 				num = 0;
 				sum(state[3] / state[1], state[1]);
-				count = count + num;
+				state[4] = state[4] + num;
 			}
 			state[1]++;
 		}
-		cout << count << endl;
+		cout << state[4] << endl;
 	}
 
 	return 0;
