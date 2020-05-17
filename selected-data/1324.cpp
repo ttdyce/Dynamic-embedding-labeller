@@ -35,7 +35,7 @@ Intercept<int> ifsushu(Intercept<int> n) //????????????1???
 	return 0;
 }
 // Intercept<int> sum(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 Intercept<int> zhaoyinshu(Intercept<int> x, Intercept<int> max)
@@ -43,6 +43,7 @@ Intercept<int> zhaoyinshu(Intercept<int> x, Intercept<int> max)
 	if (x == 1)
 	{
 		gState[0]++;
+		gState[5]++;
 		return 0;
 	}
 	for (gState[1] = Intercept<int>(max, 2); gState[1] >= 2; gState[1]--)
@@ -71,6 +72,7 @@ int main()
 			zhaoyinshu(gState[5], gState[5] / 2);
 			cout << gState[0] + 1 << endl; //????????????~
 			gState[0] = 0;
+			gState[5] = 0;
 		}
 	}
 	return 0;

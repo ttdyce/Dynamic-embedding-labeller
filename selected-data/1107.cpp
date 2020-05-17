@@ -13,7 +13,7 @@ Intercept<int> F(Intercept<int> min, Intercept<int> a)
 {
 	// Intercept<int> i;
 	// Intercept<int> sum(0, 3);
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8), Intercept<int>(0, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (min == a)
@@ -29,9 +29,12 @@ Intercept<int> F(Intercept<int> min, Intercept<int> a)
 	for (state[1] = Intercept<int>(min, 2); state[1] <= a; state[1]++)
 	{
 		if (a % state[1] == 0)
+		{
 			state[0] += F(state[1], a / state[1]); //??????????
+			state[4] += state[0];				   //??????????
+		}
 	}
-	return state[0]; //???
+	return state[4]; //???
 }
 
 int main()
