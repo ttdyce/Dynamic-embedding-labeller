@@ -15,7 +15,7 @@ using namespace std;
  */
 
 // Intercept<int> sum(1, 3); //??????Sum
-Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(1, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 Intercept<int> Fact(int x, Intercept<int> y);
@@ -28,6 +28,7 @@ int main()
 	{
 		cin >> state[4];
 		state[0] = 1;	//????state[0]
+		state[5] = 1;	//????state[0]
 		Fact(state[4], 2); //????
 		cout << state[0] << endl;
 	}
@@ -44,6 +45,7 @@ Intercept<int> Fact(int x, Intercept<int> y)
 			if (x % state[2] == 0)
 			{
 				state[0] = state[0] + Fact(x / state[2], state[2]); //????????Fact(??y)
+				state[5] = state[0];
 			}
 		return 1;
 	}
