@@ -11,9 +11,9 @@ isContinue = True
 preLabelCount = 0
 exeNames = []
 roleInStates = []
-dir = "out-datasetText/prediction/"
+dir = "out-datasetText/prediction/r5/"
 dirDone = dir + "labeled/"
-dirOut = "out-dataset/prediction/"
+dirOut = "out-dataset/prediction/r5/"
 traces = []
 labels = []
 

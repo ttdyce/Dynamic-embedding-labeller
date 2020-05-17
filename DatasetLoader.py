@@ -126,6 +126,12 @@ class StateTrace(Trace):
                 traces, labels, _lengths, exeNames, roleInStates = loadRaw(self.path)
                 maxRole = max(roleInStates)
                 self.prediction = StateTrace("out-dataset/prediction/dataset.npz", isPrediction=True, maxRole=maxRole)
+        
+        if(self.roles == 5): 
+            if(self.isPrediction != True): 
+                traces, labels, _lengths, exeNames, roleInStates = loadRaw(self.path)
+                maxRole = max(roleInStates)
+                self.prediction = StateTrace("out-dataset/prediction/r5/dataset.npz", isPrediction=True, maxRole=maxRole, roles=5)
             
         
     def preprocess(self, datasetPath, flatten=True, model=None): 
@@ -340,7 +346,7 @@ stateTrace = StateTrace("out-dataset/dataset-state-trace-110.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
 
 # loaded = variableTrace.load()
-# loaded = stateTrace.r5.load(model='2b')
+# loaded = stateTrace.r5.prediction.load(model='2b')
 # print(loaded[0], loaded[1])
 # t = variableTrace.loadPredition(20, stack=True)
 # print([np.array(i).shape for i in variableTrace.loadPredition(20, stack=True)])
