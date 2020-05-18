@@ -39,20 +39,24 @@ model = tf.keras.models.load_model('rnn-stateTrace/model3a/')
 # print('\n# Evaluate')
 # result = model.evaluate(x,y)
 # dict(zip(model.metrics_names, result))
+x,y = Loader.stateTrace.r5.prediction.load(model='3')[0]
+p1 = model.predict([x,y])
+print("p1 = ",np.argmax(p1,axis=-1), '\n' ,p1)
 
-# p1 = model.predict(Loader.stateTrace.r5.prediction.load(model='3')[0])
-# print("p1 = ",np.argmax(p1,axis=-1), '\n' ,p1)
+x,y =Loader.stateTrace.r5.prediction.load(model='3')[1]
+p2 = model.predict([x,y])
+print("p2 = ",np.argmax(p2,axis=-1), '\n' ,p2)
 
-# p2 = model.predict(Loader.stateTrace.r5.prediction.load(model='3')[1])
-# print("p2 = ",np.argmax(p2,axis=-1), '\n' ,p2)
+x,y = Loader.stateTrace.r5.prediction.load(model='3')[2]
+p3 = model.predict([x,y])
+print("p3 = ",np.argmax(p3,axis=-1), '\n' ,p3)
 
-# p3 = model.predict(Loader.stateTrace.r5.prediction.load(model='3')[2])
-# print("p3 = ",np.argmax(p3,axis=-1), '\n' ,p3)
+x,y = Loader.stateTrace.r5.prediction.load(model='3')[3]
+p3 = model.predict([x,y])
+print("p4 = ",np.argmax(p3,axis=-1), '\n' ,p3)
 
-# p3 = model.predict(Loader.stateTrace.r5.prediction.load(model='3')[3])
-# print("p4 = ",np.argmax(p3,axis=-1), '\n' ,p3)
-
-# p3 = model.predict(Loader.stateTrace.r5.prediction.load(model='3')[4])
-# print("p5 = ",np.argmax(p3,axis=-1), '\n' ,p3)
+x,y = Loader.stateTrace.r5.prediction.load(model='3')[4]
+p3 = model.predict([x,y])
+print("p5 = ",np.argmax(p3,axis=-1), '\n' ,p3)
 
 # print(Loader.stateTrace.r5.prediction.load(model='3')[0])
