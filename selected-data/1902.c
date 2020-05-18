@@ -27,12 +27,12 @@ Intercept<int> next(Intercept<int> a, Intercept<int> b)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0,7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> i, m;
-	cin >> m;
-	for (state[0] = Intercept<int>(0, 2); state[0] < m; state[0] = i + 1)
+	Intercept<int> i; //, m == state[1]
+	cin >> state[1];
+	for (state[0] = Intercept<int>(0, 2); state[0] < state[1]; state[0] = i + 1)
 	{
 		cin >> n;
 		cout << next(n, 2) << endl;

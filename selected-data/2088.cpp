@@ -32,7 +32,7 @@ Intercept<int> f(Intercept<int> num, Intercept<int> i)
 }
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(-1, 5)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(-1, 5),Intercept<int>(0, 7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> n, num; //, i;
@@ -40,12 +40,13 @@ int main()
 	for (state[0] = Intercept<int>(1, 2); state[0] <= state[2]; state[0]++)
 	{
 		scanf("%d", &state[3]);
-		Intercept<int> j;
+		// Intercept<int> j;
 		state[1] = Intercept<int>(-1, 3);
 		state[1] = 0;
 		state[4] = 0;
-		j = 2;
-		state[1] += f(state[3], j);
+		// j == state[5]
+		state[5] = 2;
+		state[1] += f(state[3], state[5]);
 		state[4] += state[1];
 		state[4] += 1;
 		printf("%d\n", state[4]);

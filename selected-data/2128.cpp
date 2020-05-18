@@ -7,11 +7,12 @@ using namespace std;
 
 Intercept<int> ispr(Intercept<int> t)
 {
-    Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
+    Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8),Intercept<int>(0, 7)};
     StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-    Intercept<int> v = (int)sqrt(t * 1.0) + 1;
-    for (state[0] = Intercept<int>(2, 2); state[0] < v; state[0]++)
+    // Intercept<int> v = state[3];
+    state[3] = (int)sqrt(t * 1.0) + 1;
+    for (state[0] = Intercept<int>(2, 2); state[0] < state[3]; state[0]++)
         if (t % state[0] == 0)
         {
             state[1] = 1;

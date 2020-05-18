@@ -25,16 +25,18 @@ Intercept<int> f(Intercept<int> a, Intercept<int> b)
             }
             else
             {
-                Intercept<int> q;
-                q = a / state[1];
-                if (q == 1)
+                // Intercept<int> q; states[0]
+                Intercept<int> interceptss[] = {Intercept<int>(0, 7)};
+                StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+                states[0] = a / state[1];
+                if (states[0] == 1)
                 {
                     state[0]++;
                     state[5]++;
                 }
                 else
                 {
-                    f(q, state[1]);
+                    f(states[0], state[1]);
                 }
             }
         }
@@ -50,9 +52,11 @@ int main()
     {
         // Intercept<int> num;
         cin >> state[4];
-        Intercept<int> c;
-        c = f(state[4], state[4]);
-        cout << c << endl;
+        // Intercept<int> c;  == states[0]
+        Intercept<int> interceptss[] = {Intercept<int>(0, 7)};
+        StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+        states[0] = f(state[4], state[4]);
+        cout << states[0] << endl;
         state[0] = 0;
         state[5] = 0;
     }

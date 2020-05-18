@@ -26,9 +26,11 @@ int main()
 }
 void f(Intercept<int> i, int m)
 {
-      Intercept<int> s;//k, 
-      s = (int)sqrt(m);
-      for (gState[2] = Intercept<int>(i, 2); gState[2] <= s; gState[2]++)
+      Intercept<int> interceptss[] = {Intercept<int>(0, 7)};
+      StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+      //Intercept<int> s; == states[0]//k, 
+      states[0] = (int)sqrt(m);
+      for (gState[2] = Intercept<int>(i, 2); gState[2] <= states[0]; gState[2]++)
       {
             if (m % gState[2] == 0)
             {

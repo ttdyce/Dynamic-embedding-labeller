@@ -30,7 +30,7 @@ int main()
 
 Intercept<int> factorization(Intercept<int> a, Intercept<int> k)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int> (0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8), Intercept<int>(1, 5)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int> (0, 2), Intercept<int>(0, 8), Intercept<int>(0, 8), Intercept<int>(1, 5), Intercept<int>(0,7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> sum(1, 3); //???????
@@ -44,8 +44,9 @@ Intercept<int> factorization(Intercept<int> a, Intercept<int> k)
 		state[3] = 1;
 		return 1;
 	}
-	Intercept<int> b = (int)sqrt((double)a);  //?b?a??????
-	for (state[1] = Intercept<int> (k, 2); state[1] <= b; state[1]++) //??a???state[1]??????????????????
+	// Intercept<int> b == state[5]
+	state[5] = (int)sqrt((double)a);  //?b?a??????
+	for (state[1] = Intercept<int> (k, 2); state[1] <= state[5]; state[1]++) //??a???state[1]??????????????????
 	{
 		if (a % state[1] == 0)
 		{

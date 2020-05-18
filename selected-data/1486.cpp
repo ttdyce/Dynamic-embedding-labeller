@@ -12,7 +12,10 @@ using namespace std;
  *      Author: 12006
  */
 
-Intercept<int> tmp = 2;
+// Intercept<int> tmp = 2; == gstate[0]
+Intercept<int> interceptss[] = {Intercept<int>(2, 7)};
+StateIntercept gstate(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+
 Intercept<int> suml(Intercept<int> n, Intercept<int> tmp) //??????
 {
 	// Intercept<int> sum(0, 3);
@@ -46,7 +49,7 @@ int main()
 	{
 		cin >> state[2];
 		Intercept<int> zon_shu = 0;
-		zon_shu = suml(state[2], tmp);
+		zon_shu = suml(state[2], gstate[0]);
 		cout << zon_shu << endl;
 	}
 }
