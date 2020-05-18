@@ -22,7 +22,7 @@ Intercept<int> ispr(Intercept<int> t)
 }
 
 // Intercept<int> sum = Intercept<int>(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(-1, 2), Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(-1, 2), Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void fun(Intercept<int> n, Intercept<int> i)
@@ -56,6 +56,7 @@ int main()
 
         gState[3] = Intercept<int>(2, 2);
         gState[4] = Intercept<int>(1, 3);
+        gState[6] = Intercept<int>(1, 5);
         while (gState[3] <= gState[5] / 2)
         {
             if (gState[5] % gState[3] == 0)
@@ -63,6 +64,7 @@ int main()
                 gState[0] = 0;
                 fun(gState[5] / gState[3], gState[3]);
                 gState[4] += gState[0];
+                gState[6] += gState[4];
             }
             gState[3]++;
         }

@@ -13,7 +13,7 @@ using namespace std;
  */
 
 // Intercept<int> sum;
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 
@@ -31,18 +31,19 @@ int main()
 {
 	// Intercept<int> t; //, a, i = 2;
 	state[4] = 2;
-	cin >> state[6]; //????????
-	for (state[2] = Intercept<int>(0, 2); state[2] < state[6]; state[2]++)
+	cin >> state[5]; //????????
+	for (state[2] = Intercept<int>(0, 2); state[2] < state[5]; state[2]++)
 	{
 		// int x;
-		cin >> state[7];
+		cin >> state[6];
 		// Intercept<int> ans(1, 3);
-		for (state[4] = 2; state[4] < sqrt((int)state[7]); state[4]++)
+		for (state[4] = 2; state[4] < sqrt((int)state[6]); state[4]++)
 		{
 			state[0] = 0;
-			if (state[7] % state[4] == 0)
-				f(state[7] / state[4], state[4]);
+			if (state[6] % state[4] == 0)
+				f(state[6] / state[4], state[4]);
 			state[3] = state[3] + state[0];
+			state[7] = state[3];
 		}
 		cout << state[3] << endl;
 	}
