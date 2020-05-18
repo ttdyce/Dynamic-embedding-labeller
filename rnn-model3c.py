@@ -30,7 +30,7 @@ second_GRU = tf.keras.layers.GRU(units)(second_input)
 second_dense = tf.keras.layers.Dense(output_size, activation="sigmoid")(second_GRU)
 
 merged = concatenate([first_dense, second_dense])
-merged_dense = tf.keras.layers.Dense(60, activation="relu")(merged)
+merged_dense = tf.keras.layers.Dense(30, activation="relu")(merged)
 out = tf.keras.layers.Dense(output_size, activation="softmax")(merged_dense)
 
 model = tf.keras.models.Model(inputs=[first_input, second_input], outputs=out)
