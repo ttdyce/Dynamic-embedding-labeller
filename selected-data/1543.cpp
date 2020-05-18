@@ -7,7 +7,7 @@ using namespace std;
 
 Intercept<int> f(Intercept<int> a, Intercept<int> min)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(1, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (a < min)
@@ -19,6 +19,7 @@ Intercept<int> f(Intercept<int> a, Intercept<int> min)
 	{
 		if (a % state[1] == 0)
 			state[0] += f(a / state[1], state[1]);
+			state[3] += state[0];
 	}
 	return state[0];
 }

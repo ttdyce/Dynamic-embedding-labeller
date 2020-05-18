@@ -28,7 +28,7 @@ int main()
 }
 Intercept<int> decompose(int x, Intercept<int> y)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(1, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	Intercept<int> b; // sum(1, 3),
@@ -41,6 +41,7 @@ Intercept<int> decompose(int x, Intercept<int> y)
 		if (x % state[1] == 0)
 		{
 			state[0] = state[0] + decompose(x / state[1], state[1]);
+			state[3] = state[0];
 		}
 	}
 	return state[0];

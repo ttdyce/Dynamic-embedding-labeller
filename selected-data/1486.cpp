@@ -16,7 +16,7 @@ Intercept<int> tmp = 2;
 Intercept<int> suml(Intercept<int> n, Intercept<int> tmp) //??????
 {
 	// Intercept<int> sum(0, 3);
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	if (n == 1)
@@ -29,6 +29,7 @@ Intercept<int> suml(Intercept<int> n, Intercept<int> tmp) //??????
 		if (n % state[1] == 0)
 		{
 			state[0] += suml(n / state[1], state[1]);
+			state[3] += state[0];
 		}
 	}
 	return state[0];
