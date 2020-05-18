@@ -37,17 +37,20 @@ int main()
 
 void out(int sum, Intercept<int> q)
 {
+	Intercept<int> interceptss = {Intercept<int>(0,7)};
+	StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
 
-	Intercept<int> num = 0;
+
+	// Intercept<int> num = 0;
 	double m = sum;
-	num = sqrt(m);
-	if (sum % q == 0 && q <= num)
+	states[0] = sqrt(m);
+	if (sum % q == 0 && q <= states[0])
 	{
 		state[1]++;
 		state[4]++;
 		out(sum / q, q);
 		out(sum, q + 1);
 	}
-	if (sum % q != 0 && q <= num)
+	if (sum % q != 0 && q <= states[0])
 		out(sum, q + 1);
 }

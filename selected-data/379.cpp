@@ -13,7 +13,7 @@ using namespace std;
 Intercept<int> factors(Intercept<int>, Intercept<int>, Intercept<int>); //????factors?????????????
 int main()
 {
-	Intercept<int> intercepts[] = {Intercept<int>(-1, 2), Intercept<int>(-1, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+	Intercept<int> intercepts[] = {Intercept<int>(-1, 2), Intercept<int>(-1, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0,7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	Intercept<int> b[10000]; //i(-1, 2), j(-1, 2), n, num
@@ -22,14 +22,14 @@ int main()
 	{
 		cin >> state[4];
 		// Intercept<int> part(0, 2);                          //??????????
-		Intercept<int> t = state[4]; //????
-
+		// Intercept<int> t = state[4]; //????
+			state[5] = state[4]
 		//??????1????????????
 		for (state[1] = 2; state[1] <= state[4]; state[1]++)
 		{
-			while (t % state[1] == 0)
+			while (state[5] % state[1] == 0)
 			{
-				t /= state[1];
+				state[5] /= state[1];
 				state[2]++;
 			}
 		}

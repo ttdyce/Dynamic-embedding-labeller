@@ -26,7 +26,8 @@ Intercept<int> fact(Intercept<int> n, Intercept<int> m) //fact??
     Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(-1, 2), Intercept<int>(0, 8), Intercept<int>(0, 8)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> temp = 0; //sum(1, 3), i(-1, 2), 
+	Intercept<int> temp = 0; 
+	//sum(1, 3), i(-1, 2), 
 	if (n < m){
 		state[2] = 1;
 		return 0; //?n<m,?????0

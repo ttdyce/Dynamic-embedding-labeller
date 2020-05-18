@@ -24,17 +24,17 @@ Intercept<int> cut(int m, Intercept<int> l)
 
 int main()
 {
-	int length = 1;
-	Intercept<int> intercepts[length] = {Intercept<int>(0, 2)};
+	int length = 2;
+	Intercept<int> intercepts[length] = {Intercept<int>(0, 2),Intercept<int>(0,7)};
 	StateIntercept state(intercepts, length);
 
 	Intercept<int> n;
 	cin >> n;
 	for (state[0]; state[0] < n; state[0]++)
 	{
-		Intercept<int> t = 0;
-		cin >> t;
-		cout << cut(2 * t, 2);
+		// Intercept<int> t = 0;
+		cin >> state[1];
+		cout << cut(2 * state[1], 2);
 		if (state[0] < n - 1)
 			cout << endl;
 	}
