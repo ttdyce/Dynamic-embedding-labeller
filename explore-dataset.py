@@ -4,13 +4,15 @@ import matplotlib.pyplot as plt
 from pprint import pprint
 
 # dataset
-x, y, lens, lenMax = loader.variableTrace.load()
+# x, y, lens, lenMax = loader.variableTrace.load()
 
-plt.hist(y)
+y = loader.stateTrace.r5.load()[1]
+index = np.argmax(y, axis=1)
+
+plt.hist(index)
 plt.xlabel('label id')
 plt.ylabel('label count')
 plt.show()
-
 # x, y, lengths, lengthsMax = loader.loadDefault()
 
 # print(np.array(x).__len__())
