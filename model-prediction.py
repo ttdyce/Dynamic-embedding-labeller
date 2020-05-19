@@ -10,7 +10,7 @@ import DatasetLoader as Loader
 from scipy import stats
 #'1': Fixed value, '2': Stepper, '3': Gatherer
 
-model = tf.keras.models.load_model('rnn-stateTrace/model3a/')
+model = tf.keras.models.load_model('rnn-stateTrace/model3c_checkpoint/')
 # (x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r5.load(model='3')
 # features = roleInStates.max()
 
@@ -39,24 +39,33 @@ model = tf.keras.models.load_model('rnn-stateTrace/model3a/')
 # print('\n# Evaluate')
 # result = model.evaluate(x,y)
 # dict(zip(model.metrics_names, result))
-x,y = Loader.stateTrace.r5.prediction.load(model='3')[0]
-p1 = model.predict([x,y])
-print("p1 = ",np.argmax(p1,axis=-1), '\n' ,p1)
+# x,y = Loader.stateTrace.r5.prediction.load(model='3')[0][0], Loader.stateTrace.r5.prediction.load(model='3')[1]
+# p1 = model.predict([x,y])
+# print("p1 = ",np.argmax(p1,axis=-1), '\n' ,p1)
 
-x,y =Loader.stateTrace.r5.prediction.load(model='3')[1]
-p2 = model.predict([x,y])
-print("p2 = ",np.argmax(p2,axis=-1), '\n' ,p2)
+# x,y =Loader.stateTrace.r5.prediction.load(model='3')[0], Loader.stateTrace.r5.prediction.load(model='3')[1]
+# p2 = model.predict([x,y])
+# print("p2 = ",np.argmax(p2,axis=-1), '\n' ,p2)
 
-x,y = Loader.stateTrace.r5.prediction.load(model='3')[2]
-p3 = model.predict([x,y])
-print("p3 = ",np.argmax(p3,axis=-1), '\n' ,p3)
+# x,y = Loader.stateTrace.r5.prediction.load(model='3')[0], Loader.stateTrace.r5.prediction.load(model='3')[1]
+# p3 = model.predict([x,y])
+# print("p3 = ",np.argmax(p3,axis=-1), '\n' ,p3)
 
-x,y = Loader.stateTrace.r5.prediction.load(model='3')[3]
-p3 = model.predict([x,y])
-print("p4 = ",np.argmax(p3,axis=-1), '\n' ,p3)
+# x,y = Loader.stateTrace.r5.prediction.load(model='3')[0], Loader.stateTrace.r5.prediction.load(model='3')[1]
+# p3 = model.predict([x,y])
+# print("p4 = ",np.argmax(p3,axis=-1), '\n' ,p3)
 
-x,y = Loader.stateTrace.r5.prediction.load(model='3')[4]
-p3 = model.predict([x,y])
-print("p5 = ",np.argmax(p3,axis=-1), '\n' ,p3)
+# x,y = Loader.stateTrace.r5.prediction.load(model='3')[0], Loader.stateTrace.r5.prediction.load(model='3')[1]
+# p3 = model.predict([x,y])
+# print("p5 = ",np.argmax(p3,axis=-1), '\n' ,p3)
 
 # print(Loader.stateTrace.r5.prediction.load(model='3')[0])
+
+(x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r5.prediction.load(model='3')
+predictions = model.predict([x1,x2])
+
+i = 0
+while i < y.__len__():
+    print("p",[i]," answer:", np.argmax(y[i],axis=-1))
+    print("p",[i]," = ",np.argmax(predictions[i],axis=-1), '\n' ,predictions[i])
+    i = i +1
