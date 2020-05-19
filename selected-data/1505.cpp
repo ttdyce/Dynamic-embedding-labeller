@@ -28,15 +28,15 @@ int main()
 }
 Intercept<int> decompose(int x, Intercept<int> y)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(1, 5)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(1, 5), Intercept<int>(0,7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> b; // sum(1, 3),
-	b = (int)sqrt(x);
+	//Intercept<int> b; == state[4]  // sum(1, 3),
+	state[4] = (int)sqrt(x);
 	if (x == 1){
 		state[2] = 1;
 		return 0;
-	}for (state[1] = Intercept<int>(y, 2); state[1] <= b; state[1]++)
+	}for (state[1] = Intercept<int>(y, 2); state[1] <= state[4]; state[1]++)
 	{
 		if (x % state[1] == 0)
 		{

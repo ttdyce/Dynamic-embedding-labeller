@@ -7,9 +7,9 @@ using namespace std;
 
 // Intercept<int> sum(0, 3); //??????sum????????
 Intercept<int> yueshu[100] = {0};
-Intercept<int> s = 0;
+// Intercept<int> s = 0; = state[6]
 
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(0, 5), Intercept<int>(0,7)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void number(Intercept<int> num, Intercept<int> s)
@@ -44,8 +44,8 @@ int main()
 				yueshu[j] = state[2];
 				j++;
 			}
-		s = j - 1;
-		number(state[4], s);
+		state[6] = j - 1;
+		number(state[4], state[6]);
 		cout << state[0] << endl;
 		state[0] = 0;
 		state[5] = 0;

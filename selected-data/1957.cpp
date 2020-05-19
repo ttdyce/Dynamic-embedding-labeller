@@ -7,7 +7,7 @@ using namespace std;
 
 Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(0, 2), Intercept<int>(1, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> ret = Intercept<int>(1, 3);
@@ -16,6 +16,7 @@ Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 		if (a % state[1] == 0)
 		{
 			state[0] += sum(a / state[1], state[1]);
+			state[2] += state[0];
 		}
 	}
 	return state[0];

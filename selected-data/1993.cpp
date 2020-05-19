@@ -9,7 +9,7 @@ Intercept<int> p = 0;
 
 Intercept<int> factor(Intercept<int> a, Intercept<int> min)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 8), Intercept<int>(0, 5)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 	// Intercept<int> sum = Intercept<int>(0, 3);
@@ -19,8 +19,10 @@ Intercept<int> factor(Intercept<int> a, Intercept<int> min)
 		return 1;
 	}
 	for (state[1] = Intercept<int>(min, 2); state[1] <= a / min; state[1]++)
-		if (a % state[1] == 0)
+		if (a % state[1] == 0){
 			state[0] += factor(a / state[1], state[1]);
+			state[3] += state[0];
+			}
 	return state[0];
 }
 

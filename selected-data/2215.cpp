@@ -21,7 +21,7 @@ Intercept<int> f(int t)
   return 1;
 }
 // Intercept<int> sum = Intercept<int>(0, 3);
-Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(0, 4), Intercept<int>(0, 4)};
+Intercept<int> intercepts[] = {Intercept<int>(0, 3), Intercept<int>(0, 2), Intercept<int>(0, 2), Intercept<int>(1, 3), Intercept<int>(0, 4), Intercept<int>(0, 4), Intercept<int>(1, 5)};
 StateIntercept gState(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void fun(Intercept<int> n, Intercept<int> i)
@@ -60,6 +60,7 @@ int main()
         gState[0] = 0;
         fun(gState[5] / gState[2], gState[2]);
         gState[3] += gState[0];
+        gState[6] += gState[3];
       }
       gState[2]++;
     }

@@ -7,28 +7,28 @@ using namespace std;
 
 Intercept<int> sushu(Intercept<int> a)
 {
-	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
+	Intercept<int> intercepts[] = {Intercept<int>(0, 2), Intercept<int>(0, 7),Intercept<int>(0, 7),Intercept<int>(0, 7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
-	Intercept<int> c, d = 0, k; //b = Intercept<int>(2, 2), 
+	//Intercept<int>  k; == state[3] //b = Intercept<int>(2, 2),  c,== state[1] d == state[2] 
 	state[0] = 2;
 	while (state[0] < a)
 	{
-		c = a % state[0];
-		if (c != 0)
+		state[1] = a % state[0];
+		if (state[1] != 0)
 		{
 			state[0] = state[0] + 1;
-			d = d + 1;
+			state[2] = state[2] + 1;
 		}
 		else
 			break;
 	}
 
-	if (d == (a - 2))
-		k = 1;
+	if (state[2] == (a - 2))
+		state[3] = 1;
 	else
-		k = 0;
-	return k;
+		state[3] = 0;
+	return state[3];
 }
 Intercept<int> zheng(Intercept<int> n, Intercept<int> i)
 {

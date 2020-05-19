@@ -92,6 +92,13 @@ x, y, lengths, lengthMax, exeNames, roleInStates = loader.stateTrace.load(model=
 (x1, x2), y, lengths, lengthMax, exeNames, roleInStates = loader.stateTrace.load(model='3')
 (x1, x2), y, lengths, lengthMax, exeNames, roleInStates = loader.stateTrace.r5.load(model='3')
 
+# predictions sample code
+(x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = loader.stateTrace.r5.prediction.load(model='3')
+predictions = model.predict([x1,x2])
+for i in range(120):
+    print("--- Should be:", y[i])
+    print("p1 = ",np.argmax(predictions[i],axis=-1), '\n' ,predictions[i])
+
 ```
 
 See [simple_rnn_model3.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_rnn_model3.py) for the latest dataset demo
