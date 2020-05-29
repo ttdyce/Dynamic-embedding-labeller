@@ -129,13 +129,20 @@ class StateTrace(Trace):
         if(self.roles == 3): 
             self.r4 = StateTrace("out-dataset/dataset-state-trace-110-r4.npz", roles=4)
             self.r5 = StateTrace("out-dataset/dataset-state-trace-110-r5.npz", roles=5)
-            self.r4mod = StateTrace("out-dataset/dataset-state-trace-110-r5.npz", roles=5, replaceConstant=True)
+            self.r7 = StateTrace("out-dataset/dataset-state-trace-105-r7.npz", roles=7)
+            self.r4mod = StateTrace("out-dataset/dataset-state-trace-110-r5.npz", roles=4, replaceConstant=True)
+            self.r6mod = StateTrace("out-dataset/dataset-state-trace-105-r7.npz", roles=6, replaceConstant=True)
             
             if(self.isPrediction != True): 
                 traces, labels, _lengths, exeNames, roleInStates = loadRaw(self.path)
                 maxRole = max(roleInStates)
                 self.prediction = StateTrace("out-dataset/prediction/dataset.npz", isPrediction=True, maxRole=maxRole)
         
+        if(self.roles == 4): 
+            if(self.isPrediction != True): 
+                traces, labels, _lengths, exeNames, roleInStates = loadRaw(self.path)
+                maxRole = max(roleInStates)
+                self.prediction = StateTrace("out-dataset/prediction/r5/dataset.npz", isPrediction=True, maxRole=maxRole, roles=4, replaceConstant=True)
         if(self.roles == 5): 
             if(self.isPrediction != True): 
                 traces, labels, _lengths, exeNames, roleInStates = loadRaw(self.path)
@@ -358,5 +365,5 @@ sampleTrace = StateTrace("out-dataset/dataset.npz")
 # loaded = variableTrace.load()
 # loaded = stateTrace.r5.prediction.load(model='2b')
 # loaded = sampleTrace.load(model='2b')
-# loaded = stateTrace.r4mod.load()
+# loaded = stateTrace.r4mod.prediction.load()
 # print(loaded[0], loaded[1], sep='\n---\n')

@@ -1,12 +1,12 @@
 ﻿$dir = "selected-data/"
 $filter = $dir + "*.exe"
-$max = 10 # set to -1 for all
+$max = -1 # set to -1 for all
 
 # init
 if(Test-Path "out-datasetText/"){
-    $cleanOutTextFolder = Read-Host 'out-datasetText/ exist! Would you like to delete the folder? (enter/n: No, y: Yes, delete)'
+    $cleanOutTextFolder = Read-Host 'out-datasetText/ exist! Would you like to delete all .json in the folder? (enter/n: No, y: Yes, delete)'
     if($cleanOutTextFolder -eq 'y'){
-        Remove-Item "out-datasetText/"
+        Remove-Item "out-datasetText/*.json"
 
     }
 
