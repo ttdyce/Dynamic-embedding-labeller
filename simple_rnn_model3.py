@@ -9,14 +9,15 @@ from sklearn.model_selection import KFold
 import DatasetLoader as Loader
 
 # config
-batch_size_fit = 100
-units = 200
-output_size = 5  # labels are from 0 to 3
-epochs = 100
+batch_size_fit = 300
+units = 150
+# output_size = 5  # labels are from 0 to 3
+epochs = 200
 
 # dataset
-(x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r5.load(model='3')
+(x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.sampleTrace.load(model='3')
 features = roleInStates.max()
+output_size = y.shape[1]
 # x, y, lens, lenMax = loader().loadDefault()
 
 # model
@@ -69,7 +70,11 @@ result = model.evaluate([x1_test, x2_test], y_test)
 dict(zip(model.metrics_names, result))
 
 # model.save("rnn-trace/", save_format="tf")
-
+(x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r5.prediction.load(model='3')
+predictions = model.predict([x1,x2])
+for i in range(120): 
+    print("--- Should be:", y[i])
+    print("p1 = ",np.argmax(predictions[i],axis=-1), '\n' ,predictions[i])
 
 # draw loss
 plt.plot(history.history["loss"])
