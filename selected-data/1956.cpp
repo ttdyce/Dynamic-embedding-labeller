@@ -11,8 +11,12 @@ StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 // Intercept<int> sum(0, 3);
 void f(int n, Intercept<int> y)
 {
-	Intercept<int> a = sqrt(n);
-	for (state[1] = Intercept<int>(y, 2); state[1] <= a; state[1]++)
+	Intercept<int> interceptss[] = {Intercept<int>(0, 7)};
+	StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+
+	// Intercept<int> a ==states[0]
+	states[0] = sqrt(n);
+	for (state[1] = Intercept<int>(y, 2); state[1] <= states[0]; state[1]++)
 	{
 		if (n % state[1] == 0)
 		{

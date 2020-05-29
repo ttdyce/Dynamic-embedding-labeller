@@ -5,7 +5,10 @@
 #include <string.h>
 using namespace std;
 
-Intercept<int> num = 0;
+// Intercept<int> num = 0; gState[0]
+Intercept<int> interceptss[] = {Intercept<int>(0, 7)};
+StateIntercept gState(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+
 Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 {
 	Intercept<int> intercepts[] = {Intercept<int>(0, 2)};
@@ -16,7 +19,7 @@ Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 
 	if (a == 1)
 	{
-		num++;
+		gState[0]++;
 	}
 	else
 	{
@@ -29,7 +32,7 @@ Intercept<int> sum(Intercept<int> a, Intercept<int> i)
 			i++;
 		}
 	}
-	return num;
+	return gState[0];
 }
 int main()
 {
@@ -47,9 +50,9 @@ int main()
 		{
 			if (state[3] % state[1] == 0)
 			{
-				num = 0;
+				gState[0] = 0;
 				sum(state[3] / state[1], state[1]);
-				state[4] = state[4] + num;
+				state[4] = state[4] + gState[0];
 			}
 			state[1]++;
 		}

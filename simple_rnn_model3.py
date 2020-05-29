@@ -8,6 +8,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 import DatasetLoader as Loader
 
+tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('GPU')[0], True)
+
 # config
 batch_size_fit = 300
 units = 150
@@ -22,19 +24,21 @@ output_size = y.shape[1]
 
 # model
 first_input = Input(shape=(300, 1))
-first_GRU = tf.keras.layers.GRU(units)(first_input)
-first_dense = tf.keras.layers.Dense(output_size, activation="sigmoid")(first_GRU)
+d1 = tf.keras.layers.Dense(4)(first_input)
+first_GRU = tf.keras.layers.GRU(units)(d1)
+first_dense = tf.keras.layers.Dense(units/2, activation="sigmoid")(first_GRU)
 # ~~softmax~~ -> sigmoid / tanh
 
 second_input = Input(shape=(300, features - 1))
-second_GRU = tf.keras.layers.GRU(units)(second_input)
-second_dense = tf.keras.layers.Dense(output_size, activation="sigmoid")(second_GRU)
+d2 = tf.keras.layers.Dense((features - 1) * 4)(second_input)
+second_GRU = tf.keras.layers.GRU(units)(d2)
+second_dense = tf.keras.layers.Dense(units/2, activation="sigmoid")(second_GRU)
 
 merged = concatenate([first_dense, second_dense])
 #dense
 #third_dense = tf.keras.layers.Dense(output_size, activation="softmax")(second_GRU)
 #adam 太進取
-merged_dense = tf.keras.layers.Dense(60, activation="relu")(merged) # small dense, see it is 12 or 12 * 5
+merged_dense = tf.keras.layers.Dense(100, activation="relu")(merged) # small dense, see it is 12 or 12 * 5
 out = tf.keras.layers.Dense(output_size, activation="softmax")(merged_dense)
 
 model = tf.keras.models.Model(inputs=[first_input, second_input], outputs=out)
@@ -43,7 +47,7 @@ model = tf.keras.models.Model(inputs=[first_input, second_input], outputs=out)
 opt = tf.keras.optimizers.Adam(
     lr=0.0005, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False
 )
-model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=tf.keras.optimizers.Adam(lr=0.0001), metrics=["accuracy"])
 
 x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(x1, x2, y, test_size=0.2)
 
@@ -70,11 +74,28 @@ result = model.evaluate([x1_test, x2_test], y_test)
 dict(zip(model.metrics_names, result))
 
 # model.save("rnn-trace/", save_format="tf")
+
 (x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r5.prediction.load(model='3')
 predictions = model.predict([x1,x2])
-for i in range(120): 
-    print("--- Should be:", y[i])
-    print("p1 = ",np.argmax(predictions[i],axis=-1), '\n' ,predictions[i])
+predictions = [np.argmax(p,axis=-1) for p in predictions]
+
+roles = ['Constant', 'Stepper', 'Gatherer', 'Most-Recent holder', 'One-way flag']
+answers = [np.argmax(item,axis=-1) for item in y]
+answersCount = [0 for i in range(output_size)]
+correctAnswersCount = [0 for i in range(output_size)]
+
+for a in answers: 
+    answersCount[a] += 1
+    
+for i in range(y.__len__()): 
+    if(predictions[i] == answers[i]): 
+        correctAnswersCount[answers[i]] += 1
+        
+print("\n\n# Prediction")
+print(roles, answersCount, correctAnswersCount, sep='\n')
+result = model.evaluate([x1, x2], y)
+
+
 
 # draw loss
 plt.plot(history.history["loss"])

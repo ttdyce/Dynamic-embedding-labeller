@@ -28,9 +28,12 @@ int main()
 
 void factor(Intercept<int> a, Intercept<int> k)
 {
-	Intercept<int> b; //, j
-	b = (int)sqrt((double)a);
-	for (state[2] = Intercept<int>(k, 2); state[2] <= b; state[2]++)
+	Intercept<int> interceptss[] = {Intercept<int>(0, 7)};
+	StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+
+	//Intercept<int> b; == states[0] //, j
+	states[0] = (int)sqrt((double)a);
+	for (state[2] = Intercept<int>(k, 2); state[2] <= states[0]; state[2]++)
 	{
 		if (a % state[2] == 0)
 		{

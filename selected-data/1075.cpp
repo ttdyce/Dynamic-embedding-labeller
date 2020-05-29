@@ -14,6 +14,9 @@ StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 void dfs(Intercept<int> cnt)
 {
+    Intercept<int> interceptss[] = {Intercept<int>(0,7)};
+    StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+
     if (cnt * state[0] == state[5])
     {
         state[6]++;
@@ -22,8 +25,9 @@ void dfs(Intercept<int> cnt)
     if (cnt * state[0] < state[5])
     {
         state[0] *= cnt;
-        Intercept<int> j = state[5] / state[0];
-        for (state[1] = Intercept<int>(cnt, 2); state[1] <= j; state[1]++)
+        //  Intercept<int> j  = states[0]
+        states[0] = state[5] / state[0];
+        for (state[1] = Intercept<int>(cnt, 2); state[1] <= states[0]; state[1]++)
             dfs(state[1]);
         state[0] /= cnt;
         return;

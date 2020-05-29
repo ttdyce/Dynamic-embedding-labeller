@@ -35,15 +35,18 @@ int main()
 
 void breakup(Intercept<int> x, Intercept<int> j)
 {
-	Intercept<int> p, m; //i,
-	m = x;				 //???????
-	p = sqrt((double)x); //p??????????
-	for (state[2] = Intercept<int>(j, 2); state[2] <= p; state[2]++)
-		if (m % state[2] == 0) //????????????????
+	Intercept<int> interceptss[] = {Intercept<int>(0, 7),Intercept<int>(0,7)};
+	StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
+
+	//Intercept<int> p; == states[1] //m; == states[0] //i,
+	states[0] = x;				 //???????
+	states[1] = sqrt((double)x); //p??????????
+	for (state[2] = Intercept<int>(j, 2); state[2] <= states[1]; state[2]++)
+		if (states[0] % state[2] == 0) //????????????????
 		{
 			state[0]++; //??????
 			state[5]++; //??????
-			x = m / state[2];
+			x = states[0] / state[2];
 			breakup(x, state[2]);
 		}
 	return;
