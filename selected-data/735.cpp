@@ -13,7 +13,7 @@ using namespace std;
 // Intercept<int>  j = 2; //????????????????? sum(1, 3),
 void num(int);				   //??????
 
-Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(1, 2), Intercept<int>(0, 2), Intercept<int>(0, 4), Intercept<int>(1, 5), Intercept<int>(2,7)};
+Intercept<int> intercepts[] = {Intercept<int>(1, 3), Intercept<int>(1, 2), Intercept<int>(2, 2), Intercept<int>(0, 4), Intercept<int>(1, 5), Intercept<int>(2,7)};
 StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 
 int main()					   //?????
@@ -35,7 +35,7 @@ void num(int a) //????
 {
 	// Intercept<int> k;
 	
-	for (state[2] = Intercept<int>(j, 2); state[2] <= sqrt(a); state[2]++) //state[2]=j?????????????????
+	for (state[2]; state[2] <= sqrt(a); state[2]++) //state[2]=j?????????????????
 	{
 		if (a % state[2] == 0) //???????
 		{

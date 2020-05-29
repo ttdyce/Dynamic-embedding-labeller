@@ -63,12 +63,14 @@ Intercept<int> factor(int x, Intercept<int> y) //?????????factor
 int main() //?????
 {
 
+	
+	Intercept<int> n;
+	cin >> n;
+
 	Intercept<int> intercepts[] = {Intercept<int>(n, 1), Intercept<int>(0, 2), Intercept<int>(0, 4),Intercept<int>(0,7)};
 	StateIntercept state(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
-	
-	// Intercept<int> n;
-	cin >> state[3];
 
+	state[3] = n;
 
 	state[2] = state[3];
 	// const Intercept<int> m(n, 1);

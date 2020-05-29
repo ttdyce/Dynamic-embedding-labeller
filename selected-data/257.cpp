@@ -18,7 +18,7 @@ int main()
 	// Intercept<int> state[0](1, 2);
 	for (state[0] = 1; state[0] <= state[2]; state[0]++)
 	{
-		Intercept<int> state[4] = 0;
+		// Intercept<int> state[4] = 0;
 		// Intercept<int> vacancy = 0;
 		// Intercept<int> num = 1;
 		cin >> state[3];

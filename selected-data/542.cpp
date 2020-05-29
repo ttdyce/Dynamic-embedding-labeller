@@ -37,7 +37,7 @@ int main()
 
 void out(int sum, Intercept<int> q)
 {
-	Intercept<int> interceptss = {Intercept<int>(0,7)};
+	Intercept<int> interceptss[] = {Intercept<int>(0,7)};
 	StateIntercept states(interceptss, sizeof(interceptss) / sizeof(interceptss[0]));
 
 

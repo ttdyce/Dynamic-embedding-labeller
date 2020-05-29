@@ -37,7 +37,7 @@ void calculate(int m, Intercept<int> begin)
 	StateIntercept states(intercepts, sizeof(intercepts) / sizeof(intercepts[0]));
 	// Intercept<int> n = sqrt((double)m);
 	states[0] = sqrt((double)m);
-	for (state[3] = Intercept<int>(begin, 2); state[3] <= n; state[3]++)
+	for (state[3] = Intercept<int>(begin, 2); state[3] <= states[0]; state[3]++)
 	{
 		if (m % state[3] == 0)
 		{
