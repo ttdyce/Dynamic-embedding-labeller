@@ -7,14 +7,15 @@ from tensorflow.keras.layers import Concatenate, Dense, LSTM, Input, concatenate
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 import DatasetLoader as Loader
+import ResultLogger as logger
 
 # config
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
-batch_size_fit = 500
-units = 100
+batch_size_fit = 128
+units = 200
 # output_size = 5  # labels are from 0 to 3
-epochs = 300
+epochs = 2
 
 # dataset
 (x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r4mod.load(model='3')
@@ -22,27 +23,27 @@ features = roleInStates.max()
 output_size = y.shape[1]
 
 ####################################model########################################
-first_input = Input(shape=(300, 1))
-d11 = tf.keras.layers.Dense(4)(first_input)
-first_GRU = tf.keras.layers.GRU(units)(d11)
-first_dense = tf.keras.layers.Dense(units/2, activation="sigmoid")(first_GRU)
+input1 = Input(shape=(300, 1))
+dense11 = tf.keras.layers.Dense(4)(input1)
+GRU1 = tf.keras.layers.GRU(units)(dense11)
+last_dense1 = tf.keras.layers.Dense(units/2, activation="sigmoid")(GRU1)
 
-second_input = Input(shape=(300, features - 1))
-d21 = tf.keras.layers.Dense((features - 1) * 4)(second_input)
-second_GRU = tf.keras.layers.GRU(units)(d21)
-second_dense = tf.keras.layers.Dense(units/2, activation="sigmoid")(second_GRU)
+input2 = Input(shape=(300, features - 1))
+dense21 = tf.keras.layers.Dense((features - 1) * 4)(input2)
+GRU2 = tf.keras.layers.GRU(units)(dense21)
+last_dense2 = tf.keras.layers.Dense(units/2, activation="sigmoid")(GRU2)
 
-merged = concatenate([first_dense, second_dense])
-merged_dense = tf.keras.layers.Dense(units/2, activation="relu")(merged)
+concatenated = concatenate([last_dense1, last_dense2])
+merged_dense = tf.keras.layers.Dense(units/2, activation="relu")(concatenated)
 out = tf.keras.layers.Dense(output_size, activation="softmax")(merged_dense)
 
-model = tf.keras.models.Model(inputs=[first_input, second_input], outputs=out)
+model = tf.keras.models.Model(inputs=[input1, input2], outputs=out)
 #################################################################################
 
 #model
 #adam may be too aggresive
 opt = tf.keras.optimizers.Adam(
-    lr=0.0002, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False
+    lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False
 )
 model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
 
@@ -68,8 +69,8 @@ history = model.fit(
 )
 
 print("\n# Evaluate")
-result = model.evaluate([x1_validation, x2_validation], y_validation)
-dict(zip(model.metrics_names, result))
+evaluationResult = model.evaluate([x1_validation, x2_validation], y_validation)
+# dict(zip(model.metrics_names, evaluationResult))
 
 model.save("rnn-stateTrace/model3c/", save_format="tf")
 
@@ -78,7 +79,7 @@ model.save("rnn-stateTrace/model3c/", save_format="tf")
 predictions = model.predict([x1,x2])
 predictions = [np.argmax(p,axis=-1) for p in predictions]
 
-roles = ['Constant', 'Stepper', 'Gatherer', 'Most-Recent holder', 'One-way flag']
+roles = ['Stepper', 'Gatherer', 'Most-Recent holder', 'One-way flag & Constant']
 answers = [np.argmax(item,axis=-1) for item in y]
 answersCount = [0 for i in range(output_size)]
 correctAnswersCount = [0 for i in range(output_size)]
@@ -89,10 +90,22 @@ for a in answers:
 for i in range(y.__len__()): 
     if(predictions[i] == answers[i]): 
         correctAnswersCount[answers[i]] += 1
-        
+
+predictionDetails = f'''{roles}
+{answersCount}
+{correctAnswersCount}
+'''
 print("\n\n# Prediction")
-print(roles, answersCount, correctAnswersCount, sep='\n')
-result = model.evaluate([x1, x2], y)
+print(predictionDetails)
+predictionResult = model.evaluate([x1, x2], y)
+
+# log result
+stringlist = []
+model.summary(print_fn=lambda x: stringlist.append(x))
+summary = "\n".join(stringlist)
+
+logger.log(units, batch_size_fit, epochs, output_size, summary, 
+           history, evaluationResult, predictionResult, predictionDetails)
 
 # draw loss
 plt.plot(history.history["loss"])

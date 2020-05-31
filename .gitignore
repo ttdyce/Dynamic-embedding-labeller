@@ -6,3 +6,4 @@ out-datasetText/*
 *.h5
 checkpoint
 *.ckpt.*
+log/
