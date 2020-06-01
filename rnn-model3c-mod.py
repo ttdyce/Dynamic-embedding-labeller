@@ -12,10 +12,11 @@ import ResultLogger as logger
 # config
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
-batch_size_fit = 128
+batch_size_fit = 64
 units = 200
 # output_size = 5  # labels are from 0 to 3
-epochs = 2
+epochs = 100
+lr = 0.001
 
 # dataset
 (x1, x2), y, lengths, lengthsMax, exeNames, roleInStates = Loader.stateTrace.r4mod.load(model='3')
@@ -43,7 +44,7 @@ model = tf.keras.models.Model(inputs=[input1, input2], outputs=out)
 #model
 #adam may be too aggresive
 opt = tf.keras.optimizers.Adam(
-    lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False
+    lr=lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False
 )
 model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
 
@@ -104,7 +105,7 @@ stringlist = []
 model.summary(print_fn=lambda x: stringlist.append(x))
 summary = "\n".join(stringlist)
 
-logger.log(units, batch_size_fit, epochs, output_size, summary, 
+logger.log(units, batch_size_fit, epochs, output_size, lr, summary, 
            history, evaluationResult, predictionResult, predictionDetails)
 
 # draw loss
