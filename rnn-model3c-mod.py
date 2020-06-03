@@ -9,10 +9,11 @@ from sklearn.model_selection import KFold
 import DatasetLoader as Loader
 import ResultLogger as logger
 
-# config
 physical_devices = tf.config.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
-batch_size_fit = 64
+# config
+logResult = False
+batch_size_fit = 512
 units = 200
 # output_size = 5  # labels are from 0 to 3
 epochs = 100
@@ -25,18 +26,21 @@ output_size = y.shape[1]
 
 ####################################model########################################
 input1 = Input(shape=(300, 1))
-dense11 = tf.keras.layers.Dense(4)(input1)
-GRU1 = tf.keras.layers.GRU(units)(dense11)
-last_dense1 = tf.keras.layers.Dense(units/2, activation="sigmoid")(GRU1)
+main_layer = tf.keras.layers.Dense(4)(input1)
+# main_layer = tf.keras.layers.BatchNormalization()(main_layer)
+main_layer = tf.keras.layers.GRU(units)(main_layer)
+main_layer = tf.keras.layers.Dense(units/2, activation="sigmoid")(main_layer)
 
 input2 = Input(shape=(300, features - 1))
-dense21 = tf.keras.layers.Dense((features - 1) * 4)(input2)
-GRU2 = tf.keras.layers.GRU(units)(dense21)
-last_dense2 = tf.keras.layers.Dense(units/2, activation="sigmoid")(GRU2)
+support_layer = tf.keras.layers.Dense((features - 1) * 4)(input2)
+# support_layer = tf.keras.layers.BatchNormalization()(support_layer)
+support_layer = tf.keras.layers.GRU(units)(support_layer)
+# support_layer = tf.keras.layers.Dropout(0.2)(support_layer)
+support_layer = tf.keras.layers.Dense(units/2, activation="sigmoid")(support_layer)
 
-concatenated = concatenate([last_dense1, last_dense2])
-merged_dense = tf.keras.layers.Dense(units/2, activation="relu")(concatenated)
-out = tf.keras.layers.Dense(output_size, activation="softmax")(merged_dense)
+concatenated_layer = concatenate([main_layer, support_layer])
+concatenated_layer = tf.keras.layers.Dense(units/2, activation="relu")(concatenated_layer)
+out = tf.keras.layers.Dense(output_size, activation="softmax")(concatenated_layer)
 
 model = tf.keras.models.Model(inputs=[input1, input2], outputs=out)
 #################################################################################
@@ -53,6 +57,7 @@ x1_train, x1_validation, x2_train, x2_validation, y_train, y_validation = train_
 x1_train, x1_test, x2_train, x2_test, y_train, y_test = train_test_split(x1_train, x2_train, y_train, test_size=0.2)
 
 model.summary()
+logger.plot_model(model, 'model3c')
 # callback = tf.keras.callbacks.EarlyStopping(
 #     monitor="val_loss", min_delta=0, patience=5, verbose=0, mode="auto"
 # )
@@ -101,12 +106,14 @@ print(predictionDetails)
 predictionResult = model.evaluate([x1, x2], y)
 
 # log result
-stringlist = []
-model.summary(print_fn=lambda x: stringlist.append(x))
-summary = "\n".join(stringlist)
+if(logResult): 
+    stringlist = []
+    model.summary(print_fn=lambda x: stringlist.append(x))
+    summary = "\n".join(stringlist)
 
-logger.log(units, batch_size_fit, epochs, output_size, lr, summary, 
-           history, evaluationResult, predictionResult, predictionDetails)
+    logger.log(units, batch_size_fit, epochs, output_size, lr, summary, 
+            history, evaluationResult, predictionResult, predictionDetails)
+    logger.plot_model(model, 'model3c')
 
 # draw loss
 plt.plot(history.history["loss"])
