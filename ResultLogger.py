@@ -5,15 +5,19 @@ import tensorflow.keras as keras
 def plot_model(model, png_name): 
     keras.utils.plot_model(model, f'log/{png_name}.png')
 
-def log(units, batch_size, epochs, output_size, lr, summary, training_history, evaluation_result, prediction_result, prediction_details): 
-    logSimply(units, batch_size, epochs, output_size, lr,training_history, evaluation_result, prediction_result, prediction_details)
-    log_with_summary(units, batch_size, epochs, output_size, lr, summary, training_history, evaluation_result, prediction_result, prediction_details)
+def log(summary, training_history, evaluation_result, prediction_result, prediction_details, **kwargs): 
+    logSimply(training_history, evaluation_result, prediction_result, prediction_details, **kwargs)
+    log_with_summary(summary, training_history, evaluation_result, prediction_result, prediction_details, **kwargs)
 
-def log_with_summary(units, batch_size, epochs, output_size, lr, summary, training_history, evaluation_result, prediction_result, prediction_details): 
+def log_with_summary(summary, training_history, evaluation_result, prediction_result, prediction_details, **kwargs): 
     now = datetime.datetime.now()
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+    epochs = kwargs['epochs']
     
-    log = f'''[{now_str}] Config: units={units} batch_size={batch_size} epochs={epochs} output_size={output_size} lr={lr}
+    log = f'''[{now_str}]
+#Config
+{kwargs}
+
 # Model summary
 {summary}
 
@@ -34,11 +38,15 @@ Prediction loss: {prediction_result[0]} - accuracy: {prediction_result[1]}
     with open(filename, "a") as logFile:
         logFile.write(log)
 
-def logSimply(units, batch_size, epochs, output_size, lr, training_history, evaluation_result, prediction_result, prediction_details): 
+def logSimply(training_history, evaluation_result, prediction_result, prediction_details, **kwargs): 
     now = datetime.datetime.now()
     now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+    epochs = kwargs['epochs']
     
-    log = f'''[{now_str}] Config: units={units} batch_size={batch_size} epochs={epochs} output_size={output_size} lr={lr}
+    log = f'''[{now_str}] 
+#Config
+{kwargs}
+
 # Results
 Training    loss: {training_history.history['loss'][epochs-1]} - accuracy: {training_history.history['accuracy'][epochs-1]}
             val_loss: {training_history.history['val_loss'][epochs-1]} - val_accuracy: {training_history.history['val_accuracy'][epochs-1]}
@@ -54,5 +62,5 @@ Prediction loss: {prediction_result[0]} - accuracy: {prediction_result[1]}
     with open(filename, "a") as logFile:
         logFile.write(log)
     
-# log('units', 'batch_size', 'epochs', 'output_size', 'summary', 'training_history', 'evaluation_result', 'prediction_result', 'prediction_details')
-    
+
+# logSimply('history', 'evaluationResult', 'predictionResult', 'predictionDetails', units='units', batch_size_fit='batch_size_fit', epochs='epochs', output_size='output_size', learning_rate='learning_rate', remark='trying all relu')
