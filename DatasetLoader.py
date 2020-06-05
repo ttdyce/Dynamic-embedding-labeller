@@ -98,6 +98,7 @@ class Trace():
         lenMax = lengths.max()
         for i in range(traces.__len__()):
             out[i] = np.pad(traces[i], (0, lenMax - lengths[i]))
+            out[i] = out[i][:300]
 
         return np.array(out), lenMax
 
@@ -311,9 +312,10 @@ class StateTrace(Trace):
     
     def normalize(self, traces):
         "Further remove last dim ([300:])"
-        super().normalize(traces)
+        out_traces = super().normalize(traces)
+        out_traces = np.delete(out_traces, np.s_[300:], axis=1)
         
-        return np.delete(traces, np.s_[300:], axis=1), 300
+        return out_traces, 300
     
 class VariableTrace(Trace): 
     def __init__(self, path): 
@@ -325,8 +327,10 @@ class VariableTrace(Trace):
             
         traces = self.normalize(traces)
         traces, lengthsMax = self.padZero(traces, lengths)
+        traces = np.array([t for t in traces])
+        traces = traces.reshape(traces.shape[0], traces.shape[1], 1)
 
-        # labels = self.oneHot(labels)
+        labels = self.oneHot(labels)
         lengthMax = np.array(lengths).max()
 
         # print("traces", np.array([t for t in traces]).shape)
@@ -335,7 +339,7 @@ class VariableTrace(Trace):
         # print("labels", labels[:3])
 
         # x_train, x_test, y_train, y_test = train_test_split(traces, labels, test_size=0.2)
-        return np.array([t for t in traces]), labels, lengths, lengthMax
+        return traces, labels, lengths, lengthMax
     
     def oneHot(self, labels):
         "reference: https://chrisalbon.com/machine_learning/preprocessing_structured_data/one-hot_encode_features_with_multiple_labels/"
@@ -360,10 +364,10 @@ class VariableTrace(Trace):
 
 stateTrace = StateTrace("out-dataset/dataset-state-trace-110.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
-sampleTrace = StateTrace("out-dataset/dataset.npz")
+# sampleTrace = StateTrace("out-dataset/dataset.npz")
 
 # loaded = variableTrace.load()
 # loaded = stateTrace.r5.prediction.load(model='2b')
 # loaded = sampleTrace.load(model='2b')
-# loaded = stateTrace.r4mod.prediction.load()
+# loaded = stateTrace.r4mod.load(model='3', zero_center=True)
 # print(loaded[0], loaded[1], sep='\n---\n')
