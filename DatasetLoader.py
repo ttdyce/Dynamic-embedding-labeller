@@ -2,6 +2,8 @@ import numpy as np
 import random
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from collections import Counter
 import random
 
 
@@ -98,7 +100,7 @@ class Trace():
         lenMax = lengths.max()
         for i in range(traces.__len__()):
             out[i] = np.pad(traces[i], (0, lenMax - lengths[i]))
-            out[i] = out[i][:300]
+            out[i] = out[i][:22]
 
         return np.array(out), lenMax
 
@@ -280,7 +282,7 @@ class StateTrace(Trace):
                             outLabels.append(item)
                             
             outTraces = normalize(outTraces)
-            outTraces = padZero(outTraces, 300)
+            outTraces = padZero(outTraces, 759)
             lengths = np.array([t.__len__() for t in outTraces])
             lengthsMax = lengths.max()
             
@@ -313,9 +315,9 @@ class StateTrace(Trace):
     def normalize(self, traces):
         "Further remove last dim ([300:])"
         out_traces = super().normalize(traces)
-        out_traces = np.delete(out_traces, np.s_[300:], axis=1)
+        out_traces = np.delete(out_traces, np.s_[759:], axis=1)
         
-        return out_traces, 300
+        return out_traces, 759
     
 class VariableTrace(Trace): 
     def __init__(self, path): 
@@ -366,8 +368,8 @@ stateTrace = StateTrace("out-dataset/dataset-state-trace-110.npz")
 variableTrace = VariableTrace("out-dataset/dataset-variable-trace-110.npz")
 # sampleTrace = StateTrace("out-dataset/dataset.npz")
 
-# loaded = variableTrace.load()
+loaded = variableTrace.load()
 # loaded = stateTrace.r5.prediction.load(model='2b')
 # loaded = sampleTrace.load(model='2b')
-# loaded = stateTrace.r4mod.load(model='3', zero_center=True)
-# print(loaded[0], loaded[1], sep='\n---\n')
+# loaded = stateTrace.r4mod.load()
+print(loaded[0], loaded[1], sep='\n---\n')
