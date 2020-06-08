@@ -282,7 +282,7 @@ class StateTrace(Trace):
                             outLabels.append(item)
                             
             outTraces = normalize(outTraces)
-            outTraces = padZero(outTraces, 759)
+            outTraces = padZero(outTraces, 300)
             lengths = np.array([t.__len__() for t in outTraces])
             lengthsMax = lengths.max()
             
@@ -315,9 +315,9 @@ class StateTrace(Trace):
     def normalize(self, traces):
         "Further remove last dim ([300:])"
         out_traces = super().normalize(traces)
-        out_traces = np.delete(out_traces, np.s_[759:], axis=1)
+        out_traces = np.delete(out_traces, np.s_[300:], axis=1)
         
-        return out_traces, 759
+        return out_traces, 300
     
 class VariableTrace(Trace): 
     def __init__(self, path): 
