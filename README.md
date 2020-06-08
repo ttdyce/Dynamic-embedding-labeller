@@ -1,6 +1,6 @@
-# Dynamic-embedding-labeller
+# Detection of Roles of Variables based on Deep Learning Technologies
 
-A Labelling system
+A Labelling system & neural model designs
 
 ## Recommended requirement
 
@@ -106,3 +106,15 @@ See [simple_rnn_model3.py](https://github.com/ttdyce/Dynamic-embedding-labeller/
 ~~See [simple_autoencoder.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_autoencoder.py), [simple_classifier.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_classifier.py), [simple_demo1.py](https://github.com/ttdyce/Dynamic-embedding-labeller/blob/master/simple_demo1.py)~~
 
 The above program is built for variable trace, not sure if they work with state trace.
+
+## Model designs
+
+Models' source code mentioned in our design
+
+- rnn-model1.py
+- rnn-model2a.py
+- rnn-model2b.py
+- rnn-model3a.py
+- rnn-model3b.py
+- rnn-model3c.py
+- rnn-model3d.py
